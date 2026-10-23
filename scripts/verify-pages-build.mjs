@@ -4,6 +4,9 @@ import { readFile } from "node:fs/promises";
 import { resolve, extname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { chromium } from "@playwright/test";
+import { StoryStore, SAVE_KEY } from "../src/story/state.js";
+import { NPCS } from "../src/story/data.js";
+import { POLITICIANS, DOCUMENTS, CLAIMS } from "../src/story/chapter2.js";
 
 const dist = fileURLToPath(new URL("../dist/", import.meta.url));
 const prefix = "/caesar-marcius-idusa/";
@@ -81,9 +84,33 @@ try {
       assets.has(`${prefix}assets/${file}`),
       `${file} must load below the project path`,
     );
+  // Production-only UI smoke uses a valid checkpoint assembled through story APIs.
+  // The separate Chapter II browser suite completes all three branches by walking.
+  let saved;
+  const story = new StoryStore({getItem: () => null, setItem: (_key, value) => { saved = value; }});
+  for (const id of ["marcus", "lucius", "quintus"]) story.ask(id, NPCS[id].questions[0].id);
+  story.examineTablet(); story.conclude("B"); story.deliver("titus"); story.enterForum();
+  story.introduce2("courier"); story.access2();
+  for (const [id, npc] of Object.entries(POLITICIANS)) for (const q of npc.questions) story.ask2(id, q[0]);
+  story.politics2("balanced");
+  for (const d of DOCUMENTS) story.document2(d.id);
+  story.compare2(Object.fromEntries(CLAIMS.map(q => [q.id, q.category])));
+  story.checkpoint({x: 0, z: -23, yaw: 0, pitch: 0}, {scrolls: [], visited: ["VIA SACRA", "FORUM ROMANUM"]});
+  // Seed after pagehide: the old page checkpoints during unload.
+  await page.addInitScript(({key, value}) => localStorage.setItem(key, value), {key: SAVE_KEY, value: saved});
+  await page.reload();
+  await page.locator("#play").click();
+  await page.keyboard.press("KeyB");
+  assert.equal(await page.locator("#storyPanel").getAttribute("data-kind"), "evidence2");
+  for (const claim of CLAIMS) assert.equal(await page.getByTestId("classify-" + claim.id).inputValue(), claim.category);
+  await page.getByTestId("classify-title").scrollIntoViewIfNeeded();
+  await page.screenshot({path: "artifacts/chapter2-comparison-controls.png"});
+  await page.keyboard.press("Escape");
+  await page.keyboard.press("KeyJ");
+  assert((await page.locator("#storyPanel").textContent()).includes("A köztársaság árnyéka"));
   assert.deepEqual(errors, []);
   console.log(
-    "Pages subdirectory smoke passed: WebGL, movement, map, both textures; 0 console/JavaScript/HTTP errors.",
+    "Pages subdirectory smoke passed: WebGL, movement, map, both textures, Chapter II save migration, comparison controls and journal; 0 console/JavaScript/HTTP errors.",
   );
 } finally {
   await browser?.close();

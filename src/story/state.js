@@ -1,9 +1,17 @@
+import {
+  freshChapter2,
+  normalizeChapter2,
+  chapter2Quests,
+  activeChapter2,
+  installChapter2,
+} from "./chapter2.js";
 import { NPCS, VOICES, RECIPIENTS, QUESTS, TABLET } from "./data.js";
 export const SAVE_KEY = "caesar.story.save.v1";
 export function freshState() {
   return {
-    version: 1,
-    storyVersion: "1.1",
+    version: 2,
+    chapter2: freshChapter2(),
+    storyVersion: "1.2",
     answers: Object.fromEntries(Object.keys(NPCS).map((id) => [id, []])),
     responses: Object.fromEntries(Object.keys(NPCS).map((id) => [id, {}])),
     trust: Object.fromEntries(Object.keys(NPCS).map((id) => [id, 0])),
@@ -23,6 +31,7 @@ export function voicesCount(s) {
   return VOICES.filter((id) => s.answers[id].length > 0).length;
 }
 export function quests(s) {
+  if (activeChapter2(s)) return chapter2Quests(s);
   const done = [
     voicesCount(s) === 3,
     s.evidence.includes(TABLET.id),
@@ -41,12 +50,21 @@ export function quests(s) {
   });
 }
 export function currentQuest(s) {
+  if (activeChapter2(s))
+    return (
+      chapter2Quests(s).find((q) => q.status === "active") || {
+        id: "chapter2-complete",
+        title: "II. fejezet teljesítve",
+        task: "Az összeesküvés következik. A döntésed mentve.",
+        progress: "4/4",
+      }
+    );
   return (
     quests(s).find((q) => q.status === "active") || {
       id: "complete",
       title: s.nextChapterReady ? "A Forumon vagy" : "Irány a Forum",
       task: s.nextChapterReady
-        ? "A köztársaság árnyéka: a következő fejezet előkészítve. A II. fejezet története még nem játszható."
+        ? "A köztársaság árnyéka elkezdődött. Nyisd meg a küldetésnaplót."
         : "A döntésed megmaradt. Indulj a Forum Romanum felé, az utca északi végén.",
       progress: "4/4",
     }
@@ -55,7 +73,7 @@ export function currentQuest(s) {
 export function normalizeSave(raw) {
   if (
     !raw ||
-    raw.version !== 1 ||
+    ![1, 2].includes(raw.version) ||
     typeof raw.answers !== "object" ||
     !raw.answers ||
     Array.isArray(raw.answers)
@@ -140,6 +158,8 @@ export function normalizeSave(raw) {
         ]),
       ]
     : ["VIA SACRA"];
+  if (s.nextChapterReady)
+    s.chapter2 = normalizeChapter2(raw.chapter2, s.decisions.messageRecipient);
   return s;
 }
 export class StoryStore {
@@ -267,3 +287,5 @@ export class StoryStore {
     this.changed();
   }
 }
+
+installChapter2(StoryStore);

@@ -1,3 +1,4 @@
+import { installChapter2UI } from "./chapter2-ui.js";
 import {
   CHAPTER,
   NPCS,
@@ -74,9 +75,10 @@ export class StoryUI {
       this.close(false);
       return;
     }
+    if (e.target.tagName === "SELECT" && e.code !== "Tab") return;
     const all = [
       ...this.root.querySelectorAll(
-        'button:not([disabled]), .story-content[tabindex="0"]',
+        'button:not([disabled]), select, .story-content[tabindex="0"]',
       ),
     ];
     if (e.code === "Tab") {
@@ -273,7 +275,7 @@ export class StoryUI {
     this.text(CHAPTER.ending, "story-quote");
     this.text(DELIVERY[this.store.state.decisions.messageRecipient] || "");
     this.text(
-      "A döntés mentve. Indulj a Forum Romanum felé; a következő fejezet belépési állapotát ott rögzítjük. A II. fejezet története még nem része ennek a változatnak.",
+      "A döntés mentve. Indulj a Forum Romanum felé; a következő fejezet belépési állapotát ott rögzítjük. A II. fejezet a Forumra érkezéskor kezdődik.",
     );
     this.button(
       "Tovább a Forum felé",
@@ -376,3 +378,5 @@ export class StoryUI {
     this.finish();
   }
 }
+
+installChapter2UI(StoryUI);

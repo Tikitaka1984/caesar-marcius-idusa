@@ -81,10 +81,8 @@ for (const id of RECIPIENTS)
     expect(restored.state.player.z).toBe(-2);
     expect(restored.state.world.scrolls).toEqual([0, 2]);
     expect(restored.state.journal).toEqual(s.state.journal);
-    expect(restored.state.version).toBe(1);
-    expect(quests(restored.state).every((q) => q.status === "complete")).toBe(
-      true,
-    );
+    expect(restored.state.version).toBe(2);
+    expect(currentQuest(restored.state).id).toBe("allies");
   });
 test("invalid, obsolete and unavailable storage never prevents play", () => {
   for (const raw of [

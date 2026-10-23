@@ -1,3 +1,5 @@
+import { BRANCHES, activeChapter2 } from "./story/chapter2.js";
+import { addChapter2World } from "./world/chapter2.js";
 import * as T from "three";
 import "./style.css";
 import { loadArt } from "./art/textures.js";
@@ -50,6 +52,7 @@ for (let i = 0; i < 17; i++) {
 }
 await loadArt();
 const world = createRome(scene);
+addChapter2World(scene, world);
 renderer.shadowMap.autoUpdate = false;
 renderer.shadowMap.needsUpdate = true;
 const camera = new T.PerspectiveCamera(67, 1, 0.08, 130);
@@ -107,9 +110,16 @@ function restoreRuntime() {
 function updateStoryHUD() {
   const q = currentQuest(story.state);
   $("questTitle").textContent = q.title;
+  $("questTask").textContent = q.task;
+  $("menuChapter").textContent = activeChapter2(story.state)
+    ? "II. fejezet – A köztársaság árnyéka"
+    : "I. fejezet – A város suttogása";
+  $("panelChapter").textContent =
+    (activeChapter2(story.state) ? "II." : "I.") + " FEJEZET · KR. E. 44";
   $("questProgress").textContent = q.progress;
-  $("voicesProgress").textContent =
-    `RÓMA HANGJAI ${voicesCount(story.state)}/3`;
+  $("voicesProgress").textContent = activeChapter2(story.state)
+    ? `II. FEJEZET · IRATOK ${story.state.chapter2.documents.length}/3 · PUBLIUS ${story.state.chapter2.answers.publius.length}/4 · AULUS ${story.state.chapter2.answers.aulus.length}/4`
+    : `RÓMA HANGJAI ${voicesCount(story.state)}/3`;
   $("voicesProgress").hidden = q.id === "voices";
   document.querySelector(".objective").title = q.task;
   $("saveStatus").textContent = story.notice;
@@ -283,6 +293,14 @@ document.addEventListener("keydown", (e) => {
 document.addEventListener("keyup", (e) => keys.delete(e.code));
 function interact() {
   if (!nearest) return;
+  if (nearest.chapter2) {
+    if (nearest.type === "guide2") storyUI.guide2(nearest.id);
+    else if (nearest.type === "politician2") storyUI.dialogue2(nearest.id);
+    else if (nearest.type === "document2") storyUI.document2(nearest.id);
+    else if (nearest.type === "ledger2") storyUI.ledger2();
+    else if (nearest.type === "informant2") storyUI.informant2();
+    return;
+  }
   if (nearest.type === "scroll") {
     scene.remove(nearest.mesh);
     nearest.taken = true;
@@ -333,6 +351,19 @@ function drawMap() {
     g.textAlign = "left";
     g.fillText(n.name, px(n.x) + 6, pz(n.z) + 3);
   }
+  if (activeChapter2(story.state))
+    for (const o of world.interactables.filter((o) => o.chapter2)) {
+      if (
+        o.type === "guide2" &&
+        o.id !== BRANCHES[story.state.decisions.messageRecipient]?.guide
+      )
+        continue;
+      g.fillStyle = "#842f29";
+      g.fillRect(px(o.x) - 3, pz(o.z) - 3, 6, 6);
+      g.font = "10px Georgia";
+      g.textAlign = "left";
+      g.fillText(o.label, px(o.x) + 5, pz(o.z));
+    }
   g.fillStyle = story.state.evidence.length ? "#81765e" : "#a12e22";
   g.fillRect(px(TABLET.x) - 4, pz(TABLET.z) - 3, 8, 6);
   g.save();
@@ -379,7 +410,7 @@ function tick(now) {
       checkpoint();
       story.enterForum();
       message(
-        "A Forumon vagy. A köztársaság árnyéka belépési állapota mentve.",
+        "II. fejezet: A köztársaság árnyéka. Nyisd meg a J küldetésnaplót!",
       );
     }
     if (now - lastCheckpoint > 3000) {
@@ -393,7 +424,15 @@ function tick(now) {
   nearest = null;
   let near = 3;
   for (const o of world.interactables) {
-    if (o.taken) continue;
+    if (o.taken || (o.replacedInChapter2 && activeChapter2(story.state)))
+      continue;
+    if (
+      o.chapter2 &&
+      (!activeChapter2(story.state) ||
+        (o.type === "guide2" &&
+          o.id !== BRANCHES[story.state.decisions.messageRecipient]?.guide))
+    )
+      continue;
     const dx = o.x - camera.position.x,
       dz = o.z - camera.position.z,
       d = Math.hypot(dx, dz);
@@ -414,6 +453,12 @@ function tick(now) {
     m.rotation.y = now * 0.001;
   }
   if (!$("map").hidden) drawMap();
+  for (const o of world.interactables.filter((o) => o.chapter2))
+    if (o.mesh)
+      o.mesh.visible =
+        activeChapter2(story.state) &&
+        (o.type !== "guide2" ||
+          o.id === BRANCHES[story.state.decisions.messageRecipient]?.guide);
   renderer.render(scene, camera);
 }
 // Read-only telemetry lets browser tests verify actual movement and district traversal.
@@ -429,7 +474,7 @@ Object.defineProperty(window, "caesarState", {
     visited: [...visited],
     interaction: nearest?.type,
     renderer: renderer.info.render,
-    interactionId: nearest?.storyId || nearest?.type,
+    interactionId: nearest?.id || nearest?.storyId || nearest?.type,
     story: {
       ...structuredClone(story.state),
       quest: currentQuest(story.state).id,
