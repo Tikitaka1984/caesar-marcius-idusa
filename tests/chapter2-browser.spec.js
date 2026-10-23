@@ -94,13 +94,13 @@ for (const recipient of Object.keys(BRANCHES))
     if (recipient === "titus") {
       // Go around the existing east statue before approaching the ledger.
       await move("x", 0);
-      await move("z", 0);
+      await move("z", -1.5);
       await move("x", 10.5);
       await move("z", -3.5);
       await interact("ledger");
       await page.getByTestId("ledger-access").click();
       await close();
-      await move("z", 0);
+      await move("z", -1.5);
     }
     for (const [id, n] of Object.entries(POLITICIANS)) {
       await walk(n.x, n.z);

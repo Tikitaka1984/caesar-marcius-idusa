@@ -1,0 +1,402 @@
+{
+  "config": {
+    "argv": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+      "/workspace/work/chapter2-review/node_modules/.bin/playwright",
+      "test",
+      "tests/chapter2-browser.spec.js",
+      "tests/chapter2-state.spec.js",
+      "--reporter=list,json"
+    ],
+    "configFile": "/workspace/work/chapter2-review/playwright.config.js",
+    "rootDir": "/workspace/work/chapter2-review/tests",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/workspace/work/chapter2-review/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "",
+        "name": "",
+        "testDir": "/workspace/work/chapter2-review/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 240000
+      }
+    ],
+    "filteredProjects": [
+      {
+        "grep": {},
+        "grepInvert": null,
+        "outputDir": "/workspace/work/chapter2-review/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "name": "",
+        "testDir": "/workspace/work/chapter2-review/tests",
+        "snapshotDir": "/workspace/work/chapter2-review/tests",
+        "testIgnore": [],
+        "testMatch": "**/*.@(spec|test).?(c|m)[jt]s?(x)",
+        "timeout": 240000,
+        "use": {
+          "actionTimeout": 15000,
+          "baseURL": "http://127.0.0.1:5173",
+          "viewport": {
+            "width": 1440,
+            "height": 1000
+          },
+          "launchOptions": {
+            "executablePath": "/usr/bin/chromium",
+            "args": [
+              "--no-sandbox",
+              "--use-gl=angle",
+              "--use-angle=swiftshader",
+              "--enable-unsafe-swiftshader"
+            ]
+          }
+        },
+        "dependencies": [],
+        "ignoreSnapshots": false,
+        "__projectId": ""
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list"
+      ],
+      [
+        "json"
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "default",
+    "updateSourceMethod": "patch",
+    "version": "1.64.1",
+    "workers": 1,
+    "webServer": {
+      "command": "npm run dev -- --port 5173",
+      "url": "http://127.0.0.1:5173",
+      "reuseExistingServer": true
+    }
+  },
+  "suites": [
+    {
+      "title": "chapter2-browser.spec.js",
+      "file": "chapter2-browser.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "Chapter II actual walking: lucius",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 480000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 108672,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-23T18:06:03.984Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "83099502cbea20ea6f16-aa52a1a7a78de3653328",
+          "file": "chapter2-browser.spec.js",
+          "line": 26,
+          "column": 3
+        },
+        {
+          "title": "Chapter II actual walking: quintus",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 480000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 111421,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-23T18:07:52.880Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "83099502cbea20ea6f16-ad4faf153c4eaaa24fc8",
+          "file": "chapter2-browser.spec.js",
+          "line": 26,
+          "column": 3
+        },
+        {
+          "title": "Chapter II actual walking: titus",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 480000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 56100,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32mtrue\u001b[39m\nReceived: \u001b[31mfalse\u001b[39m\n\nCall Log:\n- Timeout 45000ms exceeded while waiting on the predicate",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32mtrue\u001b[39m\nReceived: \u001b[31mfalse\u001b[39m\n\nCall Log:\n- Timeout 45000ms exceeded while waiting on the predicate\n    at move (/workspace/work/chapter2-review/tests/chapter2-browser.spec.js:69:12)\n    at /workspace/work/chapter2-review/tests/chapter2-browser.spec.js:98:7",
+                    "location": {
+                      "file": "/workspace/work/chapter2-review/tests/chapter2-browser.spec.js",
+                      "column": 12,
+                      "line": 69
+                    },
+                    "snippet": "  67 |             { timeout: 45000, intervals: [30] },\n  68 |           )\n> 69 |           .toBe(true);\n     |            ^\n  70 |       } finally {\n  71 |         await page.keyboard.up(key);\n  72 |       }"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/workspace/work/chapter2-review/tests/chapter2-browser.spec.js",
+                        "column": 12,
+                        "line": 69
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32mtrue\u001b[39m\nReceived: \u001b[31mfalse\u001b[39m\n\nCall Log:\n- Timeout 45000ms exceeded while waiting on the predicate\n\n  67 |             { timeout: 45000, intervals: [30] },\n  68 |           )\n> 69 |           .toBe(true);\n     |            ^\n  70 |       } finally {\n  71 |         await page.keyboard.up(key);\n  72 |       }\n    at move (/workspace/work/chapter2-review/tests/chapter2-browser.spec.js:69:12)\n    at /workspace/work/chapter2-review/tests/chapter2-browser.spec.js:98:7"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-23T18:09:44.371Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/workspace/work/chapter2-review/test-results/chapter2-browser-Chapter-II-actual-walking-titus/error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/workspace/work/chapter2-review/tests/chapter2-browser.spec.js",
+                    "column": 12,
+                    "line": 69
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "83099502cbea20ea6f16-8d2b9e3ad7b5366e2003",
+          "file": "chapter2-browser.spec.js",
+          "line": 26,
+          "column": 3
+        }
+      ]
+    },
+    {
+      "title": "chapter2-state.spec.js",
+      "file": "chapter2-state.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "v1.1 migration and full chapter for lucius",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 240000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 20,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-23T18:10:41.009Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "24cb7cb3b1c04e7608a7-d2376e4c55977feae5ad",
+          "file": "chapter2-state.spec.js",
+          "line": 45,
+          "column": 3
+        },
+        {
+          "title": "v1.1 migration and full chapter for quintus",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 240000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 13,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-23T18:10:41.056Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "24cb7cb3b1c04e7608a7-2b35b9a3f493692d65a2",
+          "file": "chapter2-state.spec.js",
+          "line": 45,
+          "column": 3
+        },
+        {
+          "title": "v1.1 migration and full chapter for titus",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 240000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 13,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-23T18:10:41.087Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "24cb7cb3b1c04e7608a7-56e5fa429cc8d029cf38",
+          "file": "chapter2-state.spec.js",
+          "line": 45,
+          "column": 3
+        },
+        {
+          "title": "partial progress and malformed nested saves normalize safely",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 240000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-23T18:10:41.120Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "24cb7cb3b1c04e7608a7-6336e1bd251261352be7",
+          "file": "chapter2-state.spec.js",
+          "line": 95,
+          "column": 1
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-23T18:06:03.536Z",
+    "duration": 277605.256,
+    "expected": 6,
+    "skipped": 0,
+    "unexpected": 1,
+    "flaky": 0
+  }
+}

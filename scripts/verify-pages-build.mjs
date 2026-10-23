@@ -96,7 +96,8 @@ try {
   for (const d of DOCUMENTS) story.document2(d.id);
   story.compare2(Object.fromEntries(CLAIMS.map(q => [q.id, q.category])));
   story.checkpoint({x: 0, z: -23, yaw: 0, pitch: 0}, {scrolls: [], visited: ["VIA SACRA", "FORUM ROMANUM"]});
-  await page.evaluate(({key, value}) => localStorage.setItem(key, value), {key: SAVE_KEY, value: saved});
+  // Seed after pagehide: the old page checkpoints during unload.
+  await page.addInitScript(({key, value}) => localStorage.setItem(key, value), {key: SAVE_KEY, value: saved});
   await page.reload();
   await page.locator("#play").click();
   await page.keyboard.press("KeyB");
