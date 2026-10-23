@@ -1,5 +1,7 @@
 # CAESAR – Március idusa
 
+**[Játék indítása – A város suttogása](https://tikitaka1984.github.io/caesar-marcius-idusa/)**
+
 Magyar nyelvű, böngészős, belső nézetes római játék. A Story System v1.1 első fejezete: **A város suttogása**. A részletes játékmenet, mentési séma és történelmi keret a [STORY.md](STORY.md) fájlban található. Three.js, Vite és JavaScript; nincs backend, belépés vagy API-kulcs. A faltextúrák helyben, determinisztikusan készülnek. A kőburkolat külön, helyben tárolt grafikai asset. A részletes karakteratlasz a projektben található generált grafikai asset; futás közben nincs külső kép- vagy betűtípus-szolgáltatás.
 
 ## Futtatás

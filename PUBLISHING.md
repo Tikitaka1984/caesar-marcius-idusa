@@ -36,3 +36,7 @@ A relatív Vite-alapútvonal és az `import.meta.env.BASE_URL` miatt a szkriptek
 Ha a telepítés 404-es Pages-hibát ad, a repository **Settings → Pages → Source** értéke legyen **GitHub Actions**, majd a sikertelen deploy újraindítható. Ha a Git push 403-at ad, a kapcsolódó GitHub-integráció írási jogosultsága ellenőrizendő; a fiók adminisztrátori jogát jelző metadata nem feltétlenül jelenti az integráció írhatóságát.
 
 A korábbi v1.0 feltöltési akadályokat a GitHub-hozzáférés engedélyezése megoldotta; a Pages beállítását az API olvasási ellenőrzése már engedélyezettnek mutatta. Az aktuális változat konkrét teszt- és telepítési eredménye a verzióhoz tartozó ellenőrzési jegyzőkönyvben található.
+
+## Story System v1.1 kiadás
+
+A `9636f39354a71b7e89b8364e5aea6c38f6a56e5b` játékcommit sikeresen települt a [39993560402 számú workflow-futással](https://github.com/Tikitaka1984/caesar-marcius-idusa/actions/runs/39993560402). Az éles oldalon a WebGL, a párbeszéd, a vezérlés és a mentés visszatöltése is böngészőben ellenőrizve. Részletek és ismert korlátok: [STORY-TEST-RESULTS.md](artifacts/STORY-TEST-RESULTS.md).

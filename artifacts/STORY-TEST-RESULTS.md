@@ -39,4 +39,16 @@ A tervezett 6–10 perces emberi játékidő becslés; felhasználói időméré
 
 A korábbi környezetdemó ismert grafikai és pályakorlátai megmaradtak: az NPC-k álló billboardok, a templombelső nem járható, a szobrok egyszerűsítettek. A jelen bővítés ezeket nem egyszerűsítette tovább.
 
-A távoli GitHub Actions-futás és a GitHub Pages-oldal állapota külön ellenőrzendő; a fenti helyi eredmények önmagukban nem bizonyítják a publikálást.
+## GitHub Actions és éles oldal
+
+A végleges játékcommit: `9636f39354a71b7e89b8364e5aea6c38f6a56e5b`.
+
+A [39993560402 számú GitHub Actions-futás](https://github.com/Tikitaka1984/caesar-marcius-idusa/actions/runs/39993560402) sikeres. A teljes, 11 tesztből álló csomag, a build és a Pages-alkönyvtár böngészős ellenőrzése is átment, majd a `deploy` feladat sikeresen publikálta ugyanezt a commitot.
+
+Éles cím: https://tikitaka1984.github.io/caesar-marcius-idusa/
+
+Az éles oldalt valódi Chromiumban is ellenőriztük: WebGL-kép, WASD-mozgás, Quintus személyes megszólítása és kérdése, küldetéshaladás, Esc-es panelbezárás utáni egérzár-visszakérés, térkép, napló, valamint újratöltés után a megszerzett információ és a bizalom megőrzése. Az ellenőrzés friss, izolált böngészőkörnyezetet használt; a játékos mentéséhez nem nyúlt. 0 konzol-, JavaScript- és HTTP-hiba. A teljes fejezet útvonala a helyi és GitHub Actions-tesztben futott végig; az éles próba a publikálást és az alapvető történeti/mentési működést ellenőrizte.
+
+A HTTPS-tanúsítvány-ellenőrzés bekapcsolva maradt. A felhőkörnyezet aktuális, a rendszer trust bundle-jével ellenőrzött nyilvános proxy-CA-ját felvettük a Chromium NSS-tárába; nem kapcsoltuk ki a tanúsítvány-ellenőrzést, és tanúsítványt nem másoltunk a repositoryba.
+
+Bizonyítékok: `08-live-story.png` és `live-story-check.json`. Ez a dokumentációs frissítés nem módosítja a már telepített játékot.

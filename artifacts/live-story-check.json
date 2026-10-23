@@ -1,0 +1,13 @@
+{
+  "url": "https://tikitaka1984.github.io/caesar-marcius-idusa/",
+  "gameplayCommit": "9636f39354a71b7e89b8364e5aea6c38f6a56e5b",
+  "checkedAt": "2026-10-23T17:25:03.399Z",
+  "webgl": true,
+  "walkAndInteract": true,
+  "dialogue": true,
+  "pointerLockAfterEscape": true,
+  "map": true,
+  "journal": true,
+  "localStorageReload": true,
+  "consoleJavaScriptAndHttpErrors": []
+}
