@@ -1,0 +1,370 @@
+:root {
+  color: #ead5a2;
+  background: #171612;
+  font-family: Georgia, serif;
+  font-synthesis: none;
+}
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+}
+button {
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+  background: transparent;
+  border: 1px solid #806a43;
+  padding: 12px 20px;
+  letter-spacing: 2px;
+}
+button:hover {
+  background: #806a433d;
+}
+#app {
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  padding: 0 24px;
+}
+header {
+  height: 78px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #5d4d32;
+  flex-shrink: 0;
+}
+.brand {
+  font:
+    800 31px Cinzel,
+    Georgia;
+  letter-spacing: 6px;
+}
+.brand span {
+  font: 11px Georgia;
+  display: block;
+  letter-spacing: 5px;
+  margin-top: 1px;
+}
+.era {
+  font-size: 12px;
+  letter-spacing: 3px;
+  color: #b3a790;
+}
+.era b {
+  margin-left: 16px;
+  font: 10px monospace;
+  border: 1px solid #7e673d;
+  padding: 5px;
+  color: #dec18b;
+}
+header button {
+  font: 11px monospace;
+  border: 0;
+}
+main {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  margin-top: 16px;
+  border: 1px solid #776444;
+  overflow: hidden;
+  background: #8f927e;
+}
+#game {
+  display: block;
+  width: 100%;
+  height: 100%;
+  image-rendering: pixelated;
+}
+.grain {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  box-shadow: inset 0 0 110px #211a184b;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent 0 3px,
+    #00000009 3px 4px
+  );
+}
+#location {
+  position: absolute;
+  top: 24px;
+  left: 25px;
+  text-shadow: 1px 2px #191912;
+}
+#location small {
+  display: block;
+  font: 10px monospace;
+  letter-spacing: 4px;
+  color: #f1d7a8;
+}
+#area {
+  display: block;
+  font:
+    600 25px Cinzel,
+    Georgia;
+  letter-spacing: 3px;
+  margin: 6px 0;
+}
+#location i {
+  font: 9px monospace;
+  letter-spacing: 2px;
+}
+#crosshair {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  font: 24px monospace;
+  color: #ffffffb0;
+  transform: translate(-50%, -50%);
+}
+#compass {
+  position: absolute;
+  right: 24px;
+  top: 26px;
+  font: 12px monospace;
+  letter-spacing: 4px;
+}
+#compass span {
+  color: #e0c8a373;
+}
+#message {
+  position: absolute;
+  left: 50%;
+  top: 24%;
+  transform: translateX(-50%);
+  text-align: center;
+  background: #181713e8;
+  font:
+    18px Cinzel,
+    Georgia;
+  letter-spacing: 2px;
+  max-width: 85%;
+  padding: 0;
+}
+#message:not(:empty) {
+  padding: 18px 28px;
+  border-top: 1px solid #b69b64;
+  border-bottom: 1px solid #b69b64;
+}
+#prompt {
+  position: absolute;
+  bottom: 30px;
+  width: 100%;
+  text-align: center;
+  font: 13px monospace;
+  text-shadow: 2px 2px #000;
+}
+#hud {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  min-height: 102px;
+  border-bottom: 1px solid #53452e;
+  border-top: 3px solid #b19154;
+  margin-top: 0;
+  background: linear-gradient(#25221b, #191814);
+}
+#hud small {
+  display: block;
+  letter-spacing: 3px;
+  font: 10px monospace;
+  color: #bca981;
+  margin-bottom: 7px;
+}
+#hud strong {
+  font: 36px monospace;
+  font-weight: bold;
+  color: #ead9b3;
+}
+#hud em {
+  font: 16px monospace;
+  color: #8b806c;
+}
+#hud .health span {
+  display: block;
+  color: #aa8247;
+  font-size: 10px;
+  letter-spacing: 3px;
+}
+.portrait {
+  font-size: 59px;
+  color: #ac9b78;
+  text-shadow: 4px 3px #000;
+}
+.seal {
+  font:
+    24px Cinzel,
+    Georgia;
+  background: #671f21;
+  padding: 16px 20px;
+  border: 1px solid #8d3f30;
+  letter-spacing: 3px;
+  color: #c4a05e;
+}
+.seal span {
+  font-size: 30px;
+}
+.objective p {
+  font-size: 14px;
+  margin: 0;
+}
+nav {
+  min-height: 42px;
+  display: flex;
+  align-items: center;
+  gap: 25px;
+  font: 10px monospace;
+  color: #c1ad86;
+}
+nav i {
+  font-style: normal;
+  color: #7f796b;
+  margin-left: 4px;
+}
+nav button {
+  padding: 5px;
+  border: 0;
+  font: 10px monospace;
+}
+.signature {
+  margin-left: auto;
+  letter-spacing: 3px;
+  color: #7b6d52;
+}
+#menu {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, #151510ed, #17160f9c, #17160f30);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+}
+#menu[hidden],
+#map[hidden] {
+  display: none;
+}
+#menu small {
+  font: 10px monospace;
+  letter-spacing: 4px;
+}
+#menu h1 {
+  font:
+    800 clamp(55px, 8vw, 100px) Cinzel,
+    Georgia;
+  letter-spacing: 17px;
+  margin: 20px 0 0;
+  color: #e5c88c;
+  text-shadow: 4px 5px #0008;
+}
+#menu h2 {
+  font:
+    18px Cinzel,
+    Georgia;
+  letter-spacing: 10px;
+  margin: 0 0 18px;
+}
+#menu p {
+  font-style: italic;
+  color: #bcaf95;
+  margin-bottom: 28px;
+}
+#play {
+  background: #6c2825;
+  border: 1px solid #a57f45;
+  padding: 19px 35px;
+  font: 12px monospace;
+}
+#play span {
+  margin-left: 35px;
+}
+.controls {
+  font: 10px/2.3 monospace;
+  letter-spacing: 1px;
+  margin-top: 25px;
+  color: #aea48f;
+}
+#menu footer {
+  font: 8px monospace;
+  letter-spacing: 3px;
+  margin-top: 22px;
+  color: #8f8168;
+}
+#map {
+  position: absolute;
+  right: 20px;
+  top: 65px;
+  background: #201f18f5;
+  border: 1px solid #b29a66;
+  padding: 15px;
+  text-align: center;
+}
+#map h2 {
+  font: 18px Cinzel;
+}
+#map canvas {
+  max-height: 50vh;
+  width: auto;
+}
+#map p {
+  font: 11px monospace;
+}
+@media (max-width: 700px) {
+  #app {
+    padding: 0 8px;
+  }
+  .era,
+  .portrait,
+  .objective,
+  .signature {
+    display: none;
+  }
+  header {
+    height: 65px;
+  }
+  .brand {
+    font-size: 24px;
+  }
+  nav {
+    gap: 8px;
+    font-size: 8px;
+  }
+  nav i {
+    display: none;
+  }
+  #hud {
+    min-height: 85px;
+  }
+  .seal {
+    font-size: 17px;
+    padding: 10px;
+  }
+  .seal span {
+    display: none;
+  }
+  #hud strong {
+    font-size: 28px;
+  }
+  #location i {
+    display: none;
+  }
+  #compass {
+    display: none;
+  }
+}
+
+.portrait {
+  width: 86px;
+  height: 95px;
+  background-image: url("/assets/roman-citizens.png");
+  background-size: 258px auto;
+  background-position: left top;
+  image-rendering: pixelated;
+  align-self: flex-end;
+}

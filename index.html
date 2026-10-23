@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="hu">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>CAESAR — Március idusa</title>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  </head>
+  <body>
+    <div id="app">
+      <header>
+        <div class="brand">CAESAR <span>MÁRCIUS IDUSA</span></div>
+        <div class="era">RÓMA · KR. E. 44 <b>DEMÓ</b></div>
+        <button id="menuButton">ESC · MENÜ</button>
+      </header>
+      <main id="viewport">
+        <canvas id="game"></canvas>
+        <div class="grain"></div>
+        <div id="location">
+          <small>URBS ROMA</small><span id="area">VIA SACRA</span
+          ><i>XV MARTIUS · A KÖZTÁRSASÁG ALKONYA</i>
+        </div>
+        <div id="crosshair">+</div>
+        <div id="message" role="status"></div>
+        <div id="prompt"></div>
+        <div id="map" hidden>
+          <h2>ROMA · TÉRKÉP</h2>
+          <canvas id="mapCanvas" width="360" height="420"></canvas>
+          <p>● Te vagy itt · M bezárás</p>
+        </div>
+        <section id="menu">
+          <small>SPQR · SENATUS POPULUSQUE ROMANUS</small>
+          <h1>CAESAR</h1>
+          <h2>MÁRCIUS IDUSA</h2>
+          <p>Egy város. Egy korszak utolsó reggele.</p>
+          <button id="play" disabled>BELÉPÉS RÓMÁBA <span>→</span></button>
+          <div class="controls">
+            W A S D · MOZGÁS &nbsp; EGÉR / ← → · NÉZET<br />E · INTERAKCIÓ
+            &nbsp; M · TÉRKÉP &nbsp; ESC · MENÜ
+          </div>
+          <footer>BEJÁRHATÓ RÓMAI VÁROSRÉSZ · RETRÓ 3D DEMÓ</footer>
+        </section>
+        <div id="compass">
+          N <span>· · ·</span> E <span>· · ·</span> S <span>· · ·</span> W
+        </div>
+      </main>
+      <aside id="hud">
+        <div class="health">
+          <small>ÉLET</small><strong>100</strong><span>━━━━━</span>
+        </div>
+        <div class="portrait" aria-hidden="true"></div>
+        <div>
+          <small>TEKERCSEK</small><strong id="scrolls">0 <em>/ 3</em></strong>
+        </div>
+        <div class="seal"><span>❧</span> SPQR <span>❧</span></div>
+        <div>
+          <small>FELFEDEZÉS</small><strong id="explored">1 <em>/ 3</em></strong>
+        </div>
+        <div class="objective">
+          <small>ÚTICÉL</small>
+          <p>Fedezd fel a Forumot</p>
+        </div>
+      </aside>
+      <nav>
+        <span>WASD <i>mozgás</i></span
+        ><span>EGÉR / ← → <i>körülnézés</i></span
+        ><span>E <i>interakció</i></span
+        ><button id="mapButton">M · TÉRKÉP</button
+        ><span class="signature">ROMA AETERNA</span>
+      </nav>
+    </div>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
