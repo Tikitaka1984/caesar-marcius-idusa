@@ -45,4 +45,12 @@ Az `api.github.com` és `tikitaka1984.github.io` domainek a környezet konfigur�
 
 A tényleges publikálás jogosultság miatt blokkolt. A `git push -u origin main` HTTP 403 / Permission denied hibát adott. A meglévő GitHub CLI-hitelesítés olvasásra működik, de a Git Database blob-létrehozás és a Pages létrehozása is HTTP 403 / Resource not accessible by integration hibával meghiúsult. A visszaadott fiókszintű adminisztrátori jogosultság tehát nem jelenti azt, hogy az integráció írhat is. Új kulcsértéket nem kértünk és nem mentettünk fájlba.
 
-A GitHubra nem került fel commit, a távoli repository a befejező olvasási vizsgálatkor továbbra is üres. A várt Pages-cím 404-et ad. Távoli Actions-futás és sikeres Pages-deploy nem történt. A helyi `main` commitja és a teljes Git-történet visszaállítható bundle-ben megmarad; az írási jogosultság engedélyezése után a feltöltés és a távoli ellenőrzés folytatandó.
+A korábbi, engedélyezés előtti kísérletkor nem került fel commit a GitHubra; akkor a távoli repository még üres volt. A várt Pages-cím 404-et ad. Távoli Actions-futás és sikeres Pages-deploy nem történt. A helyi `main` commitja és a teljes Git-történet visszaállítható bundle-ben megmarad; az írási jogosultság engedélyezése után a feltöltés és a távoli ellenőrzés folytatandó.
+
+## Jogosultságfrissítés utáni eredmény
+
+A forrásfeltöltés sikeres: `b43229309fbe957a767e58e325b30c88a14cfe34` a távoli `main` ágra került, és a GitHub API-n keresztül mind a 25 feltöltött fájl hash-egyezését ellenőriztük.
+
+A [GitHub Actions-futás](https://github.com/Tikitaka1984/caesar-marcius-idusa/actions/runs/39982315210) `build` feladata sikeres. A két játékteszt, a statikus build és a Pages-útvonalat ellenőrző böngészős próba GitHub runneren is végrehajtódott és sikeres lett. A `github-pages` artifact elkészült.
+
+A `deploy` feladat meghiúsult: az Actions-annotáció szerint `Failed to create deployment (status: 404)` és `Ensure GitHub Pages has been enabled`. A repository Pages API-ja 404-et ad; a bekapcsolás API-művelete továbbra is 403-as integrációs jogosultsághibát kap. A forrás tehát publikált és ellenőrzött, de az éles Pages-oldal még nem készült el. A Settings → Pages → Source → GitHub Actions beállítás és a sikertelen deploy újraindítása szükséges; az éles böngészős ellenőrzés még hátravan.

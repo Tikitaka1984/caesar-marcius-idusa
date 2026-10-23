@@ -30,7 +30,7 @@ A build relatív erőforrásútvonalakkal készül. A játék szkriptjei, a favi
 
 A felhőkörnyezetből az API-műveletekhez `api.github.com`, a nyilvános játék ellenőrzéséhez `tikitaka1984.github.io` hálózati elérése szükséges. Ha az API-hálózat tiltott, a meglévő Git-hozzáférésen keresztüli forrásfeltöltés ettől még működhet; az adminisztratív Pages-beállítás és a nyilvános oldal ellenőrzése azonban külön marad.
 
-## A jelenlegi integráció korlátja
+## Korábbi jogosultsághiba és visszaállítás
 
 A helyi ellenőrzések sikeresek, de a 2026-10-23-i publikálási kísérletkor a Git-feltöltés és a GitHub API írási műveletei is 403-as jogosultsághibát kaptak. A GitHub-kapcsolatnak a repository tartalmának és a workflow fájlnak az írását, valamint a Pages létrehozását is engedélyeznie kell. A fiók adminisztrátori jogosultságát jelző metadata önmagában nem bizonyítja az integráció írhatóságát. A hozzáférés javítása után a már elkészült helyi `main` feltölthető; a játékot nem kell újra létrehozni.
 
@@ -44,3 +44,11 @@ git push -u origin main
 ```
 
 Ezt olyan saját gépen is végre lehet hajtani, ahol a GitHub-bejelentkezés már írásra jogosult. A sikeres push után a Pages forrása **GitHub Actions** legyen, majd az Actions felületen ellenőrizni kell a telepítést.
+
+## Legutóbbi publikálási állapot
+
+A GitHub-hozzáférés engedélyezése után a `git push -u origin main` sikerült. A feltöltött `b43229309fbe957a767e58e325b30c88a14cfe34` commit mind a 25 fájljának hash-e megegyezett a helyi változattal. A forrás tehát már a GitHubon van; a korábbi feltöltési akadály megszűnt.
+
+A [39982315210 számú GitHub Actions-futásban](https://github.com/Tikitaka1984/caesar-marcius-idusa/actions/runs/39982315210) sikeres lett a függőségek telepítése, a két játékteszt, a build, a Pages-alkönyvtár böngészős ellenőrzése és a `github-pages` artifact feltöltése. A deploy feladat 404-gyel meghiúsult, mert a GitHub Pages még nincs bekapcsolva. A Pages-létrehozó API-hívást az integráció 403-mal elutasítja.
+
+A hátralévő lépés: [Settings → Pages](https://github.com/Tikitaka1984/caesar-marcius-idusa/settings/pages) alatt a **Source** legyen **GitHub Actions**. Ezután a fenti futásnál **Re-run jobs → Re-run failed jobs** indíthatja újra csak a telepítést. Az éles játékoldal böngészős ellenőrzése még hátravan. Ez a dokumentációfrissítés nem változtat a már ellenőrzött játék buildjén.
