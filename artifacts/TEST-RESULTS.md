@@ -41,4 +41,8 @@ A meglévő demó 2026-10-23-án újra telepítve és ellenőrizve: `npm ci`, `n
 
 A külön `npm run test:pages` ellenőrzés a production buildet a `/caesar-marcius-idusa/` alkönyvtár alatt szolgálja ki, és minden azon kívüli kérést elutasít. Chromiumban sikeresen megjelent a WebGL-játék, betöltődött mindkét textúra, működött az előremenet és a térkép; 0 konzol-, JavaScript- és HTTP-hiba. Bizonyítékkép: `04-pages-build.png`. Ez helyi, a publikálási útvonalat ellenőrző próba; nem bizonyítja a GitHub Pages telepítését.
 
-A GitHub API-t a felhőkörnyezet hálózati proxyja 403-as tiltással blokkolta. A szükséges API- és Pages-domainek a környezet konfigurációtervezetébe kerültek. A távoli GitHub Actions-futás és az éles Pages-oldal állapotát ezek feloldása után külön kell ellenőrizni.
+Az `api.github.com` és `tikitaka1984.github.io` domainek a környezet konfigurációtervezetébe kerültek. Az API olvasási vizsgálata végül sikeres volt: a repository nyilvános, a fiók adminisztrátori jogú, és `has_pages: false`.
+
+A tényleges publikálás jogosultság miatt blokkolt. A `git push -u origin main` HTTP 403 / Permission denied hibát adott. A meglévő GitHub CLI-hitelesítés olvasásra működik, de a Git Database blob-létrehozás és a Pages létrehozása is HTTP 403 / Resource not accessible by integration hibával meghiúsult. A visszaadott fiókszintű adminisztrátori jogosultság tehát nem jelenti azt, hogy az integráció írhat is. Új kulcsértéket nem kértünk és nem mentettünk fájlba.
+
+A GitHubra nem került fel commit, a távoli repository a befejező olvasási vizsgálatkor továbbra is üres. A várt Pages-cím 404-et ad. Távoli Actions-futás és sikeres Pages-deploy nem történt. A helyi `main` commitja és a teljes Git-történet visszaállítható bundle-ben megmarad; az írási jogosultság engedélyezése után a feltöltés és a távoli ellenőrzés folytatandó.
