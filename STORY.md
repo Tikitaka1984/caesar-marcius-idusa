@@ -48,3 +48,26 @@ npm run test:pages
 ```
 
 A fizika és az eredeti demó bejárása mellett külön tesztek ellenőrzik a sorrendfüggetlen bizonyítékszerzést, a hibás következtetés utáni újrapróbálást, a három címzettet, az ismételt kérdezéssel nem növelhető bizalmat, a hibás/régi/tárolhatatlan mentést és az állapotvalidálást. A történeti böngészőteszt WASD-vel, teleportálás nélkül teljesíti a fejezetet, majd újratöltés után ellenőrzi a döntést és a Forum-átvezetést.
+
+
+## Story System v1.2 – II. fejezet
+
+A `src/story/chapter2.js` az új tartalom és ellenőrzött állapotátmenetek, a `chapter2-ui.js` az új panelek, a `src/world/chapter2.js` a meglévő anyagokra és karakterképekre épülő tárgyak helye. A motor, fizika és az I. fejezet párbeszédadatai változatlanok.
+
+A II. fejezet az I. fejezet személyes átadása és a Forumra érkezés után indul. A négy küldetés sorrendben aktív; az iratok korai megszerzése megengedett, de összevetésükhöz mindkét szereplő négy válasza és a kiegyensúlyozott politikai következtetés kell. Hibás válasz nem zár ki későbbi próbát.
+
+- Lucius → Decimus (−5, −5), veteráni háttér és közvetlen hozzáférés a diadémhoz; a hatalmi irathoz Aulus négy válasza kell.
+- Quintus → Servius (−5, −15), senatorsegédi feljegyzés és közvetlen hozzáférés a hatalmi irathoz; a diadémhoz Publius négy válasza kell.
+- Titus → Livia (2, −4), majd külön futárjegyzék (10, −5); ez nyitja meg az iratokat. Enélkül a politikai párbeszédek akkor is befejezhetők, tehát nincs visszafordíthatatlan elakadás.
+
+Publius (9, −8), Aulus (−8, −20); iratok (−6, −17), (8, −18), (1, −25); Naso (−4, −27). A koordináták a stilizált játékpálya egységei. Minden cél a térképen is jelölést kap. Az új tárgyak nem adnak útzáró kollidereket. A két meglévő Forum-polgár képe és ütközése megmarad, II. fejezetbeli interakciójuk új párbeszédre vált.
+
+### Mentésmigráció
+
+A kulcs változatlan: `caesar.story.save.v1`. A kulcsban szereplő v1 névtér, a tényleges séma a JSON `version` mezőjében van. A betöltő a korábbi 1-es és az új 2-es sémát fogadja. Az új állapot `version: 2`, `storyVersion: "1.2"`, külön `chapter2` objektummal. Érvényes v1.1 esetén megmaradnak a korábbi válaszok, válaszváltozatok, levezetett bizalom, viasztábla, címzett, lezárás, Forum-belépés, napló, pozíció és világállapot. A migráció nem választ új címzettet. A II. fejezet részállapotait minden történeti művelet menti; a pozíció továbbra is ellenőrzőpontokon mentődik.
+
+A `chapter2` ellenőrzése szűri az ismeretlen azonosítókat és csak teljes előfeltételekkel fogad el lezárást. Korai iratfelvétel, részleges kérdések és hibás besorolások újratölthetők. Az újrakezdés továbbra is külön megerősítő panelhez kötött. A régi tesztek séma- és Forum-átadási elvárásait v1.2-re igazítottuk; a mozgási és I. fejezetbeli viselkedésellenőrzések megmaradtak.
+
+A III. fejezet nyitójelzője `chapter2.decision`: `warn`, `investigate` vagy `locate`. Ezek nem módosítják a `decisions.messageRecipient` előzményt. Teljes III. fejezet még nincs.
+
+A célzott 10–15 perc olvasással tervezett játékidő, nincs mesterséges időkorlát; tanulói játékidőt e munkamenet nem mért. Történeti források: `HISTORICAL-NOTES.md`. Futtatási eredmények: `artifacts/CHAPTER-2-TEST-RESULTS.md`.

@@ -130,7 +130,7 @@ test("chapter one: all quests, retry, delivery, Forum handoff and reload", async
     (key) => JSON.parse(localStorage.getItem(key)),
     SAVE_KEY,
   );
-  expect(saved.version).toBe(1);
+  expect(saved.version).toBe(2);
   expect(saved.decisions.messageRecipient).toBe("titus");
   expect(saved.interpretation).toBe("B");
   expect(saved.conclusionAttempts).toBe(3);
@@ -139,7 +139,7 @@ test("chapter one: all quests, retry, delivery, Forum handoff and reload", async
   await expect
     .poll(() => page.evaluate(() => window.caesarState.story.nextChapterReady))
     .toBe(true);
-  await expect(page.locator("#questTitle")).toHaveText("A Forumon vagy");
+  await expect(page.locator("#questTitle")).toHaveText("Politikai szövetségesek");
   await page.reload();
   await expect(page.locator("#play")).toBeEnabled();
   expect(

@@ -32,7 +32,7 @@
           <small>SPQR · SENATUS POPULUSQUE ROMANUS</small>
           <h1>CAESAR</h1>
           <h2>MÁRCIUS IDUSA</h2>
-          <p>I. fejezet – A város suttogása</p>
+          <p id="menuChapter">I. fejezet – A város suttogása</p>
           <p class="chapter-intro">
             Írnoksegédként hallgasd meg Róma hangjait, vizsgálj meg egy
             elveszett üzenetet, és dönts az útjáról.
@@ -59,7 +59,7 @@
         >
           <header class="story-header">
             <div>
-              <small>I. FEJEZET · KR. E. 44</small>
+              <small id="panelChapter">I. FEJEZET · KR. E. 44</small>
               <h2 id="storyTitle"></h2>
             </div>
             <button
@@ -72,7 +72,7 @@
           </header>
           <div class="story-content"></div>
           <footer class="story-help">
-            1–3 · választás &nbsp; ↑↓ / TAB · navigáció &nbsp; ESC · vissza
+            1–9 · választás &nbsp; ↑↓ / TAB · navigáció &nbsp; ESC · vissza
           </footer>
         </section>
         <div id="compass">
@@ -94,6 +94,7 @@
         <div class="objective">
           <small>KÜLDETÉS <span id="questProgress">0/3</span></small>
           <p id="questTitle">Róma hangjai</p>
+          <span id="questTask"></span>
           <span id="voicesProgress" class="hud-voices" hidden
             >RÓMA HANGJAI 0/3</span
           >
@@ -106,7 +107,7 @@
         ><button id="mapButton">M · TÉRKÉP</button
         ><button id="journalButton">J · NAPLÓ</button
         ><button id="evidenceButton">B · BIZONYÍTÉKOK</button
-        ><span class="signature">STORY v1.1</span>
+        ><span class="signature">STORY v1.2</span>
       </nav>
     </div>
     <script type="module" src="/src/main.js"></script>
