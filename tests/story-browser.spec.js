@@ -85,6 +85,7 @@ test("chapter one: all quests, retry, delivery, Forum handoff and reload", async
   await interact("lucius");
   await page.getByTestId("question-lucius-soldiers").click();
   await expect(page.locator("#questTitle")).toHaveText("Az elveszett üzenet");
+  await expect(page.locator("#voicesProgress")).toHaveText("RÓMA HANGJAI 3/3");
   await closeAnswer();
   await go("KeyS", "z", 16.5, false);
   await interact("tablet");

@@ -108,6 +108,9 @@ function updateStoryHUD() {
   const q = currentQuest(story.state);
   $("questTitle").textContent = q.title;
   $("questProgress").textContent = q.progress;
+  $("voicesProgress").textContent =
+    `RÓMA HANGJAI ${voicesCount(story.state)}/3`;
+  $("voicesProgress").hidden = q.id === "voices";
   document.querySelector(".objective").title = q.task;
   $("saveStatus").textContent = story.notice;
 }

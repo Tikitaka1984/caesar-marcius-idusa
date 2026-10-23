@@ -581,3 +581,14 @@ body[data-story-panel="open"] #crosshair {
 #prompt {
   pointer-events: none;
 }
+
+.hud-voices {
+  display: block;
+  margin-top: 5px;
+  font: 9px monospace;
+  color: #bca981;
+  letter-spacing: 1px;
+}
+.hud-voices[hidden] {
+  display: none;
+}
