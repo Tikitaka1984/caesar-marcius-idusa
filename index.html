@@ -32,13 +32,48 @@
           <small>SPQR · SENATUS POPULUSQUE ROMANUS</small>
           <h1>CAESAR</h1>
           <h2>MÁRCIUS IDUSA</h2>
-          <p>Egy város. Egy korszak utolsó reggele.</p>
+          <p>I. fejezet – A város suttogása</p>
+          <p class="chapter-intro">
+            Írnoksegédként hallgasd meg Róma hangjait, vizsgálj meg egy
+            elveszett üzenetet, és dönts az útjáról.
+          </p>
           <button id="play" disabled>BELÉPÉS RÓMÁBA <span>→</span></button>
+          <div class="menu-actions">
+            <button id="loadSave">MENTÉS VISSZATÖLTÉSE</button
+            ><button id="newChapter">ÚJ FEJEZET</button>
+          </div>
+          <div id="saveStatus" role="status"></div>
           <div class="controls">
             W A S D · MOZGÁS &nbsp; EGÉR / ← → · NÉZET<br />E · INTERAKCIÓ
-            &nbsp; M · TÉRKÉP &nbsp; ESC · MENÜ
+            &nbsp; M · TÉRKÉP &nbsp; J · NAPLÓ &nbsp; B · BIZONYÍTÉKOK &nbsp;
+            ESC · MENÜ
           </div>
           <footer>BEJÁRHATÓ RÓMAI VÁROSRÉSZ · RETRÓ 3D DEMÓ</footer>
+        </section>
+        <section
+          id="storyPanel"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="storyTitle"
+          hidden
+        >
+          <header class="story-header">
+            <div>
+              <small>I. FEJEZET · KR. E. 44</small>
+              <h2 id="storyTitle"></h2>
+            </div>
+            <button
+              type="button"
+              class="story-close"
+              aria-label="Panel bezárása"
+            >
+              ✕
+            </button>
+          </header>
+          <div class="story-content"></div>
+          <footer class="story-help">
+            1–3 · választás &nbsp; ↑↓ / TAB · navigáció &nbsp; ESC · vissza
+          </footer>
         </section>
         <div id="compass">
           N <span>· · ·</span> E <span>· · ·</span> S <span>· · ·</span> W
@@ -57,8 +92,8 @@
           <small>FELFEDEZÉS</small><strong id="explored">1 <em>/ 3</em></strong>
         </div>
         <div class="objective">
-          <small>ÚTICÉL</small>
-          <p>Fedezd fel a Forumot</p>
+          <small>KÜLDETÉS <span id="questProgress">0/3</span></small>
+          <p id="questTitle">Róma hangjai</p>
         </div>
       </aside>
       <nav>
@@ -66,7 +101,9 @@
         ><span>EGÉR / ← → <i>körülnézés</i></span
         ><span>E <i>interakció</i></span
         ><button id="mapButton">M · TÉRKÉP</button
-        ><span class="signature">ROMA AETERNA</span>
+        ><button id="journalButton">J · NAPLÓ</button
+        ><button id="evidenceButton">B · BIZONYÍTÉKOK</button
+        ><span class="signature">STORY v1.1</span>
       </nav>
     </div>
     <script type="module" src="/src/main.js"></script>

@@ -1,5 +1,7 @@
 # Ellenőrzési jegyzőkönyv
 
+> Ez a v1.0 demó korábbi jegyzőkönyve. Az aktuális történeti bővítés eredményei a [STORY-TEST-RESULTS.md](STORY-TEST-RESULTS.md) fájlban találhatók.
+
 Dátum: 2026-10-23. Környezet: Linux, Node.js 24.19.0, npm 11.9.0, Vite 8.3.5, Three.js 0.185.1, Playwright 1.64.1, valódi Chromium szoftveres WebGL-lel. Nem kézi végigjátszás, hanem automatizált böngészős bejárás történt.
 
 ## Reprodukálhatóság

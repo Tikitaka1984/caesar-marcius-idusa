@@ -56,7 +56,14 @@ test("three districts, input, collisions, interactions, map and pause", async ({
     .poll(() => page.evaluate(() => window.caesarState.interaction))
     .toBe("npc");
   await page.keyboard.press("KeyE");
-  await expect(page.locator("#message")).toContainText("szenátor");
+  await expect(page.locator("#storyPanel")).toBeVisible();
+  await expect(page.locator("#storyTitle")).toContainText("Quintus");
+  await page.getByTestId("question-quintus-senators").click();
+  await expect(page.locator("#questProgress")).toHaveText("1/3");
+  await page.getByTestId("close-dialogue").click();
+  await expect
+    .poll(() => page.evaluate(() => window.caesarState.active))
+    .toBe(true);
   // Walk into the senator: collision must stop progress.
   await page.keyboard.down("KeyA");
   await expect

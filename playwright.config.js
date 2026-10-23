@@ -4,6 +4,7 @@ export default defineConfig({
   workers: 1,
   timeout: 240000,
   use: {
+    actionTimeout: 15000,
     baseURL: "http://127.0.0.1:5173",
     viewport: { width: 1440, height: 1000 },
     launchOptions: {

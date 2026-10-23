@@ -368,3 +368,216 @@ nav button {
   image-rendering: pixelated;
   align-self: flex-end;
 }
+/* Story panels keep the Roman view visible and share the existing palette. */
+#storyPanel[hidden] {
+  display: none;
+}
+#storyPanel {
+  position: absolute;
+  right: 14px;
+  top: 14px;
+  bottom: 14px;
+  width: min(460px, calc(100% - 28px));
+  background: #211e17f5;
+  border: 1px solid #aa8b52;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 8px 36px #0009;
+  z-index: 10;
+  color: #e6d9bc;
+}
+#storyPanel .story-header {
+  height: auto;
+  min-height: 80px;
+  padding: 15px 18px;
+  gap: 10px;
+  background: #30291d;
+  flex-shrink: 0;
+}
+.story-header small {
+  font: 9px monospace;
+  letter-spacing: 2px;
+  color: #bba478;
+}
+.story-header h2 {
+  font:
+    600 20px/1.35 Cinzel,
+    Georgia;
+  margin: 6px 0 0;
+  letter-spacing: 1px;
+}
+.story-header .story-close {
+  padding: 9px;
+  border: 1px solid #79613c;
+  font-size: 15px;
+}
+.story-content {
+  padding: 8px 20px 18px;
+  overflow-y: auto;
+  line-height: 1.65;
+  font-size: 15px;
+  scrollbar-color: #9d8050 #211e17;
+}
+.story-content h3 {
+  font:
+    600 15px/1.5 Cinzel,
+    Georgia;
+  color: #e0c591;
+  margin-top: 23px;
+}
+.story-caption {
+  font:
+    12px/1.7 Georgia,
+    serif;
+  color: #b8ac92;
+}
+.story-quote {
+  font: 17px/1.7 Georgia;
+  color: #f1dfb8;
+  border-left: 2px solid #9d4140;
+  padding-left: 14px;
+}
+.story-action {
+  display: block;
+  width: 100%;
+  text-align: left;
+  font:
+    13px/1.6 Georgia,
+    serif;
+  letter-spacing: 0.3px;
+  padding: 11px 13px;
+  margin: 10px 0;
+  border-color: #826a43;
+  background: #3c30213b;
+}
+.story-action:hover {
+  background: #6c28256b;
+}
+.story-action:focus-visible,
+.story-close:focus-visible,
+nav button:focus-visible {
+  outline: 2px solid #f1cf81;
+  outline-offset: 3px;
+}
+.story-feedback {
+  background: #663b283d;
+  padding: 12px;
+  border-left: 2px solid #b28b55;
+}
+.story-feedback.good {
+  background: #4d56303b;
+  border-color: #9da46a;
+}
+.story-help {
+  padding: 10px 18px;
+  border-top: 1px solid #665236;
+  color: #b3a27f;
+  font: 10px/1.5 monospace;
+  flex-shrink: 0;
+}
+.menu-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 14px;
+}
+.menu-actions button {
+  font: 9px monospace;
+  padding: 9px;
+  letter-spacing: 1px;
+}
+#menu .chapter-intro {
+  font: 12px/1.7 Georgia;
+  max-width: 420px;
+  margin: 0 14px 15px;
+  color: #c2b394;
+}
+#menu #saveStatus {
+  font: 10px/1.6 Georgia;
+  max-width: 500px;
+  margin: 12px 20px 0;
+  color: #d8bc8b;
+}
+#questProgress {
+  margin-left: 8px;
+  color: #e5c88c;
+}
+#questTitle {
+  max-width: 180px;
+  font-size: 13px;
+}
+#game {
+  outline: none;
+}
+#menu .controls {
+  margin-top: 12px;
+}
+#menu footer {
+  margin-top: 12px;
+}
+body[data-story-panel="open"] #crosshair {
+  display: none;
+}
+@media (max-height: 720px) {
+  #menu h1 {
+    font-size: 55px;
+    margin-top: 5px;
+  }
+  #menu h2 {
+    margin-bottom: 8px;
+  }
+  #menu p {
+    margin-bottom: 10px;
+  }
+  #play {
+    padding: 12px 24px;
+  }
+  #menu footer {
+    display: none;
+  }
+  .menu-actions {
+    margin-top: 8px;
+  }
+}
+@media (max-width: 900px) {
+  nav {
+    gap: 12px;
+  }
+  .signature {
+    display: none;
+  }
+  #hud .objective {
+    display: block;
+  }
+  #questTitle {
+    max-width: 130px;
+    font-size: 11px;
+  }
+}
+@media (max-width: 600px) {
+  .story-content {
+    font-size: 14px;
+  }
+  #storyPanel {
+    right: 8px;
+    top: 8px;
+    bottom: 8px;
+    width: min(400px, calc(100% - 16px));
+  }
+  .story-header h2 {
+    font-size: 17px;
+  }
+  #hud .seal {
+    display: none;
+  }
+  #questTitle {
+    max-width: 100px;
+  }
+}
+/* Decorative overlays must not intercept a click to reacquire Pointer Lock. */
+#crosshair,
+#location,
+#compass,
+#message,
+#prompt {
+  pointer-events: none;
+}

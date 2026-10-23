@@ -357,6 +357,7 @@ export function createRome(scene) {
   scroll(0.9, 26);
   scroll(-7, -12);
   scroll(7, -31);
+  const storyIds = ["quintus", "marcus", "lucius", null, null, null, "titus"];
   const citizens = [
     [
       -1,
@@ -381,7 +382,7 @@ export function createRome(scene) {
     [3, 2, "senator", "A polgár: „Salve, amice!”"],
     [-4, 31, "merchant", "A polgár: „Üdvözöllek a Via Sacrán!”"],
   ];
-  for (const [x, z, role, message] of citizens) {
+  for (const [index, [x, z, role, message]] of citizens.entries()) {
     const sprite = new T.Sprite(
       new T.SpriteMaterial({ map: citizenTexture(role), alphaTest: 0.5 }),
     );
@@ -394,6 +395,7 @@ export function createRome(scene) {
       z,
       type: "npc",
       label: "Megszólítás",
+      storyId: storyIds[index],
       message,
       mesh: sprite,
     });
@@ -407,10 +409,34 @@ export function createRome(scene) {
     message: "SENATUS POPULUSQUE ROMANUS · A szenátus és a római nép.",
     mesh: plaque,
   });
+  // A small wax writing tablet reuses the existing material palette.
+  const tablet = new T.Group();
+  const frame = new T.Mesh(new T.BoxGeometry(0.85, 0.1, 0.58), mats.wood);
+  const wax = new T.Mesh(new T.BoxGeometry(0.68, 0.025, 0.42), mats.red);
+  wax.position.y = 0.06;
+  tablet.add(frame, wax);
+  const stylus = new T.Mesh(
+    new T.CylinderGeometry(0.015, 0.015, 0.75, 6),
+    mats.gold,
+  );
+  stylus.rotation.z = Math.PI / 2;
+  stylus.rotation.y = 0.35;
+  stylus.position.set(0.06, 0.1, 0.05);
+  tablet.add(stylus);
+  tablet.position.set(-3, 0.16, 14);
+  scene.add(tablet);
+  interactables.push({
+    x: -3,
+    z: 14,
+    type: "tablet",
+    label: "Viasztábla megvizsgálása",
+    mesh: tablet,
+  });
   // Batch static geometry by material to keep the Roman colonnades affordable.
   const dynamic = new Set(flames);
   for (const o of interactables)
-    if (o.type === "scroll") o.mesh.traverse((m) => dynamic.add(m));
+    if (["scroll", "tablet"].includes(o.type))
+      o.mesh.traverse((m) => dynamic.add(m));
   const batches = new Map();
   scene.updateMatrixWorld(true);
   scene.traverse((m) => {

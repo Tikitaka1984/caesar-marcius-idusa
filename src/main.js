@@ -2,7 +2,10 @@ import * as T from "three";
 import "./style.css";
 import { loadArt } from "./art/textures.js";
 import { createRome } from "./world/rome.js";
-import { movePlayer, district } from "./game/physics.js";
+import { movePlayer, district, canOccupy } from "./game/physics.js";
+import { StoryStore, currentQuest, voicesCount } from "./story/state.js";
+import { NPCS, TABLET } from "./story/data.js";
+import { StoryUI } from "./story/ui.js";
 const $ = (id) => document.getElementById(id),
   canvas = $("game");
 const renderer = new T.WebGLRenderer({
@@ -60,6 +63,114 @@ let yaw = 0,
   timeout;
 const keys = new Set(),
   visited = new Set(["VIA SACRA"]);
+let storage;
+try {
+  storage = window.localStorage;
+} catch {
+  /* Private browsing may block storage. */
+}
+const story = new StoryStore(storage);
+const scrollItems = world.interactables.filter((o) => o.type === "scroll");
+let pointerMode = "free",
+  resumeAfterPanel = false,
+  lastCheckpoint = 0;
+canvas.tabIndex = 0;
+function checkpoint() {
+  return story.checkpoint(
+    { x: camera.position.x, z: camera.position.z, yaw, pitch },
+    {
+      scrolls: scrollItems.flatMap((o, i) => (o.taken ? [i] : [])),
+      visited: [...visited],
+    },
+  );
+}
+function restoreRuntime() {
+  const saved = story.state.player;
+  camera.position.set(saved.x, 1.7, saved.z);
+  if (!canOccupy(saved.x, saved.z, world.colliders))
+    camera.position.set(0, 1.7, 33);
+  yaw = saved.yaw;
+  pitch = saved.pitch;
+  keys.clear();
+  visited.clear();
+  for (const area of story.state.world.visited) visited.add(area);
+  scrollItems.forEach((o, i) => {
+    o.taken = story.state.world.scrolls.includes(i);
+    if (o.taken) scene.remove(o.mesh);
+    else if (!o.mesh.parent) scene.add(o.mesh);
+  });
+  total = scrollItems.filter((o) => o.taken).length;
+  $("scrolls").innerHTML = `${total} <em>/ 3</em>`;
+  $("explored").innerHTML = `${visited.size} <em>/ 3</em>`;
+  $("area").textContent = district(camera.position.z);
+}
+function updateStoryHUD() {
+  const q = currentQuest(story.state);
+  $("questTitle").textContent = q.title;
+  $("questProgress").textContent = q.progress;
+  document.querySelector(".objective").title = q.task;
+  $("saveStatus").textContent = story.notice;
+}
+function requestMouse() {
+  pointerMode = "pending";
+  try {
+    canvas.requestPointerLock()?.catch(() => {
+      pointerMode = "free";
+      message(
+        "Kattints a játéktérre az egérvezérléshez. A nyilakkal is fordulhatsz.",
+      );
+    });
+  } catch {
+    pointerMode = "free";
+    message("A nyilakkal is körülnézhetsz.");
+  }
+}
+function releaseMouse() {
+  pointerMode = "free";
+  if (document.pointerLockElement) document.exitPointerLock();
+}
+
+const storyUI = new StoryUI(story, {
+  onOpen() {
+    resumeAfterPanel = active;
+    checkpoint();
+    active = false;
+    keys.clear();
+    $("menu").hidden = true;
+    $("map").hidden = true;
+    releaseMouse();
+  },
+  onClose(lock) {
+    keys.clear();
+    active = resumeAfterPanel;
+    $("menu").hidden = active;
+    pointerMode = "free";
+    if (active) {
+      canvas.focus();
+      if (lock) requestMouse();
+      else message("Kattints a játéktérre az egérvezérléshez.");
+    }
+    checkpoint();
+  },
+  onReset() {
+    resumeAfterPanel = true;
+    story.reset();
+    restoreRuntime();
+    updateStoryHUD();
+  },
+});
+story.onChange(updateStoryHUD);
+restoreRuntime();
+updateStoryHUD();
+$("journalButton").onclick = () => storyUI.journal();
+$("evidenceButton").onclick = () => storyUI.evidence();
+$("newChapter").onclick = () => storyUI.resetConfirmation();
+$("loadSave").onclick = () => {
+  story.load();
+  restoreRuntime();
+  updateStoryHUD();
+};
+window.addEventListener("pagehide", checkpoint);
 function resize() {
   const r = canvas.getBoundingClientRect();
   renderer.setSize(
@@ -78,38 +189,47 @@ function message(s) {
   timeout = setTimeout(() => ($("message").textContent = ""), 4500);
 }
 function pause() {
+  if (storyUI.isOpen) storyUI.close(false);
   active = false;
   keys.clear();
+  checkpoint();
+  updateStoryHUD();
   $("menu").hidden = false;
-  $("play").innerHTML = "VISSZA RÓMÁBA <span>→</span>";
-  if (document.pointerLockElement) document.exitPointerLock();
+  $("play").innerHTML = "FOLYTATÁS <span>→</span>";
+  releaseMouse();
 }
 function start() {
   active = true;
+  keys.clear();
   $("menu").hidden = true;
   $("map").hidden = true;
-  try {
-    const p = canvas.requestPointerLock();
-    if (p?.catch)
-      p.catch(() => message("Egérzár nem elérhető. Nyilakkal is fordulhatsz."));
-  } catch {
-    message("A nyílbillentyűkkel is körülnézhetsz.");
-  }
+  requestMouse();
   canvas.focus();
+  if (story.notice) message(story.notice);
 }
 $("play").onclick = start;
-$("menuButton").onclick = () => (active ? pause() : start());
+$("menuButton").onclick = () => (active || storyUI.isOpen ? pause() : start());
 canvas.onclick = () => {
-  if (active && !document.pointerLockElement)
-    canvas.requestPointerLock()?.catch(() => {});
+  if (active && !document.pointerLockElement) requestMouse();
 };
 function toggleMap() {
+  if (!active) return;
   $("map").hidden = !$("map").hidden;
   drawMap();
 }
 $("mapButton").onclick = toggleMap;
 document.addEventListener("pointerlockchange", () => {
-  if (!document.pointerLockElement && active) pause();
+  if (document.pointerLockElement === canvas) {
+    if (!active || storyUI.isOpen) {
+      releaseMouse();
+      return;
+    }
+    pointerMode = "locked";
+    return;
+  }
+  const unexpected = pointerMode === "locked";
+  if (pointerMode !== "pending") pointerMode = "free";
+  if (unexpected && active && !storyUI.isOpen) pause();
 });
 document.addEventListener("mousemove", (e) => {
   if (active && document.pointerLockElement === canvas) {
@@ -121,6 +241,7 @@ window.addEventListener("blur", () => {
   if (active) pause();
 });
 document.addEventListener("keydown", (e) => {
+  if (storyUI.isOpen) return;
   if (
     [
       "KeyW",
@@ -145,6 +266,14 @@ document.addEventListener("keydown", (e) => {
     return;
   }
   if (!active) return;
+  if (e.code === "KeyJ") {
+    storyUI.journal();
+    return;
+  }
+  if (e.code === "KeyB") {
+    storyUI.evidence();
+    return;
+  }
   keys.add(e.code);
   if (e.code === "KeyE") interact();
 });
@@ -157,7 +286,10 @@ function interact() {
     total++;
     $("scrolls").innerHTML = `${total} <em>/ 3</em>`;
     message(total === 3 ? "MINDHÁROM TEKERCS MEGTALÁLVA" : "TEKERCS FELVÉVE");
-  } else message(nearest.message);
+    checkpoint();
+  } else if (nearest.type === "tablet") storyUI.tablet();
+  else if (nearest.storyId) storyUI.dialogue(nearest.storyId);
+  else message(nearest.message);
 }
 function drawMap() {
   const c = $("mapCanvas"),
@@ -189,6 +321,17 @@ function drawMap() {
     g.fillStyle = "#8d352a";
     g.fillRect(px(o.x) - 3, pz(o.z) - 3, 6, 6);
   }
+  for (const [id, n] of Object.entries(NPCS)) {
+    g.fillStyle = story.state.deliveryTarget === id ? "#842f29" : "#735d2d";
+    g.beginPath();
+    g.arc(px(n.x), pz(n.z), 3.5, 0, Math.PI * 2);
+    g.fill();
+    g.font = "10px Georgia";
+    g.textAlign = "left";
+    g.fillText(n.name, px(n.x) + 6, pz(n.z) + 3);
+  }
+  g.fillStyle = story.state.evidence.length ? "#81765e" : "#a12e22";
+  g.fillRect(px(TABLET.x) - 4, pz(TABLET.z) - 3, 8, 6);
   g.save();
   g.translate(px(camera.position.x), pz(camera.position.z));
   g.rotate(-yaw);
@@ -225,8 +368,22 @@ function tick(now) {
     $("area").textContent = area;
     visited.add(area);
     $("explored").innerHTML = `${visited.size} <em>/ 3</em>`;
-    if (visited.size === 3)
-      document.querySelector(".objective p").textContent = "Róma felfedezve";
+    if (
+      story.state.chapterComplete &&
+      !story.state.nextChapterReady &&
+      area === "FORUM ROMANUM"
+    ) {
+      checkpoint();
+      story.enterForum();
+      message(
+        "A Forumon vagy. A köztársaság árnyéka belépési állapota mentve.",
+      );
+    }
+    if (now - lastCheckpoint > 3000) {
+      checkpoint();
+      lastCheckpoint = now;
+      updateStoryHUD();
+    }
   }
   camera.rotation.order = "YXZ";
   camera.rotation.set(pitch, yaw, 0);
@@ -245,7 +402,9 @@ function tick(now) {
     }
   }
   $("prompt").textContent =
-    active && nearest ? `[ E ] ${nearest.label.toLocaleUpperCase("hu")}` : "";
+    active && nearest
+      ? `[ E ] ${(nearest.storyId ? NPCS[nearest.storyId].name + " megszólítása" : nearest.label).toLocaleUpperCase("hu")}`
+      : "";
   for (let i = 0; i < world.flames.length; i++) {
     const m = world.flames[i];
     m.scale.y = 1 + Math.sin(now * 0.012 + i) * 0.15;
@@ -267,6 +426,13 @@ Object.defineProperty(window, "caesarState", {
     visited: [...visited],
     interaction: nearest?.type,
     renderer: renderer.info.render,
+    interactionId: nearest?.storyId || nearest?.type,
+    story: {
+      ...structuredClone(story.state),
+      quest: currentQuest(story.state).id,
+      voices: voicesCount(story.state),
+    },
+    panel: storyUI.isOpen ? storyUI.root.dataset.kind : null,
   }),
 });
 $("play").disabled = false;
