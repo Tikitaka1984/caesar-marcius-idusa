@@ -1,60 +1,64 @@
-# II. fejezet – tényleges teszteredmények
+# CAESAR II. fejezet – végső minőségbiztosítás
 
-Dátum: 2026. október 23. Alap: `6369a3268f5233e4efc32d845140352d1e9881bc` (elfogadott v1.1). Ellenőrzött alkalmazáskód: `4a9ae6a`. Node.js 24.19.0, Chromium 154.0.8037.57, Playwright, szoftveres WebGL.
+Dátum: 2026. október 23. Fejlesztési ág: `codex/chapter-2-republic`. PR: [#1 – A köztársaság árnyéka](https://github.com/Tikitaka1984/caesar-marcius-idusa/pull/1).
 
-## Végső eredmény
+## Végső eredmény: 18/18 egyetlen teljes futásban
 
-Mind a **18 különálló teszteset** sikeres végső ellenőrzéssel rendelkezik: **11 korábbi regressziós teszt**, továbbá **7 új teszt**. Ez a teljes futás és a javított új böngészőútvonalak célzott újrafuttatásának összesítése; nem állítjuk, hogy a korábbi teljes futás mind a 18 tesztje már akkor sikeres volt.
+A teljes tesztcsomagot egyetlen, megszakítás nélküli `npm test` folyamat futtatta, szűrés, kihagyás és automatikus újrapróbálkozás nélkül. A reporter-opció csak a szöveges és JSON-eredmény mentését szolgálta. Ez **nem** korábbi teljes és célzott futások eredményeinek összesítése.
 
-| Ellenőrzés | Tényleges eredmény |
+| Ellenőrzés | Tényleges végső eredmény |
 | --- | --- |
-| `npm run build` a végleges munkapéldányban | sikeres; a Three.js-t is tartalmazó JS-bundle 641.25 kB, gzip 171.57 kB; méretfigyelmeztetés, nem hiba |
-| `npm test` teljes regressziós futás | 16 sikeres, 2 hibás tesztútvonal; az összes korábbi, 11 v1.1/demó regresszió sikeres |
-| `npm test -- tests/chapter2-browser.spec.js tests/chapter2-state.spec.js --reporter=list,json` a pontosított útvonalakkal | 6 sikeres, 1 Titus-útvonalhiba; Lucius, Quintus és mind a négy állapotteszt sikeres; gépi eredmény: `chapter2-recheck.json` |
-| `npm test -- tests/chapter2-browser.spec.js --grep 'actual walking: titus' --reporter=list,json` a végleges szabad útvonalon | 1/1 sikeres; gépi eredmény: `chapter2-titus-final.json` |
-| `npm run test:pages` a végleges production builddel | sikeres WebGL, mozgás, térkép, textúrák és II. fejezet mentés/összevetés/napló ellenőrzés a `/caesar-marcius-idusa/` útvonal alatt |
+| `npm test -- --reporter=list,json` | **18 sikeres, 0 hibás, 0 kihagyott, 0 flaky**; egy munkás, egy folyamat |
+| Teljes futás kezdete (UTC) | `2026-10-23T18:18:29.110Z` |
+| Teljes futás időtartama | 580.8 másodperc |
+| `npm run build` | sikeres production build |
+| `npm run test:pages` | sikeres a `/caesar-marcius-idusa/` prefix alatt, tényleges production fájlokkal |
+| Böngészőhibák | 0 ellenőrzött konzolhiba, JavaScript-kivétel és HTTP 4xx/5xx erőforráshiba |
 | `git diff --check` | sikeres |
-| `src/art/textures.js`, `src/game/physics.js`, `src/story/data.js`, `src/world/rome.js` összevetése a v1.1 alappal | változatlan fájlok a végleges PR-ban |
 
-## Mit játszott végig a Chromium?
+Gépi és szöveges bizonyítékok:
 
-Mindhárom címzettnél egy érvényes, 1-es sémájú, lezárt I. fejezeti Forum-mentésből indul a teszt. A teszt csak a böngésző indulásakor helyezi el ezt a mentést; utána nem ír kamerakoordinátát, nem hív történeti állapotmódosító API-t és nem teleportál. A `window.caesarState` kizárólag olvasott telemetria.
+- [A teljes, 18/18-as Playwright-futás JSON-eredménye](chapter2-final-full-suite.json).
+- [A megszakítás nélküli npm test naplója](chapter2-final-npm-test.log).
+- [Production build naplója](chapter2-final-build.log).
+- [GitHub Pages-útvonal böngészőtesztjének naplója](chapter2-final-pages.log).
 
-A WASD-bejárás mindhárom ágon teljesíti a közvetítő felkeresését; Titus ágán a szobrot megkerülve a futárjegyzéket is. Ezután Publius és Aulus mind a négy válaszát megnyitja és ellenőrzi, hibás politikai következtetést javít, mindhárom irathoz odasétál és megvizsgálja azokat, hibás besorolás után helyesen kategorizál öt állítást, hibás általánosítás után megkülönbözteti az elégedetlenséget a merényleti bizonyítéktól. Végül felkeresi Nasót, megerősíti a záródöntést, majd újratölti az oldalt és összeveti a teljes II. fejezeti állapotot.
+## Ellenőrzött commit és változatlanság
 
-A böngészőben tesztelt döntések: Lucius → `warn`, Quintus → `investigate`, Titus → `locate`. Az állapotteszt ezen felül mindhárom előzményből mindhárom végső döntést menti és visszatölti, és ellenőrzi, hogy az első címzett nem változott meg. A már helyesen lezárt összevetés későbbi használata sem törli a döntést.
+Ellenőrzött commit: `59849c42327de6b326f44d16830251ea5629337d`. Ez a `STORY.md` fejezetenkénti pontosítását tartalmazza. A teljes tesztfutás kezdetén a `fd17e12ab7da31c9051f67a4e0fdedeedc1e9d24` commit volt a HEAD; futás közben kizárólag a dokumentáció változott. Az alkalmazás, a tesztek és a futtatószkriptek változatlanok maradtak. A tesztfolyamatot és a szervert nem indítottuk újra.
 
-A három végső új böngészőteszt, az I. fejezeti teljes teszt, a demó regresszió és a production smoke teszt figyeli a konzolhibákat, JavaScript-kivételeket és a HTTP 4xx/5xx erőforrásválaszokat; a sikeres futásokban ezek száma **0**.
+A két commit teljes `src/` fájlfájának Git-azonosítója azonos: `2ed38ad52436c50ac429195c3e51c1e6cfdf5c8b`. A QA nem módosított renderelést, római grafikát, karakteratlaszt, fizikai ütközést vagy egér-/billentyűvezérlést. A jelentést és a futási bizonyítékokat egy következő, kizárólag QA-dokumentációt és képernyőképeket rögzítő commit adja hozzá; a vizsgált alkalmazáskód ezen sem változik.
 
-## Mentés és hozzáférési ágak
+## A 18 teszteset lefedettsége
 
-Az új állapotteszt megőrzi és összeveti az eredeti kérdéselőzményeket, bizonyítékot, címzettet, naplót, pozíciót és világállapotot. Az eredeti állapotteszt a bizalmi értékek és a Forum-átadás visszatöltését, valamint a válaszváltozatok kezelését is ellenőrzi. Részleges II. fejezeti mentésben korai irat és részleges párbeszéd is megmarad. Hibás és hiányos beágyazott állapot nem okoz kivételt; előfeltétel nélküli hamis lezárást nem fogadunk el.
+- **11 korábbi regresszió:** az eredeti fizika és három körzet bejárása; WASD, egér, nyilas fordulás, E, M, J, B és Esc; az I. fejezet végigjátszása, átadás, Forum-belépés és újratöltés; címzettek és bizalom; hibás következtetés újrapróbálása; sérült vagy elérhetetlen mentés és állapotvalidálás.
+- **3 új teljes Chromium-bejárás:** Lucius, Quintus és Titus előzményéből induló II. fejezet. Mindegyik érvényes v1.1-es Forum-mentésből indul, ezután tényleges WASD-mozgással, teleportálás és közvetlen történeti állapotmódosítás nélkül halad végig a közvetítőn, mindkét politikai párbeszéd négy-négy kérdésén, a három iraton, a bizonyíték-összevetésen és Naso felkeresésén. A hibás következtetések után javít, megerősíti a záródöntést, majd újratölti és összeveti a teljes II. fejezeti állapotot.
+- **4 új állapotteszt:** három címzett mentésmigrációja, eltérő hozzáférési lépések, teljesíthetőség, részállapotok visszatöltése és sérült beágyazott adatok biztonságos kezelése.
 
-A három kezdő közvetítő eltérő. Quintus ajánlásával a hatalom irata korán hozzáférhető, Lucius ágán ehhez Aulus négy válasza kell. Lucius ágán a diadém közvetlenül hozzáférhető, Quintus ágán Publius négy válasza szükséges. Titus ágán a futárjegyzék nélkül az iratok nem hozzáférhetők. Minden ág végigjátszható.
+A három böngészőben végigjátszott záródöntés: Lucius → `warn`, Quintus → `investigate`, Titus → `locate`. Az állapotteszt ezen felül **mindhárom előzményből mindhárom záródöntést** menti és visszatölti. Az első fejezet `decisions.messageRecipient` értéke nem változik. A lezárt összevetés későbbi használata sem törli a döntést.
 
-A régi tesztekben a szándékosan megváltozott séma-elvárást `version: 2`-re, a Forumra érkezés utáni küldetést az új aktív II. fejezeti küldetésre igazítottuk. A mozgás, interakció, visszatöltés és hibakezelés ellenőrzéseit nem kapcsoltuk ki.
+## v1.1-migráció
 
-## Production ellenőrzés határa
+A `caesar.story.save.v1` tárolókulcs megmarad. Az 1-es séma 2-esre migrálódik, külön `chapter2` állapottal. A korábbi kérdéselőzmények, viasztábla, címzett, lezárt I. fejezet, napló, pozíció és világállapot megőrzését a migrációs tesztek ellenőrzik; a korábbi regresszió a bizalom visszatöltését és a válaszváltozatok kezelését is vizsgálja. A részleges II. fejezet megmarad, a hibás válaszok nem okoznak végleges elakadást. A sérült mentés nem okoz alkalmazásösszeomlást.
 
-A Pages-próba a tényleges `dist/` fájlokat szolgálja ki, a projektprefixen kívüli kéréseket 404-gyel utasítja el. Az eredeti WebGL/mozgás/térkép/textúra próba mellett a II. fejezeti panelt érvényes, a történeti API-kon keresztül összeállított mentésből vizsgálja. Ez külön production smoke fixture; **nem** ezt nevezzük a három ág mozgásos végigjátszásának. A három teljes mozgásos útvonalat a fejlesztői build böngészőtesztjei ellenőrzik.
+## Production és GitHub Actions
 
-A GitHub által üzemeltetett éles oldalt nem frissítettük és nem állítjuk a II. fejezet ottani ellenőrzését. A PR CI-futása külön GitHub Actions-ellenőrzés; ez a jelentés a tényleges helyi futásokat rögzíti.
+A production próba a tényleges `dist/` fájlokat szolgálja ki a Pages projektútvonala alatt, és a prefixen kívüli kéréseket 404-gyel utasítja el. Ellenőrzi a WebGL-renderelést, mozgást, térképet és mindkét textúrát, majd külön érvényes mentési fixture-rel a II. fejezet összevetését és naplóját. Ez a production smoke fixture külön ellenőrzés; a három fő útvonalat a fent rögzített teljes Chromium-tesztek járják be.
 
-## Korábbi próbafutások és javításuk
+Ellenőrzött GitHub Actions-futás: [40001914020](https://github.com/Tikitaka1984/caesar-marcius-idusa/actions/runs/40001914020); állapot: **completed / success**; commit: `fd17e12ab7da31c9051f67a4e0fdedeedc1e9d24`. A beadott PR további commitjainak ellenőrzése a [Checks oldalon](https://github.com/Tikitaka1984/caesar-marcius-idusa/pull/1/checks) követhető. A végső átadás előtt a frissített PR-head CI-futását is ellenőrizzük.
 
-Az első fejlesztés közbeni demófutást a Vite automatikus újratöltése megszakította; egy párhuzamos szoftveres Chromium-futás időtúllépett. Egy korai Lucius-próba eljutott a zárásig, de újratöltéskor a másik teszthez tartozó közös szerver már leállt. A production fixture első próbáján az új mentést túl korán írtuk be: az előző oldal pagehide-ellenőrzőpontja felülírta. A fixture most új oldalindításkor kerül be, és a production próbát újrafuttattuk. Ezeket a korábbi hibás próbákat nem tekintettük sikernek. Külön, stabil szerver és soros tesztfutás után a régi regressziók sikeresek lettek.
+A PR-futások buildelnek és tesztelnek; a deploy job csak `main` push esetén fut. A PR-t nem egyesítettük, az éles Pages-oldalt nem frissítettük.
 
-A későbbi teljes futás két új tesztútvonal-hibát talált: Quintus ágán az irat előtti megállás a közvetítőt célozta meg, Titus ágán az egyenes megközelítést a régi keleti szobor akadályozta. A teszt most közelebb lép az irathoz, illetve WASD-vel megkerüli a szobrot. Egy további Titus-újrapróba azt is megmutatta, hogy a kerülőt nem a piacépület szélén, hanem a tőle délre fekvő szabad sávban kell megtenni; a végleges teszt ezt az útvonalat járja. A pályát, az ütközést és a tesztelvárásokat nem gyengítettük; mindhárom ág újra sikeresen végigment.
+## Dokumentáció és mobil-first folytatás
 
-## Képernyőképek
+A [STORY.md](../STORY.md) külön kezeli az I. és II. fejezetet, azok kezdési és lezárási feltételeit, a közös kezelést, az aktuális mentési sémát és a III. fejezethez őrzött döntést. A II. fejezet már megvalósítottként szerepel, a korábbi ellentmondó szöveg kikerült.
 
-A `chapter2-*.png` fájlok tényleges Chromium-képernyőképek, nem tervek vagy illusztrációk:
+Telefonos és tabletes érintésvezérlés még nincs implementálva. A QA megőrzi a külön történeti állapotkezelést, a meglévő fizikai mozgásfüggvényt és az asztali bemenetet; a későbbi mobilvezérlés ezekre épülhet.
 
-- [Publius](chapter2-publius-dialogue.png) és [Aulus](chapter2-aulus-dialogue.png) párbeszéde.
-- [Hatalmi irat](chapter2-document-power.png), [diadém irata](chapter2-document-diadem.png), [fiktív feljegyzés](chapter2-document-secret.png).
-- [Összevetési panel és helyes besorolások](chapter2-comparison.png); [production panel](chapter2-comparison-controls.png).
-- [Lucius-ág lezárása](chapter2-ending-lucius.png), [Quintus-ág lezárása](chapter2-ending-quintus.png), [Titus-ág lezárása](chapter2-ending-titus.png).
+## Képernyőképek és korlátok
 
-## Történeti és egyéb korlátok
+A végső futás tényleges képei: [Publius](chapter2-publius-dialogue.png), [Aulus](chapter2-aulus-dialogue.png), [hatalmi irat](chapter2-document-power.png), [diadém](chapter2-document-diadem.png), [titkos feljegyzés](chapter2-document-secret.png), [összevetés](chapter2-comparison.png), [Lucius-lezárás](chapter2-ending-lucius.png), [Quintus-lezárás](chapter2-ending-quintus.png), [Titus-lezárás](chapter2-ending-titus.png), [production panel](chapter2-comparison-controls.png).
 
-Forráshelyek, értelmezések és fikció elkülönítése: [HISTORICAL-NOTES.md](../HISTORICAL-NOTES.md). A könyvészeti forrásokat megadtuk, a hivatkozott weboldalak élő elérhetőségét nem ellenőriztük. A 10–15 perc tervezési cél, nem tanulói játékidőmérés. A város stilizált; a III. fejezet és Pompeius curiájának bejárható tere nincs megvalósítva. Mobilvezérlés, hang és fiókok közötti mentésszinkron nincs. A Vite bundle-méretfigyelmeztetése megmarad.
+A Vite a Three.js-t is tartalmazó nagyobb bundle miatt méretfigyelmeztetést ad; a build sikeres. A város stilizált, a III. fejezet nincs megvalósítva, és a 10–15 perces játékidő tervezési cél, nem tanulói időmérés. Történeti források és fikció megkülönböztetése: [HISTORICAL-NOTES.md](../HISTORICAL-NOTES.md).
+
+A korábbi fejlesztési próbák teljes/célzott összesítése az előző jelentés commitjában (`fd17e12`) marad visszakereshető. Ezt a végső jelentést az új, önálló **18/18-as teljes futás** váltja fel.

@@ -1,0 +1,5 @@
+
+> caesar-marcius-idusa@1.2.0 test:pages
+> node scripts/verify-pages-build.mjs
+
+Pages subdirectory smoke passed: WebGL, movement, map, both textures, Chapter II save migration, comparison controls and journal; 0 console/JavaScript/HTTP errors.

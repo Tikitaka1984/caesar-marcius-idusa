@@ -1,0 +1,29 @@
+
+> caesar-marcius-idusa@1.2.0 test
+> playwright test --reporter=list,json
+
+
+Running 18 tests using 1 worker
+
+  ✓   1 tests/chapter2-browser.spec.js:26:3 › Chapter II actual walking: lucius (1.7m)
+  ✓   2 tests/chapter2-browser.spec.js:26:3 › Chapter II actual walking: quintus (1.9m)
+  ✓   3 tests/chapter2-browser.spec.js:26:3 › Chapter II actual walking: titus (2.0m)
+  ✓   4 tests/chapter2-state.spec.js:45:3 › v1.1 migration and full chapter for lucius (17ms)
+  ✓   5 tests/chapter2-state.spec.js:45:3 › v1.1 migration and full chapter for quintus (9ms)
+  ✓   6 tests/chapter2-state.spec.js:45:3 › v1.1 migration and full chapter for titus (8ms)
+  ✓   7 tests/chapter2-state.spec.js:95:1 › partial progress and malformed nested saves normalize safely (2ms)
+  ✓   8 tests/demo.spec.js:3:1 › solid objects, wall sliding and high-delta tunnelling (2ms)
+  ✓   9 tests/demo.spec.js:11:1 › three districts, input, collisions, interactions, map and pause (1.6m)
+  ✓  10 tests/story-browser.spec.js:3:1 › chapter one: all quests, retry, delivery, Forum handoff and reload (2.3m)
+  ✓  11 tests/story-browser.spec.js:167:1 › a corrupt or obsolete browser save recovers to a playable chapter (5.9s)
+  ✓  12 tests/story-state.spec.js:23:1 › only meaningful, distinct conversations count and trust cannot be farmed (6ms)
+  ✓  13 tests/story-state.spec.js:40:1 › early evidence survives; both wrong conclusions allow retry (5ms)
+  ✓  14 tests/story-state.spec.js:60:3 › recipient lucius, trust and next chapter survive reload (7ms)
+  ✓  15 tests/story-state.spec.js:60:3 › recipient quintus, trust and next chapter survive reload (28ms)
+  ✓  16 tests/story-state.spec.js:60:3 › recipient titus, trust and next chapter survive reload (3ms)
+  ✓  17 tests/story-state.spec.js:87:1 › invalid, obsolete and unavailable storage never prevents play (6ms)
+  ✓  18 tests/story-state.spec.js:117:1 › save validation rejects forged progression and unsafe runtime values (1ms)
+
+  Slow test file: tests/chapter2-browser.spec.js (5.6m)
+  Consider running tests from slow files in parallel. See: https://playwright.dev/docs/test-parallel
+  18 passed (9.7m)
