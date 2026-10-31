@@ -68,4 +68,4 @@ A helyszínek között stilizált utazás történik; nincs folyamatos, teljes R
 
 A felhasználó korábbi konkrét elakadt mentése nem áll rendelkezésre. A hasonló templom előtti mentésből a Forum-feladat átmenetét külön teszt ellenőrzi; ez nem bizonyítja a felhasználó saját mentésének hibamentességét. A céljelzés és a napló egyértelműbben mutatja a még szükséges megerősítést.
 
-Publikálás: [PUBLISHING.md](PUBLISHING.md). Korábbi ellenőrzött kiadás: [v2.0 tesztjelentés](artifacts/DESKTOP-V2-TEST-RESULTS.md). A v2.1 végső helyi ellenőrzése **34/34 sikeres teszt**. [Részletes tesztjelentés és kiadási bizonyítékok](artifacts/CITY-V21-TEST-RESULTS.md).
+Publikálás: [PUBLISHING.md](PUBLISHING.md). Korábbi ellenőrzött kiadás: [v2.0 tesztjelentés](artifacts/DESKTOP-V2-TEST-RESULTS.md). A v2.1 végső helyi ellenőrzése **34/34 sikeres teszt**; a nyilvános GitHub Pages-oldalon egy teljes, friss, mind az öt pályát bejáró böngészős végigjátszás is sikeres; a [GitHub CI és a Pages-telepítés is sikeres](https://github.com/Tikitaka1984/caesar-marcius-idusa/actions/runs/41191995380). [Részletes tesztjelentés és kiadási bizonyítékok](artifacts/CITY-V21-TEST-RESULTS.md).

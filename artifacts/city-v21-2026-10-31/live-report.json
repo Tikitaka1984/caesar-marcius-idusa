@@ -1,0 +1,45 @@
+{
+  "url": "https://tikitaka1984.github.io/caesar-marcius-idusa/",
+  "observedUTC": "2026-10-31T13:03:15.830Z",
+  "durationMs": 503763,
+  "gameCommit": "94b8057935a2a9a2ed97bdf390c59487fd604d0d",
+  "result": "passed",
+  "origin": "fresh browser context, no seeded save, actual public GitHub Pages",
+  "tls": "certificate verification enabled; configured environment proxy CA trusted in Chromium NSS",
+  "loadedRegions": [
+    "rome",
+    "subura",
+    "boarium",
+    "domus",
+    "campus"
+  ],
+  "visited": [
+    "VIA SACRA",
+    "FORUM ROMANUM",
+    "SVBVRA",
+    "FORVM BOARIVM",
+    "DOMVS PALATINA",
+    "TEMPLUM SATURNI",
+    "PORTICVS POMPEI",
+    "CVRIA POMPEIA"
+  ],
+  "chapter3Finished": true,
+  "city": {
+    "legacyRoute": false,
+    "courierStarted": true,
+    "courierRun": 2,
+    "courierStep": 5,
+    "courierArrived": true,
+    "seal": true,
+    "dockRecords": [
+      "manifest",
+      "cargo"
+    ],
+    "dockConclusion": true,
+    "gateOpen": true,
+    "delivered": true
+  },
+  "reloadQuest": "campaign-complete",
+  "consoleAndJavaScriptErrors": [],
+  "httpErrors": []
+}

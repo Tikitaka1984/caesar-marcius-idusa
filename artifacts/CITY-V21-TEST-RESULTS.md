@@ -15,7 +15,7 @@ A HUD külön jelzi a helyi felfedezést; az öt városrész bejárását a vár
 - **34/34 sikeres teszt**, 0 hibás, 0 kihagyott, 0 flaky. Egyetlen megszakítás nélküli folyamat, egy munkás; minden eset egy próbálkozásból. Időtartam: 17.5 perc. A célzott előzetes futások nem növelik ezt a tesztszámot.
 - `npm run build`: sikeres v2.1.0 build. A Three.js-t tartalmazó, körülbelül 694 kB-os JavaScript-csomag Vite-méretfigyelmeztetést ad; ez nem buildhiba.
 - `npm run test:pages`: sikeres a valódi `dist/` fájlokkal, a `/caesar-marcius-idusa/` projektprefix alatt. Az öt világ, a WebGL, a mozgás, a térképek, mindkét képtextúra, a II. fejezet felülete, a kampányzárás és az utóhang ellenőrzött. **0 ellenőrzött konzol-, JavaScript- és HTTP-erőforráshiba.**
-- A végső GitHub CI még folyamatban; telepítési sikert egyelőre nem állítunk.
+- A végső [GitHub-futás](https://github.com/Tikitaka1984/caesar-marcius-idusa/actions/runs/41191995380) **completed / success**. A build és a deploy job is befejeződött; a teljes tesztelés, a build, a production-próba és a GitHub Pages telepítése külön-külön sikeres.
 
 Az első összesített futást a céljelzés felülvizsgálata miatt megszakítottuk. Mindhárom irat összegyűjtése után a jelzésnek a B összevetési panelre kell irányítania. Ezt a `94b8057` commit javította, a városi állapotteszt pedig erre az átmenetre is ellenőrzést kapott. A fenti számok kizárólag a javítás utáni, teljes megszakítás nélküli futás eredményei.
 
@@ -45,14 +45,16 @@ Játék: https://tikitaka1984.github.io/caesar-marcius-idusa/
 
 Workflow: https://github.com/Tikitaka1984/caesar-marcius-idusa/actions/runs/41191995380
 
-A forrás a GitHubon van. A CI és a Pages-telepítés lezárását még ellenőrizzük.
+A `94b8057` játékcommit GitHub Pages-telepítése sikeres. A nyilvános GitHub-oldalakról a build és a deploy lépéseinek állapotát is kiolvastuk. Megfigyelés: 2026. 10. 31. 13:48 CET.
 
-A futó felhőkörnyezet hálózati szabálya továbbra sem engedi a `tikitaka1984.github.io` host közvetlen elérését. Ezért friss, közvetlen éles böngészős végigjátszást nem állítunk. A helyi production-próba és a GitHub CI/deploy megfigyelése külön bizonyíték. A hálózati szabályt nem kerültük meg.
+A végső folytatáskor a futó felhőkörnyezet már engedi a Pages-domain elérését. Az éles HTML a v2.1 változatot és a várt JavaScript-fájlt szolgálja ki; a nyilvános JavaScript SHA-256 lenyomata pontosan egyezik az ellenőrzött buildével. A Chromium NSS-tárolójának hozzáférését és a konfigurált felhő-proxy megbízható CA-beállítását rendeztük; a TLS-ellenőrzés bekapcsolva maradt. A friss, előrehaladott mentés nélkül induló **éles böngészős végigjátszás is sikeres**: mind az öt világ, a három új városi feladat, a teljes történet, a befejezés, az utóhang, a végső mentés visszatöltése és az 5/5 bejárt városrész ellenőrzött. Időtartam: 8.4 perc. Megfigyelés: 2026. 10. 31. 14:03 CET. **0 konzol-/JavaScript-hiba és 0 HTTP-erőforráshiba**. Az éles próba a Lucius → figyelmeztetés útvonalat járta be; a többi döntési ágat a helyi és CI-ellenőrzések fedik le. Ez a külön futás nem növeli a helyi tesztcsomag 34-es esetszámát.
 
 ## Bizonyítékok és korlátok
 
 - [Teljes gépi eredmény](city-v21-2026-10-31/full-suite.json), [folyamatnapló](city-v21-2026-10-31/full-suite.log), [összefoglaló](city-v21-2026-10-31/summary.json).
+- [CI-állapot](city-v21-2026-10-31/ci-state.json), [build/deploy lépések](city-v21-2026-10-31/ci-jobs.json), [éles bundle egyezése](city-v21-2026-10-31/live-bundle-verification.json).
 - [Buildnapló](city-v21-2026-10-31/build.log), [production-próba](city-v21-2026-10-31/pages.log), [fájlazonosítók és SHA-256 lenyomatok](city-v21-2026-10-31/manifest.json).
+- [Éles végigjátszás gépi eredménye](city-v21-2026-10-31/live-report.json), [naplója](city-v21-2026-10-31/live-campaign.log), [éles utóhang](city-live-ending.png), [éles 5/5 várostérkép](city-live-travel.png).
 - [Subura](city-subura.png), [Forum Boarium](city-boarium.png), [domus](city-domus.png), [kert](city-domus-garden.png). Valódi játékfutásból származó képek.
 
 Környezet: Node.js 24.19.0, npm 11.9.0, Chromium 154.0.8037.57, Playwright, szoftveres WebGL, 1440×1000 ablak. Az automatizált ellenőrzés nem emberi játékidőmérés és nem minden eszközre kiterjedő teljesítményteszt. A helyszínek stilizáltak, nem régészeti rekonstrukciók. Harc, hang és mobilos érintésvezérlés nincs a kiadásban; a mobil a felhasználó kérésére külön, utolsó fázis.

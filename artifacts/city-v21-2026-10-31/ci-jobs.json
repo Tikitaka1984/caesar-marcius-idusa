@@ -1,0 +1,109 @@
+{
+  "commit": "94b8057935a2a9a2ed97bdf390c59487fd604d0d",
+  "runUrl": "https://github.com/Tikitaka1984/caesar-marcius-idusa/actions/runs/41191995380",
+  "observedUTC": "2026-10-31T12:48:14.242107+00:00",
+  "jobs": [
+    {
+      "url": "https://github.com/Tikitaka1984/caesar-marcius-idusa/actions/runs/41191995380/job/124510759965",
+      "status": "completed",
+      "steps": [
+        {
+          "name": "Set up job",
+          "conclusion": "success",
+          "started-at": "2026-10-31T10:16:43Z",
+          "completed-at": "2026-10-31T10:16:44Z"
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "conclusion": "success",
+          "started-at": "2026-10-31T10:16:44Z",
+          "completed-at": "2026-10-31T10:16:47Z"
+        },
+        {
+          "name": "Run actions/setup-node@v4",
+          "conclusion": "success",
+          "started-at": "2026-10-31T10:16:47Z",
+          "completed-at": "2026-10-31T10:16:47Z"
+        },
+        {
+          "name": "Install locked dependencies",
+          "conclusion": "success",
+          "started-at": "2026-10-31T10:16:47Z",
+          "completed-at": "2026-10-31T10:16:50Z"
+        },
+        {
+          "name": "Install test browser",
+          "conclusion": "success",
+          "started-at": "2026-10-31T10:16:50Z",
+          "completed-at": "2026-10-31T10:17:11Z"
+        },
+        {
+          "name": "Test complete three-chapter campaign and existing controls",
+          "conclusion": "success",
+          "started-at": "2026-10-31T10:17:11Z",
+          "completed-at": "2026-10-31T10:40:54Z"
+        },
+        {
+          "name": "Build static site",
+          "conclusion": "success",
+          "started-at": "2026-10-31T10:40:54Z",
+          "completed-at": "2026-10-31T10:40:55Z"
+        },
+        {
+          "name": "Verify the built game below the Pages project path",
+          "conclusion": "success",
+          "started-at": "2026-10-31T10:40:55Z",
+          "completed-at": "2026-10-31T10:41:18Z"
+        },
+        {
+          "name": "Run actions/upload-pages-artifact@v3",
+          "conclusion": "success",
+          "started-at": "2026-10-31T10:41:18Z",
+          "completed-at": "2026-10-31T10:41:19Z"
+        },
+        {
+          "name": "Post Run actions/setup-node@v4",
+          "conclusion": "success",
+          "started-at": "2026-10-31T10:41:19Z",
+          "completed-at": "2026-10-31T10:41:21Z"
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "conclusion": "success",
+          "started-at": "2026-10-31T10:41:21Z",
+          "completed-at": "2026-10-31T10:41:21Z"
+        },
+        {
+          "name": "Complete job",
+          "conclusion": "success",
+          "started-at": "2026-10-31T10:41:21Z",
+          "completed-at": "2026-10-31T10:41:21Z"
+        }
+      ]
+    },
+    {
+      "url": "https://github.com/Tikitaka1984/caesar-marcius-idusa/actions/runs/41191995380/job/124515697632",
+      "status": "completed",
+      "steps": [
+        {
+          "name": "Set up job",
+          "conclusion": "success",
+          "started-at": "2026-10-31T10:41:28Z",
+          "completed-at": "2026-10-31T10:41:29Z"
+        },
+        {
+          "name": "Deploy to GitHub Pages",
+          "conclusion": "success",
+          "started-at": "2026-10-31T10:41:29Z",
+          "completed-at": "2026-10-31T10:41:47Z"
+        },
+        {
+          "name": "Complete job",
+          "conclusion": "success",
+          "started-at": "2026-10-31T10:41:47Z",
+          "completed-at": "2026-10-31T10:41:47Z"
+        }
+      ]
+    }
+  ]
+}
