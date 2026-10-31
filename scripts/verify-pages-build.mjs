@@ -6,6 +6,7 @@ import { fileURLToPath } from "node:url";
 import { chromium } from "@playwright/test";
 import { StoryStore, SAVE_KEY } from "../src/story/state.js";
 import { NPCS } from "../src/story/data.js";
+import { RECORDS3 } from "../src/story/chapter3.js";
 import { POLITICIANS, DOCUMENTS, CLAIMS } from "../src/story/chapter2.js";
 
 const dist = fileURLToPath(new URL("../dist/", import.meta.url));
@@ -87,30 +88,109 @@ try {
   // Production-only UI smoke uses a valid checkpoint assembled through story APIs.
   // The separate Chapter II browser suite completes all three branches by walking.
   let saved;
-  const story = new StoryStore({getItem: () => null, setItem: (_key, value) => { saved = value; }});
-  for (const id of ["marcus", "lucius", "quintus"]) story.ask(id, NPCS[id].questions[0].id);
-  story.examineTablet(); story.conclude("B"); story.deliver("titus"); story.enterForum();
-  story.introduce2("courier"); story.access2();
-  for (const [id, npc] of Object.entries(POLITICIANS)) for (const q of npc.questions) story.ask2(id, q[0]);
+  const story = new StoryStore({
+    getItem: () => null,
+    setItem: (_key, value) => {
+      saved = value;
+    },
+  });
+  for (const id of ["marcus", "lucius", "quintus"])
+    story.ask(id, NPCS[id].questions[0].id);
+  story.examineTablet();
+  story.conclude("B");
+  story.deliver("titus");
+  story.enterForum();
+  story.introduce2("courier");
+  story.access2();
+  for (const [id, npc] of Object.entries(POLITICIANS))
+    for (const q of npc.questions) story.ask2(id, q[0]);
   story.politics2("balanced");
   for (const d of DOCUMENTS) story.document2(d.id);
-  story.compare2(Object.fromEntries(CLAIMS.map(q => [q.id, q.category])));
-  story.checkpoint({x: 0, z: -23, yaw: 0, pitch: 0}, {scrolls: [], visited: ["VIA SACRA", "FORUM ROMANUM"]});
+  story.compare2(Object.fromEntries(CLAIMS.map((q) => [q.id, q.category])));
+  story.checkpoint(
+    { x: 0, z: -23, yaw: 0, pitch: 0 },
+    { scrolls: [], visited: ["VIA SACRA", "FORUM ROMANUM"] },
+  );
   // Seed after pagehide: the old page checkpoints during unload.
-  await page.addInitScript(({key, value}) => localStorage.setItem(key, value), {key: SAVE_KEY, value: saved});
+  await page.addInitScript(
+    ({ key, value }) => localStorage.setItem(key, value),
+    { key: SAVE_KEY, value: saved },
+  );
   await page.reload();
   await page.locator("#play").click();
   await page.keyboard.press("KeyB");
-  assert.equal(await page.locator("#storyPanel").getAttribute("data-kind"), "evidence2");
-  for (const claim of CLAIMS) assert.equal(await page.getByTestId("classify-" + claim.id).inputValue(), claim.category);
+  assert.equal(
+    await page.locator("#storyPanel").getAttribute("data-kind"),
+    "evidence2",
+  );
+  for (const claim of CLAIMS)
+    assert.equal(
+      await page.getByTestId("classify-" + claim.id).inputValue(),
+      claim.category,
+    );
   await page.getByTestId("classify-title").scrollIntoViewIfNeeded();
-  await page.screenshot({path: "artifacts/chapter2-comparison-controls.png"});
+  await page.screenshot({ path: "artifacts/chapter2-comparison-controls.png" });
   await page.keyboard.press("Escape");
   await page.keyboard.press("KeyJ");
-  assert((await page.locator("#storyPanel").textContent()).includes("A köztársaság árnyéka"));
+  assert(
+    (await page.locator("#storyPanel").textContent()).includes(
+      "A köztársaság árnyéka",
+    ),
+  );
+  // A separate valid final checkpoint exercises the compiled Campus world and ending.
+  // The full-campaign browser test separately walks all three chapters from an empty save.
+  story.distinguish2("limited");
+  story.inform2();
+  story.finish2("warn");
+  story.start3();
+  story.guide3();
+  story.route3();
+  for (const r of RECORDS3) story.record3(r.id);
+  story.assess3("limited");
+  story.act3();
+  for (let i = 0; i < 3; i++) story.scene3();
+  story.report3("accountable");
+  story.finish3();
+  await page.close();
+  const finalPage = await browser.newPage({
+    viewport: { width: 1440, height: 1000 },
+  });
+  finalPage.on("pageerror", (e) => errors.push(e.message));
+  finalPage.on("console", (m) => {
+    if (m.type() === "error") errors.push(m.text());
+  });
+  finalPage.on("response", (r) => {
+    if (r.status() >= 400)
+      errors.push(`HTTP ${r.status()} ${new URL(r.url()).pathname}`);
+  });
+  await finalPage.addInitScript(
+    ({ key, value }) => localStorage.setItem(key, value),
+    { key: SAVE_KEY, value: saved },
+  );
+  await finalPage.goto(`http://127.0.0.1:${server.address().port}${prefix}`);
+  await finalPage.waitForFunction(
+    () =>
+      window.caesarState?.region === "campus" &&
+      window.caesarState.renderer.calls > 0,
+  );
+  await finalPage.locator("#campaignButton").click();
+  await finalPage.getByTestId("review-campaign-ending").click();
+  assert.equal(
+    await finalPage.locator("#storyTitle").textContent(),
+    "CAESAR – a történet véget ért",
+  );
+  await finalPage.getByTestId("campaign-epilogue").click();
+  assert(
+    (await finalPage.locator("#storyPanel").textContent()).includes(
+      "Köszönjük, hogy végigjátszottad",
+    ),
+  );
+  await finalPage.screenshot({
+    path: "artifacts/production-campaign-ending.png",
+  });
   assert.deepEqual(errors, []);
   console.log(
-    "Pages subdirectory smoke passed: WebGL, movement, map, both textures, Chapter II save migration, comparison controls and journal; 0 console/JavaScript/HTTP errors.",
+    "Pages subdirectory smoke passed: WebGL, movement, map, both textures, Chapter II migration and controls, Campus region, complete campaign ending and epilogue; 0 console/JavaScript/HTTP errors.",
   );
 } finally {
   await browser?.close();

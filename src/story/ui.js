@@ -1,3 +1,4 @@
+import { installChapter3UI } from "./chapter3-ui.js";
 import { installChapter2UI } from "./chapter2-ui.js";
 import {
   CHAPTER,
@@ -16,9 +17,9 @@ const node = (tag, text, cls) => {
   return n;
 };
 export class StoryUI {
-  constructor(store, { onOpen, onClose, onReset }) {
+  constructor(store, { onOpen, onClose, onReset, onContinue }) {
     this.store = store;
-    this.hooks = { onOpen, onClose, onReset };
+    this.hooks = { onOpen, onClose, onReset, onContinue };
     this.root = document.getElementById("storyPanel");
     this.root.hidden = true;
     this.content = this.root.querySelector(".story-content");
@@ -358,12 +359,12 @@ export class StoryUI {
     this.finish();
   }
   resetConfirmation() {
-    this.open("Újrakezded a fejezetet?", "reset");
+    this.open("Újrakezded a teljes játékot?", "reset");
     this.text(
       "A jelenlegi beszélgetések, bizonyítékok és döntés helyére új fejezet kerül.",
     );
     this.button(
-      "Igen, új fejezetet kezdek",
+      "Igen, új játékot kezdek",
       () => {
         this.hooks.onReset();
         this.close(true);
@@ -380,3 +381,5 @@ export class StoryUI {
 }
 
 installChapter2UI(StoryUI);
+
+installChapter3UI(StoryUI);

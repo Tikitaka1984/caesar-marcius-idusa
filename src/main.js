@@ -1,3 +1,5 @@
+import { activeChapter3, ROUTES3 } from "./story/chapter3.js";
+import { createCampus, addCampusTravel } from "./world/campus.js";
 import { BRANCHES, activeChapter2 } from "./story/chapter2.js";
 import { addChapter2World } from "./world/chapter2.js";
 import * as T from "three";
@@ -51,8 +53,29 @@ for (let i = 0; i < 17; i++) {
   scene.add(cloud);
 }
 await loadArt();
-const world = createRome(scene);
-addChapter2World(scene, world);
+const romeWorld = createRome(scene);
+addChapter2World(scene, romeWorld);
+addCampusTravel(scene, romeWorld);
+const romeObjects = scene.children.filter(
+  (o) => o.isMesh || o.isSprite || o.isGroup || o.isPointLight,
+);
+const campusWorld = createCampus(scene);
+let world = romeWorld,
+  region = "rome";
+function setRegion(next) {
+  region = next;
+  world = region === "campus" ? campusWorld : romeWorld;
+  romeObjects.forEach((o) => (o.visible = region === "rome"));
+  campusWorld.root.visible = region === "campus";
+  renderer.shadowMap.needsUpdate = true;
+}
+function exploration() {
+  const areas =
+    region === "campus"
+      ? ["PORTICVS POMPEI", "CVRIA POMPEIA"]
+      : ["VIA SACRA", "FORUM ROMANUM", "TEMPLUM SATURNI"];
+  return `${[...visited].filter((v) => areas.includes(v)).length} <em>/ ${areas.length}</em>`;
+}
 renderer.shadowMap.autoUpdate = false;
 renderer.shadowMap.needsUpdate = true;
 const camera = new T.PerspectiveCamera(67, 1, 0.08, 130);
@@ -73,14 +96,14 @@ try {
   /* Private browsing may block storage. */
 }
 const story = new StoryStore(storage);
-const scrollItems = world.interactables.filter((o) => o.type === "scroll");
+const scrollItems = romeWorld.interactables.filter((o) => o.type === "scroll");
 let pointerMode = "free",
   resumeAfterPanel = false,
   lastCheckpoint = 0;
 canvas.tabIndex = 0;
 function checkpoint() {
   return story.checkpoint(
-    { x: camera.position.x, z: camera.position.z, yaw, pitch },
+    { x: camera.position.x, z: camera.position.z, yaw, pitch, region },
     {
       scrolls: scrollItems.flatMap((o, i) => (o.taken ? [i] : [])),
       visited: [...visited],
@@ -89,6 +112,7 @@ function checkpoint() {
 }
 function restoreRuntime() {
   const saved = story.state.player;
+  setRegion(saved.region || "rome");
   camera.position.set(saved.x, 1.7, saved.z);
   if (!canOccupy(saved.x, saved.z, world.colliders))
     camera.position.set(0, 1.7, 33);
@@ -104,22 +128,30 @@ function restoreRuntime() {
   });
   total = scrollItems.filter((o) => o.taken).length;
   $("scrolls").innerHTML = `${total} <em>/ 3</em>`;
-  $("explored").innerHTML = `${visited.size} <em>/ 3</em>`;
-  $("area").textContent = district(camera.position.z);
+  $("explored").innerHTML = exploration();
+  $("area").textContent = district(camera.position.z, region);
 }
 function updateStoryHUD() {
   const q = currentQuest(story.state);
   $("questTitle").textContent = q.title;
   $("questTask").textContent = q.task;
-  $("menuChapter").textContent = activeChapter2(story.state)
-    ? "II. fejezet – A köztársaság árnyéka"
-    : "I. fejezet – A város suttogása";
+  $("menuChapter").textContent = activeChapter3(story.state)
+    ? "III. fejezet – Az összeesküvés"
+    : activeChapter2(story.state)
+      ? "II. fejezet – A köztársaság árnyéka"
+      : "I. fejezet – A város suttogása";
   $("panelChapter").textContent =
-    (activeChapter2(story.state) ? "II." : "I.") + " FEJEZET · KR. E. 44";
+    (activeChapter3(story.state)
+      ? "III."
+      : activeChapter2(story.state)
+        ? "II."
+        : "I.") + " FEJEZET · KR. E. 44";
   $("questProgress").textContent = q.progress;
-  $("voicesProgress").textContent = activeChapter2(story.state)
-    ? `II. FEJEZET · IRATOK ${story.state.chapter2.documents.length}/3 · PUBLIUS ${story.state.chapter2.answers.publius.length}/4 · AULUS ${story.state.chapter2.answers.aulus.length}/4`
-    : `RÓMA HANGJAI ${voicesCount(story.state)}/3`;
+  $("voicesProgress").textContent = activeChapter3(story.state)
+    ? `III. FEJEZET · FELJEGYZÉSEK ${story.state.chapter3.records.length}/2`
+    : activeChapter2(story.state)
+      ? `II. FEJEZET · IRATOK ${story.state.chapter2.documents.length}/3 · PUBLIUS ${story.state.chapter2.answers.publius.length}/4 · AULUS ${story.state.chapter2.answers.aulus.length}/4`
+      : `RÓMA HANGJAI ${voicesCount(story.state)}/3`;
   $("voicesProgress").hidden = q.id === "voices";
   document.querySelector(".objective").title = q.task;
   $("saveStatus").textContent = story.notice;
@@ -165,6 +197,9 @@ const storyUI = new StoryUI(story, {
     }
     checkpoint();
   },
+  onContinue() {
+    resumeAfterPanel = true;
+  },
   onReset() {
     resumeAfterPanel = true;
     story.reset();
@@ -172,9 +207,13 @@ const storyUI = new StoryUI(story, {
     updateStoryHUD();
   },
 });
-story.onChange(updateStoryHUD);
+story.onChange(() => {
+  if ((story.state.player.region || "rome") !== region) restoreRuntime();
+  updateStoryHUD();
+});
 restoreRuntime();
 updateStoryHUD();
+$("campaignButton").onclick = () => storyUI.campaign();
 $("journalButton").onclick = () => storyUI.journal();
 $("evidenceButton").onclick = () => storyUI.evidence();
 $("newChapter").onclick = () => storyUI.resetConfirmation();
@@ -293,6 +332,30 @@ document.addEventListener("keydown", (e) => {
 document.addEventListener("keyup", (e) => keys.delete(e.code));
 function interact() {
   if (!nearest) return;
+  if (nearest.type === "travel3") {
+    storyUI.travel3();
+    return;
+  }
+  if (nearest.type === "return3") {
+    story.returnRome();
+    checkpoint();
+    return;
+  }
+  if (
+    ["guide3", "route3", "record3", "event3", "account3"].includes(nearest.type)
+  ) {
+    if (nearest.type === "guide3") storyUI.guide3();
+    else if (nearest.type === "route3") {
+      if (nearest.route !== story.state.chapter2.decision) {
+        message("Most a választott feladatod közvetítőjét keresd.");
+        return;
+      }
+      storyUI.route3();
+    } else if (nearest.type === "record3") storyUI.record3(nearest.id);
+    else if (nearest.type === "event3") storyUI.event3();
+    else storyUI.account3();
+    return;
+  }
   if (nearest.chapter2) {
     if (nearest.type === "guide2") storyUI.guide2(nearest.id);
     else if (nearest.type === "politician2") storyUI.dialogue2(nearest.id);
@@ -329,6 +392,32 @@ function drawMap() {
       r.w * sx,
       Math.max(2, r.d * sz),
     );
+  }
+  if (region === "campus") {
+    g.fillStyle = "#432c1c";
+    g.textAlign = "center";
+    g.font = "14px Georgia";
+    g.fillText("CVRIA POMPEIA", 180, 25);
+    g.fillText("PORTICVS POMPEI", 180, 195);
+    for (const o of world.interactables) {
+      if (o.route && o.route !== story.state.chapter2.decision) continue;
+      g.fillStyle = "#842f29";
+      g.fillRect(px(o.x) - 3, pz(o.z) - 3, 6, 6);
+      g.font = "10px Georgia";
+      g.textAlign = "left";
+      g.fillText(o.label, px(o.x) + 5, pz(o.z));
+    }
+    g.save();
+    g.translate(px(camera.position.x), pz(camera.position.z));
+    g.rotate(-yaw);
+    g.fillStyle = "#fff0bd";
+    g.beginPath();
+    g.moveTo(0, -8);
+    g.lineTo(-5, 5);
+    g.lineTo(5, 5);
+    g.fill();
+    g.restore();
+    return;
   }
   g.fillStyle = "#432c1c";
   g.font = "13px Georgia";
@@ -398,10 +487,10 @@ function tick(now) {
     );
     walk += (Math.abs(f) + Math.abs(s)) * dt * 8;
     camera.position.y = 1.7 + Math.sin(walk) * (f || s ? 0.035 : 0);
-    const area = district(camera.position.z);
+    const area = district(camera.position.z, region);
     $("area").textContent = area;
     visited.add(area);
-    $("explored").innerHTML = `${visited.size} <em>/ 3</em>`;
+    $("explored").innerHTML = exploration();
     if (
       story.state.chapterComplete &&
       !story.state.nextChapterReady &&
@@ -426,6 +515,8 @@ function tick(now) {
   for (const o of world.interactables) {
     if (o.taken || (o.replacedInChapter2 && activeChapter2(story.state)))
       continue;
+    if (o.type === "travel3" && !story.state.chapter2.decision) continue;
+    if (o.route && o.route !== story.state.chapter2.decision) continue;
     if (
       o.chapter2 &&
       (!activeChapter2(story.state) ||
@@ -459,6 +550,9 @@ function tick(now) {
         activeChapter2(story.state) &&
         (o.type !== "guide2" ||
           o.id === BRANCHES[story.state.decisions.messageRecipient]?.guide);
+  campusWorld.crowd.forEach(
+    (m) => (m.visible = story.state.chapter3.eventStep < 2),
+  );
   renderer.render(scene, camera);
 }
 // Read-only telemetry lets browser tests verify actual movement and district traversal.
@@ -469,7 +563,8 @@ Object.defineProperty(window, "caesarState", {
     yaw,
     pitch,
     active,
-    district: district(camera.position.z),
+    region,
+    district: district(camera.position.z, region),
     scrolls: total,
     visited: [...visited],
     interaction: nearest?.type,

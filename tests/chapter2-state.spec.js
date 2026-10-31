@@ -54,8 +54,10 @@ for (const recipient of Object.keys(BRANCHES))
       "player",
       "world",
     ])
-      expect(s.state[field]).toEqual(raw[field]);
-    expect(s.state.version).toBe(2);
+      expect(s.state[field]).toEqual(
+        field === "player" ? { ...raw[field], region: "rome" } : raw[field],
+      );
+    expect(s.state.version).toBe(3);
     expect(s.state.chapterComplete).toBe(true);
     expect(currentQuest(s.state).id).toBe("allies");
     expect(s.finish2("warn")).toBe(false);
@@ -84,7 +86,7 @@ for (const recipient of Object.keys(BRANCHES))
       const branch = new StoryStore(memory(s.state));
       expect(branch.finish2(choice)).toBe(true);
       expect(branch.finish2("warn")).toBe(false);
-      branch.compare2({title:"fiction"});
+      branch.compare2({ title: "fiction" });
       expect(branch.state.chapter2.comparisonComplete).toBe(true);
       expect(new StoryStore(branch.storage).state.chapter2.decision).toBe(
         choice,

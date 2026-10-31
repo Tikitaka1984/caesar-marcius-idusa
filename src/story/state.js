@@ -1,4 +1,11 @@
 import {
+  freshChapter3,
+  normalizeChapter3,
+  chapter3Quests,
+  activeChapter3,
+  installChapter3,
+} from "./chapter3.js";
+import {
   freshChapter2,
   normalizeChapter2,
   chapter2Quests,
@@ -9,9 +16,10 @@ import { NPCS, VOICES, RECIPIENTS, QUESTS, TABLET } from "./data.js";
 export const SAVE_KEY = "caesar.story.save.v1";
 export function freshState() {
   return {
-    version: 2,
+    version: 3,
+    chapter3: freshChapter3(),
     chapter2: freshChapter2(),
-    storyVersion: "1.2",
+    storyVersion: "2.0",
     answers: Object.fromEntries(Object.keys(NPCS).map((id) => [id, []])),
     responses: Object.fromEntries(Object.keys(NPCS).map((id) => [id, {}])),
     trust: Object.fromEntries(Object.keys(NPCS).map((id) => [id, 0])),
@@ -23,7 +31,7 @@ export function freshState() {
     chapterComplete: false,
     nextChapterReady: false,
     journal: [],
-    player: { x: 0, z: 33, yaw: 0, pitch: 0 },
+    player: { x: 0, z: 33, yaw: 0, pitch: 0, region: "rome" },
     world: { scrolls: [], visited: ["VIA SACRA"] },
   };
 }
@@ -31,6 +39,7 @@ export function voicesCount(s) {
   return VOICES.filter((id) => s.answers[id].length > 0).length;
 }
 export function quests(s) {
+  if (activeChapter3(s)) return chapter3Quests(s);
   if (activeChapter2(s)) return chapter2Quests(s);
   const done = [
     voicesCount(s) === 3,
@@ -50,12 +59,21 @@ export function quests(s) {
   });
 }
 export function currentQuest(s) {
+  if (activeChapter3(s))
+    return (
+      chapter3Quests(s).find((q) => q.status === "active") || {
+        id: "campaign-complete",
+        title: "Játék teljesítve",
+        task: "A háromfejezetes történet lezárult. A J naplóban újranézheted döntéseidet.",
+        progress: "3/3 fejezet",
+      }
+    );
   if (activeChapter2(s))
     return (
       chapter2Quests(s).find((q) => q.status === "active") || {
         id: "chapter2-complete",
         title: "II. fejezet teljesítve",
-        task: "Az összeesküvés következik. A döntésed mentve.",
+        task: "Indulj a Forum nyugati útjelzőjéhez (−7, −28), vagy a naplóban válaszd a III. fejezet megkezdését.",
         progress: "4/4",
       }
     );
@@ -73,7 +91,7 @@ export function currentQuest(s) {
 export function normalizeSave(raw) {
   if (
     !raw ||
-    ![1, 2].includes(raw.version) ||
+    ![1, 2, 3].includes(raw.version) ||
     typeof raw.answers !== "object" ||
     !raw.answers ||
     Array.isArray(raw.answers)
@@ -153,13 +171,22 @@ export function normalizeSave(raw) {
         ...new Set([
           "VIA SACRA",
           ...raw.world.visited.filter((v) =>
-            ["VIA SACRA", "FORUM ROMANUM", "TEMPLUM SATURNI"].includes(v),
+            [
+              "VIA SACRA",
+              "FORUM ROMANUM",
+              "TEMPLUM SATURNI",
+              "PORTICVS POMPEI",
+              "CVRIA POMPEIA",
+            ].includes(v),
           ),
         ]),
       ]
     : ["VIA SACRA"];
   if (s.nextChapterReady)
     s.chapter2 = normalizeChapter2(raw.chapter2, s.decisions.messageRecipient);
+  s.chapter3 = normalizeChapter3(raw.chapter3, !!s.chapter2.decision);
+  s.player.region =
+    s.chapter3.started && raw.player?.region === "campus" ? "campus" : "rome";
   return s;
 }
 export class StoryStore {
@@ -289,3 +316,5 @@ export class StoryStore {
 }
 
 installChapter2(StoryStore);
+
+installChapter3(StoryStore);

@@ -1,24 +1,10 @@
-# GitHub és GitHub Pages
+# CAESAR v2.0 – publikálás
 
-Repository: https://github.com/Tikitaka1984/caesar-marcius-idusa
+A teljes, háromfejezetes asztali játék forrása: https://github.com/Tikitaka1984/caesar-marcius-idusa
 
-Játékoldal: https://tikitaka1984.github.io/caesar-marcius-idusa/
+GitHub Pages: https://tikitaka1984.github.io/caesar-marcius-idusa/
 
-A repository `main` ága tartalmazza a forrást, a helyi grafikai asseteket, a teszteket és az `artifacts/` képernyőképeit. A `node_modules`, a `dist` és az ideiglenes Playwright-eredmények nincsenek verziókezelve. A Pages forrása **GitHub Actions**.
-
-## Telepítési folyamat
-
-A `.github/workflows/pages.yml` minden `main` push után Node.js 24 alatt:
-
-1. `npm ci` segítségével telepíti a zárolt függőségeket és a Chromium tesztböngészőt.
-2. Lefuttatja a fizikai, vezérlési, mentési és történeti teszteket (`npm test`).
-3. Elkészíti a Vite-buildet (`npm run build`).
-4. A `/caesar-marcius-idusa/` alkönyvtár alatt külön böngészőpróbával ellenőrzi a buildet (`npm run test:pages`).
-5. Feltölti a `github-pages` artifactot és telepíti az oldalt.
-
-A helyi siker nem bizonyítja a távoli telepítést. A repository Actions oldalán a **build** és **deploy** feladatnak is sikeresnek kell lennie, majd az éles oldalt böngészőben ellenőrizni kell. Sikertelen teszt vagy build megakadályozza a telepítést.
-
-## Helyi ellenőrzés
+## Kiadási ellenőrzés
 
 ```sh
 npm ci
@@ -27,16 +13,18 @@ npm run build
 npm run test:pages
 ```
 
-A WebGL-tesztekben `/usr/bin/chromium` az alapértelmezett böngésző. Más telepítéshez a `CHROMIUM_PATH` változó használható. A GitHub workflow ezt a Playwright által telepített Chromium elérési útjára állítja. A teljes történeti teszt lassabb szoftveres renderelés mellett több percet is igénybe vehet.
+A teljes csomag 26 teszteset: a korábbi 18 regresszió; négy III. fejezeti állapotteszt; három, korábbi mentésből induló, ténylegesen végiggyalogolt III. fejezeti út; és egy friss játékból induló teljes kampány. A teljes kampányteszt nem hoz létre előrehaladott mentést és nem teleportál: az első beszélgetéstől a végső összegzésig használja a játékot, végül ellenőrzi az újratöltést és az újrakezdést.
 
-A relatív Vite-alapútvonal és az `import.meta.env.BASE_URL` miatt a szkriptek, a favicon és a két textúra projektalkönyvtár alatt is betöltődnek. A történeti mentés a böngésző `localStorage`-ában marad; a telepítés nem igényel backendet vagy saját API-kulcsot.
+A production-próba valódi `dist/` fájlokat szolgál ki a projekt alkönyvtárában. Az alapvető WebGL/működés ellenőrzése mellett külön érvényes mentési fixture-rel a II. fejezet felületét és a Campus régióban a kampány befejezését is megnyitja. Ez a fixture-próba nem helyettesíti a teljes, előrehaladott mentés nélkül induló kampánytesztet.
 
-## Hibakeresés
+## Automatikus GitHub Actions
 
-Ha a telepítés 404-es Pages-hibát ad, a repository **Settings → Pages → Source** értéke legyen **GitHub Actions**, majd a sikertelen deploy újraindítható. Ha a Git push 403-at ad, a kapcsolódó GitHub-integráció írási jogosultsága ellenőrizendő; a fiók adminisztrátori jogát jelző metadata nem feltétlenül jelenti az integráció írhatóságát.
+A `.github/workflows/pages.yml` minden `main` push után telepít, tesztel, buildel, elvégzi a production prefix-próbát, majd artifactot tölt fel és GitHub Pages-re telepít. A deploy csak sikeres ellenőrzések után fut. PR-futások csak ellenőriznek. A Pages forrása GitHub Actions.
 
-A korábbi v1.0 feltöltési akadályokat a GitHub-hozzáférés engedélyezése megoldotta; a Pages beállítását az API olvasási ellenőrzése már engedélyezettnek mutatta. Az aktuális változat konkrét teszt- és telepítési eredménye a verzióhoz tartozó ellenőrzési jegyzőkönyvben található.
+A projekt relatív Vite-alapútvonalat használ. Mindkét régió és a teljes történeti adat a build része; nincs backend vagy saját API-kulcs. Az 1-es és 2-es mentések 3-as sémára migrálódnak, a régi `caesar.story.save.v1` kulcs alatt. A régió és a végleges kampányállapot is megmarad.
 
-## Story System v1.1 kiadás
+## Ellenőrzési környezet
 
-A `9636f39354a71b7e89b8364e5aea6c38f6a56e5b` játékcommit sikeresen települt a [39993560402 számú workflow-futással](https://github.com/Tikitaka1984/caesar-marcius-idusa/actions/runs/39993560402). Az éles oldalon a WebGL, a párbeszéd, a vezérlés és a mentés visszatöltése is böngészőben ellenőrizve. Részletek és ismert korlátok: [STORY-TEST-RESULTS.md](artifacts/STORY-TEST-RESULTS.md).
+Node.js 24, valódi Chromium, Playwright. A böngésző alapértelmezett helye `/usr/bin/chromium`, más telepítésnél `CHROMIUM_PATH` használható. A teljes szoftveres WebGL-futás több percet igényel. A játék mobil érintésvezérlése a felhasználó kérésére későbbi feladat.
+
+Az éles telepítés aktuális állapotát külön kell ellenőrizni. A helyi production-próba önmagában nem bizonyítja az éles telepítést. Ha a felhőkörnyezet a GitHub API-t vagy a Pages domaint tiltja, a már mentett `api.github.com` és `tikitaka1984.github.io` szabályokat kell alkalmazni; az örökölt proxyt és a TLS-ellenőrzést meg kell őrizni. A `github.com` nyilvános Actions-oldalának megengedett olvasása CI-állapotot igazolhat, de közvetlen éles böngészős végigjátszást nem helyettesít.

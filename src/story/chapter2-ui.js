@@ -65,6 +65,12 @@ export function installChapter2UI(UI) {
         "comparison-open",
       );
       if (c.decision)
+        this.button(
+          "III. fejezet: út Pompeius porticusához",
+          () => this.travel3(),
+          "chapter3-start",
+        );
+      if (c.decision)
         this.button("Fejezetzárás", () => this.ending2(), "ending2-review");
       this.text(
         "Az új szereplők, párbeszédek, iratok és futáresemények fiktívek. A történeti háttér forrásait a HISTORICAL-NOTES.md ismerteti.",
@@ -339,7 +345,7 @@ export function installChapter2UI(UI) {
         "story-quote",
       );
       this.text(
-        "Fiktív informátori közlés. Történeti háttér: a senatus március 15-én Pompeius curiájában ülésezett, ott történt a merénylet. Ez nem a Forum Saturnus-temploma. Az út és a következő helyszín a III. fejezetben következhet.",
+        "Fiktív informátori közlés. Történeti háttér: a senatus március 15-én Pompeius curiájában ülésezett. Ez nem a Forum Saturnus-temploma. Az út és a következő helyszín a III. fejezetben bejárható.",
         "story-caption",
       );
       if (this.store.state.chapter2.decision)
@@ -379,7 +385,12 @@ export function installChapter2UI(UI) {
         "story-quote",
       );
       this.text(
-        "A döntésed mentve. Pompeius curiája a Forumtól nyugatra, a színház épületegyüttesében található. A III. fejezet teljes története még nem játszható.",
+        "A döntésed mentve. Pompeius curiája a Forumtól nyugatra, a színház épületegyüttesében található. A III. fejezetben a porticushoz és a curiához vezet az utad.",
+      );
+      this.button(
+        "A III. fejezethez indulok",
+        () => this.travel3(),
+        "ending2-next",
       );
       this.button("Vissza a Forumra", () => this.close(true), "ending2-close");
       this.finish();

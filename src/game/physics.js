@@ -21,6 +21,7 @@ export function movePlayer(position, dx, dz, colliders) {
       position.z += dz / n;
   }
 }
-export function district(z) {
+export function district(z, region = "rome") {
+  if (region === "campus") return z > -20 ? "PORTICVS POMPEI" : "CVRIA POMPEIA";
   return z > 1 ? "VIA SACRA" : z > -24 ? "FORUM ROMANUM" : "TEMPLUM SATURNI";
 }

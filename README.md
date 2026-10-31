@@ -1,8 +1,10 @@
 # CAESAR – Március idusa
 
-**[Játék indítása – A város suttogása](https://tikitaka1984.github.io/caesar-marcius-idusa/)**
+**[Játék indítása – CAESAR teljes történet](https://tikitaka1984.github.io/caesar-marcius-idusa/)**
 
-Magyar nyelvű, böngészős, belső nézetes római játék. A Story System v1.2 az elfogadott **A város suttogása** után a **II. fejezet – A köztársaság árnyéka** történetét is tartalmazza. Az éles Pages-oldal ezt csak a fejlesztési PR jóváhagyott egyesítése után kapja meg. A részletes játékmenet, mentési séma és történelmi keret a [STORY.md](STORY.md) fájlban található. Three.js, Vite és JavaScript; nincs backend, belépés vagy API-kulcs. A faltextúrák helyben, determinisztikusan készülnek. A kőburkolat külön, helyben tárolt grafikai asset. A részletes karakteratlasz a projektben található generált grafikai asset; futás közben nincs külső kép- vagy betűtípus-szolgáltatás.
+Magyar nyelvű, böngészős, háromfejezetes történelmi játék, Three.js és Vite alapon. A **v2.0 teljes asztali története** a Via Sacrától a Forumon át Pompeius curiájáig vezet, saját befejezéssel és a döntéseid összegzésével. Az első két fejezetre épülő III. fejezet már játszható; a mobilos érintésvezérlés későbbre marad.
+
+Nincs backend, fiók vagy API-kulcs. A grafikai assetek és a történeti adatok helyben töltődnek. A részletes játékmenet és mentési séma: [STORY.md](STORY.md). Történelmi keret és fikció: [HISTORICAL-NOTES.md](HISTORICAL-NOTES.md).
 
 ## Futtatás
 
@@ -38,7 +40,7 @@ A böngészős tesztek a `/usr/bin/chromium` programot használják. Más telep�
 | J               | Küldetésnapló                                       |
 | B               | Bizonyítékok és következtetés                       |
 
-## A demó
+## A játék
 
 A Via Sacra piacutcája, a porticusokkal és szobrokkal szegélyezett Forum Romanum és a Saturnus-templom ihlette középület előtere folyamatosan bejárható. Hét álló NPC, három felvehető tekercs, olvasható felirat, térkép, felfedezési számláló és magyar HUD szerepel a pályán. Falak, oszlopok, amforák, ládák, szobortalapzatok és NPC-k akadályozzák a mozgást. A lépcsők díszletek; a templombelső nem bejárható.
 
@@ -52,18 +54,21 @@ A II. fejezet négy küldetése három eltérő előzményből játszható végi
 - `src/world/rome.js`: pálya, építészet, objektumok és statikus geometria összevonása.
 - `src/art/textures.js`: procedurális pixeltextúrák és karakteratlasz-kezelés.
 - `src/game/physics.js`: ütközéskezelés és területazonosítás.
+- `src/world/campus.js`: Pompeius porticusa, a curia és a régióváltás.
 - `src/story/`: történeti adatok, küldetésállapotok, verziózott localStorage-mentés és panelek.
 - `tests/demo.spec.js`: a meglévő fizika, vezérlés és három körzet regressziós ellenőrzése.
 - `tests/story-state.spec.js`: küldetések, három címzett, mentési validálás és hibakezelés.
 - `tests/story-browser.spec.js`: az I. fejezet és a Forum-átadás valódi Chromiumban.
 - `tests/chapter2-state.spec.js`: v1.1 migráció, mindhárom hozzáférési ág, újrapróbálkozás és döntések.
 - `tests/chapter2-browser.spec.js`: a II. fejezet mindhárom ága tényleges WASD-mozgással és újratöltéssel.
+- `tests/chapter3-browser.spec.js`: három eltérő III. fejezeti út és a végső mentés.
+- `tests/full-campaign.spec.js`: teljes friss kampány az első lépéstől a végső képernyőig.
 - `scripts/verify-pages-build.mjs`: a production build ellenőrzése a Pages alkönyvtárát utánzó helyi HTTP-kiszolgálóval.
 - `artifacts/`: valódi játékképernyőképek, tesztjelentés.
 
 ## Ismert korlátok
 
-A mellékelt referencia kompozíciója, római motívumai és palettája szolgált célként; a jelenlegi szobrok és épületdíszek egyszerűbbek a képnél. Nem állítjuk a referencia részletességének elérését. Az I. fejezet becsült játékideje 6–10 perc, a párbeszédek elolvasásától és a kereséstől függően; emberi játékidőmérést nem végeztünk. A II. fejezet tervezési célja 10–15 perc olvasással; ezt sem igazoltuk tanulói időméréssel. A III. fejezet nincs megvalósítva. Az NPC-k nem járőröznek; a víz és az ég stilizált. A statikus árnyékok egyszer készülnek el. Mobil érintésvezérlés, hang és akadálymentes alternatív 3D-játéknézet nincs. A történeti panelek billentyűzettel kezelhetők. A mentés helyi böngészőadat, nem eszközök között szinkronizált fiókmentés. A WebGL-képesség vagy egérzár böngészőnként eltérhet.
+A mellékelt referencia kompozíciója, római motívumai és palettája szolgált célként; a jelenlegi szobrok és épületdíszek egyszerűbbek a képnél. Nem állítjuk a referencia részletességének elérését. Az I. fejezet becsült játékideje 6–10 perc, a párbeszédek elolvasásától és a kereséstől függően; emberi játékidőmérést nem végeztünk. A II. fejezet tervezési célja 10–15 perc olvasással; ezt sem igazoltuk tanulói időméréssel. A III. fejezet a porticusban és a curiánál zárja le a játékot. Az NPC-k nem járőröznek; a víz és az ég stilizált. A statikus árnyékok egyszer készülnek el. Mobil érintésvezérlés, hang és akadálymentes alternatív 3D-játéknézet nincs. A történeti panelek billentyűzettel kezelhetők. A mentés helyi böngészőadat, nem eszközök között szinkronizált fiókmentés. A WebGL-képesség vagy egérzár böngészőnként eltérhet.
 
 A forrás repositoryja: [Tikitaka1984/caesar-marcius-idusa](https://github.com/Tikitaka1984/caesar-marcius-idusa). A GitHub Pages-publikálás és ellenőrzés lépéseit a [PUBLISHING.md](PUBLISHING.md) írja le.
 
@@ -71,10 +76,12 @@ A külön build-csomag Node.js nélkül is kiszolgálható: kicsomagolás után 
 
 A Vite relatív erőforrásútvonalakat használ, ezért ugyanaz a build a domain gyökerében és GitHub Pages-projekt alkönyvtárában is kiszolgálható. A `main` ágra történő push tesztelést, buildet és Pages-telepítést indít. Az első telepítéshez a repository Settings → Pages oldalán a Source értéke **GitHub Actions** legyen.
 
-A történeti fejezet mentése automatikus. A szünetmenüben visszatöltés és megerősítést kérő újrakezdés is elérhető. Az érvényes v1.1-es mentés megmarad és 2-es sémára migrálódik, ugyanazon localStorage-kulcson. Sérült vagy nem támogatott mentés esetén a játék biztonságosan új fejezetből indul; letiltott tárolásnál figyelmeztet, és munkameneten belül tovább játszható.
+A történeti fejezet mentése automatikus. A szünetmenüben visszatöltés és megerősítést kérő újrakezdés is elérhető. Az érvényes v1.1-es és v1.2-es mentés megmarad és 3-as sémára migrálódik, ugyanazon localStorage-kulcson. Sérült vagy nem támogatott mentés esetén a játék biztonságosan új fejezetből indul; letiltott tárolásnál figyelmeztet, és munkameneten belül tovább játszható.
 
 A v1.1 ellenőrzési jegyzőkönyve: [STORY-TEST-RESULTS.md](artifacts/STORY-TEST-RESULTS.md). Játékképek: [beszélgetés](artifacts/05-story-dialogue.png), [bizonyíték](artifacts/06-story-evidence.png), [fejezetlezárás](artifacts/07-story-ending.png).
 
 A v1.2 tesztjelentése és képernyőképei: [CHAPTER-2-TEST-RESULTS.md](artifacts/CHAPTER-2-TEST-RESULTS.md). A PR-ellenőrzés tesztel és buildel; Pages-telepítés csak a `main` ágra érkező push esetén fut.
 
 A II. fejezet összevonása utáni, 2026. október 31-i ismételt ellenőrzés: **18/18 sikeres teszt**, sikeres build és production prefix-próba. [Részletes jegyzőkönyv és gépi eredmények](artifacts/resume-2026-10-31/README.md).
+
+A főmenü **A teljes történet** gombja mutatja a kampányt. A III. fejezet befejezése után visszanézhetők a döntések és a történeti utóhang, vagy folytatható a szabad nézelődés. Az **Új játék** mindhárom fejezetet újrakezdi, megerősítéssel.
