@@ -76,3 +76,5 @@ A történeti fejezet mentése automatikus. A szünetmenüben visszatöltés és
 A v1.1 ellenőrzési jegyzőkönyve: [STORY-TEST-RESULTS.md](artifacts/STORY-TEST-RESULTS.md). Játékképek: [beszélgetés](artifacts/05-story-dialogue.png), [bizonyíték](artifacts/06-story-evidence.png), [fejezetlezárás](artifacts/07-story-ending.png).
 
 A v1.2 tesztjelentése és képernyőképei: [CHAPTER-2-TEST-RESULTS.md](artifacts/CHAPTER-2-TEST-RESULTS.md). A PR-ellenőrzés tesztel és buildel; Pages-telepítés csak a `main` ágra érkező push esetén fut.
+
+A II. fejezet összevonása utáni, 2026. október 31-i ismételt ellenőrzés: **18/18 sikeres teszt**, sikeres build és production prefix-próba. [Részletes jegyzőkönyv és gépi eredmények](artifacts/resume-2026-10-31/README.md).

@@ -1,0 +1,38 @@
+
+> caesar-marcius-idusa@1.2.0 test
+> playwright test --reporter=list,json
+
+[WebServer] (node:98317) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:98330) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 18 tests using 1 worker
+
+(node:98354) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 tests/chapter2-browser.spec.js:26:3 › Chapter II actual walking: lucius (1.2m)
+  ✓   2 tests/chapter2-browser.spec.js:26:3 › Chapter II actual walking: quintus (1.2m)
+  ✓   3 tests/chapter2-browser.spec.js:26:3 › Chapter II actual walking: titus (1.3m)
+  ✓   4 tests/chapter2-state.spec.js:45:3 › v1.1 migration and full chapter for lucius (36ms)
+  ✓   5 tests/chapter2-state.spec.js:45:3 › v1.1 migration and full chapter for quintus (10ms)
+  ✓   6 tests/chapter2-state.spec.js:45:3 › v1.1 migration and full chapter for titus (9ms)
+  ✓   7 tests/chapter2-state.spec.js:95:1 › partial progress and malformed nested saves normalize safely (2ms)
+  ✓   8 tests/demo.spec.js:3:1 › solid objects, wall sliding and high-delta tunnelling (1ms)
+  ✓   9 tests/demo.spec.js:11:1 › three districts, input, collisions, interactions, map and pause (1.1m)
+  ✓  10 tests/story-browser.spec.js:3:1 › chapter one: all quests, retry, delivery, Forum handoff and reload (1.5m)
+  ✓  11 tests/story-browser.spec.js:167:1 › a corrupt or obsolete browser save recovers to a playable chapter (4.4s)
+  ✓  12 tests/story-state.spec.js:23:1 › only meaningful, distinct conversations count and trust cannot be farmed (3ms)
+  ✓  13 tests/story-state.spec.js:40:1 › early evidence survives; both wrong conclusions allow retry (8ms)
+  ✓  14 tests/story-state.spec.js:60:3 › recipient lucius, trust and next chapter survive reload (7ms)
+  ✓  15 tests/story-state.spec.js:60:3 › recipient quintus, trust and next chapter survive reload (4ms)
+  ✓  16 tests/story-state.spec.js:60:3 › recipient titus, trust and next chapter survive reload (7ms)
+  ✓  17 tests/story-state.spec.js:87:1 › invalid, obsolete and unavailable storage never prevents play (7ms)
+  ✓  18 tests/story-state.spec.js:117:1 › save validation rejects forged progression and unsafe runtime values (2ms)
+
+  18 passed (6.3m)
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.1
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.1
+npm notice To update run: npm install -g npm@12.2.1
+npm notice

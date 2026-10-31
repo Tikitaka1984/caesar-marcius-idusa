@@ -1,0 +1,23 @@
+{
+  "date": "2026-10-31",
+  "gameplayCommit": "24371d16e498f4f4169a59ee31edfcee0f614d9e",
+  "sourceTree": "2ed38ad52436c50ac429195c3e51c1e6cfdf5c8b",
+  "testTree": "a9af5b597f3e4f587f692f27397a1f9791672454",
+  "fullSuite": {
+    "startTime": "2026-10-31T07:49:34.163Z",
+    "duration": 378407.83499999996,
+    "expected": 18,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "oneAttemptPerTest": true,
+  "productionPrefixSmoke": "passed",
+  "githubMergeRun": {
+    "url": "https://github.com/Tikitaka1984/caesar-marcius-idusa/actions/runs/40005964787",
+    "status": "completed",
+    "conclusion": "success",
+    "evidence": "public GitHub Actions page"
+  },
+  "currentLiveBrowserVerification": "blocked by managed network policy; api.github.com and tikitaka1984.github.io are configured in the draft but absent from the enforced runtime policy"
+}

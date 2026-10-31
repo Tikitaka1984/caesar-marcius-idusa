@@ -1,5 +1,7 @@
 # CAESAR II. fejezet – végső minőségbiztosítás
 
+> Ez a fejezet eredeti, összevonás előtti QA-jegyzőkönyve. A #1 PR azóta bekerült a `main` ágba; a friss, 2026. október 31-i 18/18-as ellenőrzés: [folytatási jegyzőkönyv](resume-2026-10-31/README.md).
+
 Dátum: 2026. október 23. Fejlesztési ág: `codex/chapter-2-republic`. PR: [#1 – A köztársaság árnyéka](https://github.com/Tikitaka1984/caesar-marcius-idusa/pull/1).
 
 ## Végső eredmény: 18/18 egyetlen teljes futásban
