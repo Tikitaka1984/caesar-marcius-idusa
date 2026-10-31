@@ -223,5 +223,13 @@
         "passed"
       ]
     }
-  ]
+  ],
+  "ciResult": {
+    "runUrl": "https://github.com/Tikitaka1984/caesar-marcius-idusa/actions/runs/41186390060",
+    "state": {
+      "status": "WORKFLOW_RUN_STATUS_COMPLETED",
+      "conclusion": "WORKFLOW_RUN_CONCLUSION_SUCCESS"
+    },
+    "buildAndDeployVerified": true
+  }
 }

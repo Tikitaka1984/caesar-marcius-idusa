@@ -1,0 +1,16 @@
+{
+  "id": "41186390060",
+  "title": "Verify the complete campaign and supersede obsolete Pages runs",
+  "runUrl": "https://github.com/Tikitaka1984/caesar-marcius-idusa/actions/runs/41186390060",
+  "state": {
+    "status": "WORKFLOW_RUN_STATUS_COMPLETED",
+    "conclusion": "WORKFLOW_RUN_CONCLUSION_SUCCESS"
+  },
+  "timing": {
+    "kind": "WORKFLOW_RUN_TIMING_KIND_DURATION",
+    "text": "13m 22s"
+  },
+  "observedUTC": "2026-10-31T09:06:41.112024+00:00",
+  "ciCommit": "c3e0949c48bf26850ff3fc5d97f0a77ec1a7f101",
+  "source": "public GitHub Actions HTML, allowed github.com host"
+}

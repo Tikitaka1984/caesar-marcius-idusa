@@ -88,4 +88,4 @@ A II. fejezet összevonása utáni, 2026. október 31-i ismételt ellenőrzés: 
 
 A főmenü **A teljes történet** gombja mutatja a kampányt. A III. fejezet befejezése után visszanézhetők a döntések és a történeti utóhang, vagy folytatható a szabad nézelődés. Az **Új játék** mindhárom fejezetet újrakezdi, megerősítéssel.
 
-A teljes asztali v2.0 kiadás ellenőrzése: [tesztjelentés és kiadási bizonyítékok](artifacts/DESKTOP-V2-TEST-RESULTS.md).
+A teljes asztali v2.0 kiadás: **26/26 sikeres helyi teszt**, sikeres build és production-próba; [sikeres GitHub CI és Pages-telepítés](https://github.com/Tikitaka1984/caesar-marcius-idusa/actions/runs/41186390060). [Részletes tesztjelentés és kiadási bizonyítékok](artifacts/DESKTOP-V2-TEST-RESULTS.md). A felhőkörnyezet Pages-domainre vonatkozó hálózati tiltása miatt friss, közvetlen éles böngészős próbát nem állítunk.

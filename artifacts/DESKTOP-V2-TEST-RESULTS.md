@@ -29,7 +29,7 @@ Az első összesített futásban a III. fejezeti felület delegálása elnyelte 
 
 ## GitHub és GitHub Pages
 
-A végső `c3e0949` változat [41186390060 számú workflow-ja](https://github.com/Tikitaka1984/caesar-marcius-idusa/actions/runs/41186390060) jelenleg fut. A korábbi hibás változat nem települt. Sikeres friss telepítést a CI lezárásáig nem állítunk.
+A végső `c3e0949` változat [41186390060 számú workflow-ja](https://github.com/Tikitaka1984/caesar-marcius-idusa/actions/runs/41186390060) **completed / success**. A `build` és a `deploy` job is befejeződött. A teljes tesztelés, a statikus build, a production prefix-próba, az artifact feltöltése és a **Deploy to GitHub Pages** lépés külön-külön is sikeres. Ezt a megengedett `github.com` nyilvános HTML-oldalain ellenőriztük. Megfigyelés: 2026-10-31T09:06:41.112024+00:00. A korábbi hibás változat nem települt.
 
 Repository: https://github.com/Tikitaka1984/caesar-marcius-idusa
 
@@ -42,7 +42,8 @@ A CI-feladat neve már a teljes háromfejezetes kampányt jelöli. A konkurencia
 ## Bizonyítékok és korlátok
 
 - [Teljes gépi teszteredmény](desktop-v2-2026-10-31/full-suite.json), [folyamatnapló](desktop-v2-2026-10-31/full-suite.log), [összefoglaló](desktop-v2-2026-10-31/summary.json).
+- [CI-állapot](desktop-v2-2026-10-31/ci-state.json), [a build és a deploy lépéseinek állapota](desktop-v2-2026-10-31/ci-jobs.json).
 - [Buildnapló](desktop-v2-2026-10-31/build.log), [production-próba naplója](desktop-v2-2026-10-31/pages-build.log), [buildazonosítók és SHA-256 lenyomatok](desktop-v2-2026-10-31/build-manifest.json).
-- [Porticus](chapter3-porticus.png), [curia](chapter3-curia.png), [figyelmeztetési út lezárása](campaign-ending-warn.png), [nyomozási út](campaign-ending-investigate.png), [helyszín-ellenőrzési út](campaign-ending-locate.png), [production lezárás](production-campaign-ending.png). A képek tényleges játékfutásból származnak.
+- [Teljes kampány áttekintése](campaign-overview.png), [porticus](chapter3-porticus.png), [curia](chapter3-curia.png), [figyelmeztetési út lezárása](campaign-ending-warn.png), [nyomozási út](campaign-ending-investigate.png), [helyszín-ellenőrzési út](campaign-ending-locate.png), [production lezárás](production-campaign-ending.png). A képek tényleges játékfutásból származnak.
 
 Környezet: Node.js 24.19.0, npm 11.9.0, Chromium 154.0.8037.57, Playwright, szoftveres WebGL, 1440×1000 böngészőablak. Az automatizált tesztek nem igazolnak emberi játékidőt vagy valamennyi eszköz teljesítményét. A grafika stilizált, a referencia részletességét nem állítjuk. Hang, harcrendszer és telefonos érintésvezérlés nincs ebben az asztali kiadásban.
