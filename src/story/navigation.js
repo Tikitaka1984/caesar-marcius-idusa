@@ -74,13 +74,14 @@ export function navigationTarget(s, region, world) {
         ? point(POLITICIANS[id])
         : { hint: "J: Politikai következtetés – zárd le a meghallgatást" };
     }
-    case "documents":
+    case "documents": {
+      if (c.documents.length === DOCUMENTS.length)
+        return { hint: "B: vesd össze a három irat állításait" };
       if (s.decisions.messageRecipient === "titus" && !c.access)
         return point(LEDGER, LEDGER.title);
-      return point(
-        DOCUMENTS.find((d) => !c.documents.includes(d.id)) || INFORMANT,
-        "A következő irat",
-      );
+      const document = DOCUMENTS.find((d) => !c.documents.includes(d.id));
+      return point(document, document.title);
+    }
     case "city-boarium":
       return CITY_STOPS.witness;
     case "city-domus":

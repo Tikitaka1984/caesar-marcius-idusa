@@ -1,3 +1,5 @@
+import { navigationTarget } from "../src/story/navigation.js";
+import { CLAIMS } from "../src/story/chapter2.js";
 import { test, expect } from "@playwright/test";
 import {
   StoryStore,
@@ -107,7 +109,16 @@ test("new campaign final choice waits for city tasks, while a migrated route rem
   raw.city.courierStarted = true;
   raw.city.courierArrived = true;
   raw.chapter2.decision = null;
+  raw.chapter2.classification = {};
+  raw.chapter2.comparisonComplete = false;
+  raw.chapter2.distinction = null;
+  raw.chapter2.informed = false;
   const s = new StoryStore(memory(raw));
+  expect(currentQuest(s.state).id).toBe("documents");
+  expect(navigationTarget(s.state, "rome", {}).hint).toContain("B:");
+  s.compare2(Object.fromEntries(CLAIMS.map((q) => [q.id, q.category])));
+  s.distinguish2("limited");
+  s.inform2();
   expect(s.finish2("warn")).toBe(false);
   expect(currentQuest(s.state).id).toBe("city-boarium");
   s.dockRecord("manifest");
