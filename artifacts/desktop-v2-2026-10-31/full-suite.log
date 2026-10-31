@@ -1,0 +1,46 @@
+
+> caesar-marcius-idusa@2.0.0 test
+> playwright test --reporter=list,json
+
+[WebServer] (node:103353) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:103366) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 26 tests using 1 worker
+
+(node:103390) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 tests/chapter2-browser.spec.js:26:3 › Chapter II actual walking: lucius (1.2m)
+  ✓   2 tests/chapter2-browser.spec.js:26:3 › Chapter II actual walking: quintus (1.3m)
+  ✓   3 tests/chapter2-browser.spec.js:26:3 › Chapter II actual walking: titus (1.6m)
+  ✓   4 tests/chapter2-state.spec.js:45:3 › v1.1 migration and full chapter for lucius (19ms)
+  ✓   5 tests/chapter2-state.spec.js:45:3 › v1.1 migration and full chapter for quintus (18ms)
+  ✓   6 tests/chapter2-state.spec.js:45:3 › v1.1 migration and full chapter for titus (15ms)
+  ✓   7 tests/chapter2-state.spec.js:97:1 › partial progress and malformed nested saves normalize safely (3ms)
+  ✓   8 tests/chapter3-browser.spec.js:10:3 › Chapter III real walking and completed game: warn (1.2m)
+  ✓   9 tests/chapter3-browser.spec.js:10:3 › Chapter III real walking and completed game: investigate (1.1m)
+  ✓  10 tests/chapter3-browser.spec.js:10:3 › Chapter III real walking and completed game: locate (1.1m)
+  ✓  11 tests/chapter3-state.spec.js:10:1 › v1.2 completed saves migrate without losing either chapter (3ms)
+  ✓  12 tests/chapter3-state.spec.js:24:1 › chapter three cannot skip prerequisites and a scene resumes mid-way (6ms)
+  ✓  13 tests/chapter3-state.spec.js:52:1 › all nine earlier decision combinations reach a persistent campaign ending (17ms)
+  ✓  14 tests/chapter3-state.spec.js:76:1 › malformed final saves cannot invent a completion or an unlocked region (3ms)
+  ✓  15 tests/demo.spec.js:3:1 › solid objects, wall sliding and high-delta tunnelling (1ms)
+  ✓  16 tests/demo.spec.js:11:1 › three districts, input, collisions, interactions, map and pause (1.1m)
+  ✓  17 tests/full-campaign.spec.js:3:1 › complete fresh campaign: Via Sacra to Forum to curia to ending, without seeded state (3.1m)
+  ✓  18 tests/story-browser.spec.js:3:1 › chapter one: all quests, retry, delivery, Forum handoff and reload (1.5m)
+  ✓  19 tests/story-browser.spec.js:169:1 › a corrupt or obsolete browser save recovers to a playable chapter (6.2s)
+  ✓  20 tests/story-state.spec.js:23:1 › only meaningful, distinct conversations count and trust cannot be farmed (13ms)
+  ✓  21 tests/story-state.spec.js:40:1 › early evidence survives; both wrong conclusions allow retry (29ms)
+  ✓  22 tests/story-state.spec.js:60:3 › recipient lucius, trust and next chapter survive reload (8ms)
+  ✓  23 tests/story-state.spec.js:60:3 › recipient quintus, trust and next chapter survive reload (5ms)
+  ✓  24 tests/story-state.spec.js:60:3 › recipient titus, trust and next chapter survive reload (4ms)
+  ✓  25 tests/story-state.spec.js:87:1 › invalid, obsolete and unavailable storage never prevents play (22ms)
+  ✓  26 tests/story-state.spec.js:117:1 › save validation rejects forged progression and unsafe runtime values (3ms)
+
+  26 passed (13.4m)
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.1
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.1
+npm notice To update run: npm install -g npm@12.2.1
+npm notice

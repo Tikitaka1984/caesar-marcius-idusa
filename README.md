@@ -48,6 +48,8 @@ A Kr. e. 44-es városképet idéző művészi helyszín nem régészeti rekonstr
 
 A II. fejezet négy küldetése három eltérő előzményből játszható végig: politikai közvetítő keresése, Publius és Aulus négy-négy érvének megismerése, három irat gyűjtése és forráskritikai összevetése, majd a titkos találkozó nyomának mérlegelése és háromféle záródöntés. A folytatás az I. fejezet mentett címzettjét használja, a Forumra érkezéskor indul. [Történeti jegyzetek](HISTORICAL-NOTES.md).
 
+A III. fejezetben külön helyszínre, Pompeius porticusához és curiájához utazol. A Forumon választott cél három eltérő személyes feladatot ad. Két forrás vizsgálata után következik a március idusát elbeszélő jelenet, az írnoki beszámoló és a teljes játék lezárása. A mentett döntések visszanézhetők, az utóhang után pedig szabadon nézelődhetsz a korábbi Rómában.
+
 ## Felépítés
 
 - `src/main.js`: renderelés, kamera, bemenet, HUD, interakciók és térkép.
@@ -85,3 +87,5 @@ A v1.2 tesztjelentése és képernyőképei: [CHAPTER-2-TEST-RESULTS.md](artifac
 A II. fejezet összevonása utáni, 2026. október 31-i ismételt ellenőrzés: **18/18 sikeres teszt**, sikeres build és production prefix-próba. [Részletes jegyzőkönyv és gépi eredmények](artifacts/resume-2026-10-31/README.md).
 
 A főmenü **A teljes történet** gombja mutatja a kampányt. A III. fejezet befejezése után visszanézhetők a döntések és a történeti utóhang, vagy folytatható a szabad nézelődés. Az **Új játék** mindhárom fejezetet újrakezdi, megerősítéssel.
+
+A teljes asztali v2.0 kiadás ellenőrzése: [tesztjelentés és kiadási bizonyítékok](artifacts/DESKTOP-V2-TEST-RESULTS.md).

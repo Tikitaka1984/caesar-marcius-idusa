@@ -1,0 +1,227 @@
+{
+  "gameCommit": "a22ee4412454698c4bc8fea3aeff5beadd8cd07d",
+  "ciConfigurationCommit": "c3e0949c48bf26850ff3fc5d97f0a77ec1a7f101",
+  "sourceTree": "0fc15153fd7fbdbb4fc3a0a95f02dc929f11a617",
+  "testsTree": "0b583024c9cd569613cb6f849bb172563bc4e136",
+  "stats": {
+    "startTime": "2026-10-31T08:39:03.202Z",
+    "duration": 801420.128,
+    "expected": 26,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "globalErrors": 0,
+  "caseCount": 26,
+  "allSingleAttempt": true,
+  "cases": [
+    {
+      "title": "Chapter II actual walking: lucius",
+      "status": "expected",
+      "attempts": 1,
+      "results": [
+        "passed"
+      ]
+    },
+    {
+      "title": "Chapter II actual walking: quintus",
+      "status": "expected",
+      "attempts": 1,
+      "results": [
+        "passed"
+      ]
+    },
+    {
+      "title": "Chapter II actual walking: titus",
+      "status": "expected",
+      "attempts": 1,
+      "results": [
+        "passed"
+      ]
+    },
+    {
+      "title": "v1.1 migration and full chapter for lucius",
+      "status": "expected",
+      "attempts": 1,
+      "results": [
+        "passed"
+      ]
+    },
+    {
+      "title": "v1.1 migration and full chapter for quintus",
+      "status": "expected",
+      "attempts": 1,
+      "results": [
+        "passed"
+      ]
+    },
+    {
+      "title": "v1.1 migration and full chapter for titus",
+      "status": "expected",
+      "attempts": 1,
+      "results": [
+        "passed"
+      ]
+    },
+    {
+      "title": "partial progress and malformed nested saves normalize safely",
+      "status": "expected",
+      "attempts": 1,
+      "results": [
+        "passed"
+      ]
+    },
+    {
+      "title": "Chapter III real walking and completed game: warn",
+      "status": "expected",
+      "attempts": 1,
+      "results": [
+        "passed"
+      ]
+    },
+    {
+      "title": "Chapter III real walking and completed game: investigate",
+      "status": "expected",
+      "attempts": 1,
+      "results": [
+        "passed"
+      ]
+    },
+    {
+      "title": "Chapter III real walking and completed game: locate",
+      "status": "expected",
+      "attempts": 1,
+      "results": [
+        "passed"
+      ]
+    },
+    {
+      "title": "v1.2 completed saves migrate without losing either chapter",
+      "status": "expected",
+      "attempts": 1,
+      "results": [
+        "passed"
+      ]
+    },
+    {
+      "title": "chapter three cannot skip prerequisites and a scene resumes mid-way",
+      "status": "expected",
+      "attempts": 1,
+      "results": [
+        "passed"
+      ]
+    },
+    {
+      "title": "all nine earlier decision combinations reach a persistent campaign ending",
+      "status": "expected",
+      "attempts": 1,
+      "results": [
+        "passed"
+      ]
+    },
+    {
+      "title": "malformed final saves cannot invent a completion or an unlocked region",
+      "status": "expected",
+      "attempts": 1,
+      "results": [
+        "passed"
+      ]
+    },
+    {
+      "title": "solid objects, wall sliding and high-delta tunnelling",
+      "status": "expected",
+      "attempts": 1,
+      "results": [
+        "passed"
+      ]
+    },
+    {
+      "title": "three districts, input, collisions, interactions, map and pause",
+      "status": "expected",
+      "attempts": 1,
+      "results": [
+        "passed"
+      ]
+    },
+    {
+      "title": "complete fresh campaign: Via Sacra to Forum to curia to ending, without seeded state",
+      "status": "expected",
+      "attempts": 1,
+      "results": [
+        "passed"
+      ]
+    },
+    {
+      "title": "chapter one: all quests, retry, delivery, Forum handoff and reload",
+      "status": "expected",
+      "attempts": 1,
+      "results": [
+        "passed"
+      ]
+    },
+    {
+      "title": "a corrupt or obsolete browser save recovers to a playable chapter",
+      "status": "expected",
+      "attempts": 1,
+      "results": [
+        "passed"
+      ]
+    },
+    {
+      "title": "only meaningful, distinct conversations count and trust cannot be farmed",
+      "status": "expected",
+      "attempts": 1,
+      "results": [
+        "passed"
+      ]
+    },
+    {
+      "title": "early evidence survives; both wrong conclusions allow retry",
+      "status": "expected",
+      "attempts": 1,
+      "results": [
+        "passed"
+      ]
+    },
+    {
+      "title": "recipient lucius, trust and next chapter survive reload",
+      "status": "expected",
+      "attempts": 1,
+      "results": [
+        "passed"
+      ]
+    },
+    {
+      "title": "recipient quintus, trust and next chapter survive reload",
+      "status": "expected",
+      "attempts": 1,
+      "results": [
+        "passed"
+      ]
+    },
+    {
+      "title": "recipient titus, trust and next chapter survive reload",
+      "status": "expected",
+      "attempts": 1,
+      "results": [
+        "passed"
+      ]
+    },
+    {
+      "title": "invalid, obsolete and unavailable storage never prevents play",
+      "status": "expected",
+      "attempts": 1,
+      "results": [
+        "passed"
+      ]
+    },
+    {
+      "title": "save validation rejects forged progression and unsafe runtime values",
+      "status": "expected",
+      "attempts": 1,
+      "results": [
+        "passed"
+      ]
+    }
+  ]
+}

@@ -111,7 +111,7 @@ npm run build
 npm run test:pages
 ```
 
-A teljes `npm test` 26 tesztesetet futtat egy munkással: 18 korábbi regressziót, négy III. fejezeti állapottesztet, három III. fejezeti bejárást és egy teljes, friss kampányból induló végigjátszást. A három új böngészőteszt v1.1-mentésből indulva, WASD-vel, teleportálás nélkül járja végig a három előzményt, majd visszatölti a záródöntést. Az állapotteszt mindhárom előzményből mindhárom záródöntést ellenőrzi. A production próba a tényleges `dist/` fájlokat szolgálja ki a Pages projektprefixe alatt; külön mentési fixture-rel ellenőrzi az új paneleket is. Végső eredmények és ellenőrzött commit: [CHAPTER-2-TEST-RESULTS.md](artifacts/CHAPTER-2-TEST-RESULTS.md).
+A teljes `npm test` 26 tesztesetet futtat egy munkással: 18 korábbi regressziót, négy III. fejezeti állapottesztet, három III. fejezeti bejárást és egy teljes, friss kampányból induló végigjátszást. A korábbi II. fejezeti böngészőtesztek v1.1-mentésből járják be a három címzetti előzményt. A három III. fejezeti böngészőteszt érvényes, II. fejezetet lezáró v1.2-mentésből indul, WASD-vel, teleportálás nélkül ellenőrzi a három folytatási utat, a kampányzárást és az újratöltést. A III. fejezeti állapotteszt mind a kilenc címzett–folytatási út kombinációt ellenőrzi. A production próba a tényleges `dist/` fájlokat szolgálja ki a Pages projektprefixe alatt; külön mentési fixture-rel ellenőrzi az új paneleket is. A v2.0 eredményei és ellenőrzött commitja: [DESKTOP-V2-TEST-RESULTS.md](artifacts/DESKTOP-V2-TEST-RESULTS.md).
 
 ## A következő mobil-first fejlesztési fázis határa
 

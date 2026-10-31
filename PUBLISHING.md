@@ -19,7 +19,7 @@ A production-próba valódi `dist/` fájlokat szolgál ki a projekt alkönyvtár
 
 ## Automatikus GitHub Actions
 
-A `.github/workflows/pages.yml` minden `main` push után telepít, tesztel, buildel, elvégzi a production prefix-próbát, majd artifactot tölt fel és GitHub Pages-re telepít. A deploy csak sikeres ellenőrzések után fut. PR-futások csak ellenőriznek. A Pages forrása GitHub Actions.
+A `.github/workflows/pages.yml` minden `main` push után telepít, tesztel, buildel, elvégzi a production prefix-próbát, majd artifactot tölt fel és GitHub Pages-re telepít. A deploy csak sikeres ellenőrzések után fut. Az újabb push megszakítja az elavult, azonos ághoz tartozó folyamatot, hogy a javított kiadás ellenőrzése ne várjon a korábbi változatra. PR-futások csak ellenőriznek. A Pages forrása GitHub Actions.
 
 A projekt relatív Vite-alapútvonalat használ. Mindkét régió és a teljes történeti adat a build része; nincs backend vagy saját API-kulcs. Az 1-es és 2-es mentések 3-as sémára migrálódnak, a régi `caesar.story.save.v1` kulcs alatt. A régió és a végleges kampányállapot is megmarad.
 

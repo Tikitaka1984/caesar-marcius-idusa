@@ -1,0 +1,44 @@
+{
+  "version": "2.0.0",
+  "commit": "a22ee4412454698c4bc8fea3aeff5beadd8cd07d",
+  "sourceTree": "0fc15153fd7fbdbb4fc3a0a95f02dc929f11a617",
+  "testsTree": "0b583024c9cd569613cb6f849bb172563bc4e136",
+  "dist": [
+    {
+      "path": "assets/index-CRDpu55I.css",
+      "bytes": 7704,
+      "sha256": "f6df054944c2720950aae062e1c629f1b4b7bf7169f68e1e338ab6b13ecae49e"
+    },
+    {
+      "path": "assets/index-CnJkXnKu.js",
+      "bytes": 665953,
+      "sha256": "6e6ebe32f67b6dc145d1d3a77ed461369818eacd0f463441d4297046fad56a5e"
+    },
+    {
+      "path": "assets/roman-citizens.png",
+      "bytes": 2145567,
+      "sha256": "7a08e054bab515a8dc5c495744346fe103dafe14bb8c9acfd05257db1b11fc2c"
+    },
+    {
+      "path": "assets/roman-pavement.png",
+      "bytes": 3429413,
+      "sha256": "345458d7166a3adc728406e4af890ced90658962bcf1f4a0342a16fabba323f2"
+    },
+    {
+      "path": "favicon.svg",
+      "bytes": 218,
+      "sha256": "7d664625284f4636a6b31ca7a746fbbe9d5d9d2ca29b84bf5e77f7a00ef3fe2e"
+    },
+    {
+      "path": "index.html",
+      "bytes": 4593,
+      "sha256": "a07c72ca239abe487fb46031d0fe25d08ecb6e4d159921d3e3d5120c75e92755"
+    }
+  ],
+  "liveDirectCheck": {
+    "result": "blocked by environment network policy",
+    "host": "tikitaka1984.github.io",
+    "response": "CONNECT tunnel failed, response 403",
+    "dateUTC": "2026-10-31"
+  }
+}
