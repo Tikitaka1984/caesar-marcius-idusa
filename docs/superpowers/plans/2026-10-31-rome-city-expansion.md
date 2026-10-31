@@ -11,3 +11,7 @@ Jóváhagyott specifikáció: ../specs/2026-10-31-rome-city-expansion-design.md.
 7. GitHubra feltöltés, CI és Pages-telepítés visszaellenőrzése; forrás- és build-csomag. A közvetlen éles próba hálózati korlátját külön rögzítjük.
 
 A felhasználó konkrét elakadt mentése nem áll rendelkezésre; annak javítását nem állítjuk reprodukció nélkül. A továbbhaladás látható visszajelzését és a meglévő átmeneteket külön ellenőrizzük.
+
+## Megvalósítás és ellenőrzés
+
+A közös régiókezelés, a három új pálya és feladat, a 4-es mentésséma, a céljelzés és a napló módosítása elkészült. A végső `94b8057` játékcommiton 34/34 teszt sikeres egy megszakítás nélküli, 17,5 perces futásban, egy próbálkozásból. A build és az öt világot megnyitó production-próba is sikeres. A CI és a Pages állapotát a kiadási jelentés tartalmazza.

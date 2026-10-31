@@ -68,4 +68,4 @@ A helyszínek között stilizált utazás történik; nincs folyamatos, teljes R
 
 A felhasználó korábbi konkrét elakadt mentése nem áll rendelkezésre. A hasonló templom előtti mentésből a Forum-feladat átmenetét külön teszt ellenőrzi; ez nem bizonyítja a felhasználó saját mentésének hibamentességét. A céljelzés és a napló egyértelműbben mutatja a még szükséges megerősítést.
 
-Publikálás: [PUBLISHING.md](PUBLISHING.md). Korábbi ellenőrzött kiadás: [v2.0 tesztjelentés](artifacts/DESKTOP-V2-TEST-RESULTS.md). A v2.1 végső ellenőrzésének eredményeit külön jelentés rögzíti a kiadáskor.
+Publikálás: [PUBLISHING.md](PUBLISHING.md). Korábbi ellenőrzött kiadás: [v2.0 tesztjelentés](artifacts/DESKTOP-V2-TEST-RESULTS.md). A v2.1 végső helyi ellenőrzése **34/34 sikeres teszt**. [Részletes tesztjelentés és kiadási bizonyítékok](artifacts/CITY-V21-TEST-RESULTS.md).

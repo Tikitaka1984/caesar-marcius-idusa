@@ -1,0 +1,50 @@
+
+> caesar-marcius-idusa@2.1.0 test
+> playwright test --reporter=list,json
+
+
+Running 34 tests using 1 worker
+
+(node:111076) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 tests/chapter2-browser.spec.js:26:3 › Chapter II actual walking: lucius (1.5m)
+  ✓   2 tests/chapter2-browser.spec.js:26:3 › Chapter II actual walking: quintus (1.2m)
+  ✓   3 tests/chapter2-browser.spec.js:26:3 › Chapter II actual walking: titus (1.3m)
+  ✓   4 tests/chapter2-state.spec.js:45:3 › v1.1 migration and full chapter for lucius (27ms)
+  ✓   5 tests/chapter2-state.spec.js:45:3 › v1.1 migration and full chapter for quintus (10ms)
+  ✓   6 tests/chapter2-state.spec.js:45:3 › v1.1 migration and full chapter for titus (10ms)
+  ✓   7 tests/chapter2-state.spec.js:97:1 › partial progress and malformed nested saves normalize safely (2ms)
+  ✓   8 tests/chapter3-browser.spec.js:10:3 › Chapter III real walking and completed game: warn (1.2m)
+  ✓   9 tests/chapter3-browser.spec.js:10:3 › Chapter III real walking and completed game: investigate (1.2m)
+  ✓  10 tests/chapter3-browser.spec.js:10:3 › Chapter III real walking and completed game: locate (1.1m)
+  ✓  11 tests/chapter3-state.spec.js:10:1 › v1.2 completed saves migrate without losing either chapter (4ms)
+  ✓  12 tests/chapter3-state.spec.js:24:1 › chapter three cannot skip prerequisites and a scene resumes mid-way (15ms)
+  ✓  13 tests/chapter3-state.spec.js:52:1 › all nine earlier decision combinations reach a persistent campaign ending (49ms)
+  ✓  14 tests/chapter3-state.spec.js:76:1 › malformed final saves cannot invent a completion or an unlocked region (3ms)
+  ✓  15 tests/city-browser.spec.js:11:1 › old completed campaign visits three new city scenes, solves tasks and reloads without losing decisions (1.7m)
+  ✓  16 tests/city-browser.spec.js:55:1 › a temple checkpoint can travel early, return and visibly complete the Forum introduction (26.6s)
+  ✓  17 tests/city-state.spec.js:19:1 › fresh campaign requires the Subura clue and cannot replace it with a wrong answer (16ms)
+  ✓  18 tests/city-state.spec.js:40:1 › schemas one through three keep the earlier campaign without inventing city completions (6ms)
+  ✓  19 tests/city-state.spec.js:56:1 › five-region travel checkpoints each position and rejects a locked curia (5ms)
+  ✓  20 tests/city-state.spec.js:82:1 › dock and garden tasks validate their evidence and persist independently (4ms)
+  ✓  21 tests/city-state.spec.js:105:1 › new campaign final choice waits for city tasks, while a migrated route remains playable (2ms)
+  ✓  22 tests/city-state.spec.js:132:1 › malformed city state, unknown regions and unsafe coordinates recover safely (1ms)
+  ✓  23 tests/demo.spec.js:3:1 › solid objects, wall sliding and high-delta tunnelling (1ms)
+  ✓  24 tests/demo.spec.js:11:1 › three districts, input, collisions, interactions, map and pause (1.0m)
+  ✓  25 tests/full-campaign.spec.js:3:1 › complete fresh campaign: all five Roman scenes to ending, without seeded state (4.7m)
+  ✓  26 tests/story-browser.spec.js:4:1 › chapter one: all quests, retry, delivery, Forum handoff and reload (2.0m)
+  ✓  27 tests/story-browser.spec.js:171:1 › a corrupt or obsolete browser save recovers to a playable chapter (4.4s)
+  ✓  28 tests/story-state.spec.js:23:1 › only meaningful, distinct conversations count and trust cannot be farmed (6ms)
+  ✓  29 tests/story-state.spec.js:40:1 › early evidence survives; both wrong conclusions allow retry (11ms)
+  ✓  30 tests/story-state.spec.js:64:3 › recipient lucius, trust and next chapter survive reload (12ms)
+  ✓  31 tests/story-state.spec.js:64:3 › recipient quintus, trust and next chapter survive reload (4ms)
+  ✓  32 tests/story-state.spec.js:64:3 › recipient titus, trust and next chapter survive reload (4ms)
+  ✓  33 tests/story-state.spec.js:94:1 › invalid, obsolete and unavailable storage never prevents play (6ms)
+  ✓  34 tests/story-state.spec.js:124:1 › save validation rejects forged progression and unsafe runtime values (1ms)
+
+  34 passed (17.5m)
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.1
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.1
+npm notice To update run: npm install -g npm@12.2.1
+npm notice

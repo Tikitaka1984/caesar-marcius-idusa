@@ -1,6 +1,6 @@
 # CAESAR – Róma városrészei: bővítési terv
 
-Állapot: a felhasználó 2026. október 31-én „mehet” válasszal jóváhagyta. Megvalósítás folyamatban.
+Állapot: a felhasználó 2026. október 31-én „mehet” válasszal jóváhagyta. A v2.1 megvalósult; a teljes helyi 34 tesztes futás sikeres. A végső CI/deploy megfigyelését a kiadási jelentés rögzíti.
 
 ## Cél és jelenlegi helyzet
 
@@ -73,4 +73,4 @@ A játék időpontja Kr. e. 44. március 15. A városrészek korabeli jellegét 
 
 ## Határ és jóváhagyás
 
-Ez a terv öt külön pályát, három új helyszíni feladatot és egyértelműbb továbbhaladást javasol. Nem tartalmaz teljes, szabadon bejárható Róma-modellt, új harcrendszert vagy mobilos vezérlést. A bővítés implementálása a terv felhasználói jóváhagyása után kezdődik.
+Ez a terv öt külön pályát, három új helyszíni feladatot és egyértelműbb továbbhaladást javasol. Nem tartalmaz teljes, szabadon bejárható Róma-modellt, új harcrendszert vagy mobilos vezérlést. A megvalósítás a felhasználó jóváhagyása alapján elkészült; a kiadási bizonyítékok az artifacts/CITY-V21-TEST-RESULTS.md jelentésben találhatók.

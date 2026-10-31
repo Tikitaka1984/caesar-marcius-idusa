@@ -1,0 +1,39 @@
+{
+  "version": "2.1.0",
+  "commit": "94b8057935a2a9a2ed97bdf390c59487fd604d0d",
+  "sourceTree": "883f8b476b08d2fc495a0b2e16e25f98a77e354e",
+  "testsTree": "df2467a417a20cb0080ee58efa2598fe515094a7",
+  "scriptsTree": "c7b5b48310ebc7f0d0a4a5db0c4bd5dc1e6e1307",
+  "dist": [
+    {
+      "path": "assets/index-BNrCHMf5.css",
+      "sha256": "cd03a0805d22866328e70aaab135c2947e466ce74075eeea1c840e735949e779",
+      "bytes": 8148
+    },
+    {
+      "path": "assets/index-C3Wb_Leo.js",
+      "sha256": "0d48459229faacb03d9ad6890930d8dfc899ba6fca73ace1e03a6370739ca450",
+      "bytes": 693773
+    },
+    {
+      "path": "assets/roman-citizens.png",
+      "sha256": "7a08e054bab515a8dc5c495744346fe103dafe14bb8c9acfd05257db1b11fc2c",
+      "bytes": 2145567
+    },
+    {
+      "path": "assets/roman-pavement.png",
+      "sha256": "345458d7166a3adc728406e4af890ced90658962bcf1f4a0342a16fabba323f2",
+      "bytes": 3429413
+    },
+    {
+      "path": "favicon.svg",
+      "sha256": "7d664625284f4636a6b31ca7a746fbbe9d5d9d2ca29b84bf5e77f7a00ef3fe2e",
+      "bytes": 218
+    },
+    {
+      "path": "index.html",
+      "sha256": "ea3f1ad1400dc9616fdb4f419bec7bb2d573300570f324dc00209264dfccc1b4",
+      "bytes": 4775
+    }
+  ]
+}

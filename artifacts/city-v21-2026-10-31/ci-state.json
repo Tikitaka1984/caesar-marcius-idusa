@@ -1,0 +1,15 @@
+{
+  "id": "41191995380",
+  "title": "Direct completed document collection to the evidence comparison panel",
+  "runUrl": "https://github.com/Tikitaka1984/caesar-marcius-idusa/actions/runs/41191995380",
+  "state": {
+    "status": "WORKFLOW_RUN_STATUS_IN_PROGRESS"
+  },
+  "timing": {
+    "kind": "WORKFLOW_RUN_TIMING_KIND_IN_PROGRESS",
+    "text": "In progress"
+  },
+  "observedUTC": "2026-10-31T10:38:15.740129+00:00",
+  "commit": "94b8057935a2a9a2ed97bdf390c59487fd604d0d",
+  "source": "public GitHub Actions HTML, allowed github.com host"
+}
