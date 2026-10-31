@@ -12,7 +12,7 @@ permissions:
 
 concurrency:
   group: github-pages-${{ github.event_name }}-${{ github.ref }}
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
   build:
@@ -29,7 +29,7 @@ jobs:
         run: |
           npx playwright install --with-deps chromium
           echo "CHROMIUM_PATH=$(node --input-type=module -e 'import { chromium } from "@playwright/test"; process.stdout.write(chromium.executablePath())')" >> "$GITHUB_ENV"
-      - name: Test both chapters and existing controls
+      - name: Test complete three-chapter campaign and existing controls
         run: npm test
       - name: Build static site
         run: npm run build
