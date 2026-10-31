@@ -1,6 +1,6 @@
 # CAESAR – Róma városrészei: bővítési terv
 
-Állapot: konkrét javaslat felhasználói felülvizsgálatra; a bővítés még nincs implementálva.
+Állapot: a felhasználó 2026. október 31-én „mehet” válasszal jóváhagyta. Megvalósítás folyamatban.
 
 ## Cél és jelenlegi helyzet
 

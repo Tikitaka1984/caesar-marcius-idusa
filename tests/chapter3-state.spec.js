@@ -13,7 +13,7 @@ test("v1.2 completed saves migrate without losing either chapter", () => {
   delete raw.chapter3;
   delete raw.player.region;
   const s = normalizeSave(raw);
-  expect(s.version).toBe(3);
+  expect(s.version).toBe(4);
   expect(s.chapter2).toEqual(raw.chapter2);
   expect(s.decisions).toEqual(raw.decisions);
   expect(s.answers).toEqual(raw.answers);

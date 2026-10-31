@@ -25,3 +25,11 @@ A hivatkozások bibliográfiai forráshelyek; e munkamenetben az oldalak élő e
 Flaccus, Sabina, Valeria és Rufus fiktív személyek. A figyelmeztetés átadása, a tanú és az írnok személyes útja szerzői fikció. Nem azonosítjuk a játékos levelét Artemidoros ismert történeti figyelmeztetésével; nem állítjuk, hogy Caesar bizonyítottan elolvasta a játékbeli másolatot, és nem adunk bizonytalan eseményhez kitalált pontos órát.
 
 A merénylet Kr. e. 44. március 15-i kimenetele történelmi tény. Forráshelyek: Suetonius, Caesar 80–82; Plutarchos, Caesar 66–69. A támadás kizárólag nem grafikus elbeszélésként jelenik meg. A későbbi polgárháborúk és a principatus az utóhang utólagos történeti tudásához tartoznak. A III. fejezet fő következtetése: a később ismert kimenetel nem teszi bizonyítottá a korábban csak feltételezett szándékot.
+
+## Róma városrészei – v2.1
+
+A Subura köztársaság kori lakó- és műhelynegyedként, a Forum Boarium a Tiberishez kapcsolódó piaci és rakodási környezetként, a Palatinus pedig köztársaság kori lakóhelyszínként jelenik meg. Az új pályák alaprajza, a közvetlen átjárások és a házak művészi konstrukciók. A folyóparti kis templom republikánus építészeti motívumot használ; nem Portunus templomának méretarányos modellje. Általános topográfiai háttér: L. Richardson Jr., *A New Topographical Dictionary of Ancient Rome* (Johns Hopkins University Press, 1992); Amanda Claridge, *Rome: An Oxford Archaeological Guide* (Oxford University Press, 1998).
+
+Faustus, Doria, Felix és Claudia fiktív személyek. A futár útja, a műhely pecsétmintája, a rakományjegyzék, a csomag átvétele és a kerti másolatátadás fiktív játékesemény. A Palatinuson álló ház nem császári palota, nem Caesar lakóhelyének azonosítása. Az azonosságot mutató pecsét nem azonosít szerzőt vagy összeesküvőt; a kézbesítést látó tanú nem ismeri automatikusan a lezárt irat tartalmát.
+
+A bővítés nem tartalmaz Colosseumot, Augustus-forumot, Hadrianus-kori Pantheont vagy császári udvart. Az időpont továbbra is Kr. e. 44. március 15. A történeti merénylet kimenetele nem változik. A hivatkozások bibliográfiai támpontok; e munkamenetben új élő forrásoldal-ellenőrzést nem állítunk.

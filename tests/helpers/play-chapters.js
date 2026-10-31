@@ -1,3 +1,4 @@
+import { playSubura, playBoarium, playDomus } from "./city-play.js";
 import { expect } from "@playwright/test";
 import { controls } from "./campaign.js";
 import {
@@ -31,6 +32,7 @@ export async function playFirst(page) {
   await interact("lucius");
   await page.getByTestId("question-lucius-soldiers").click();
   await close();
+  await playSubura(page, true);
   await move("z", 16.2);
   await interact("tablet");
   await page.getByTestId("open-conclusion").click();
@@ -94,6 +96,8 @@ export async function playSecond(
   await page.getByTestId("distinction-open").click();
   await page.getByTestId("distinction-limited").click();
   await close();
+  await playBoarium(page, true);
+  await playDomus(page, true);
   await walk(-4, -27);
   await interact("informant");
   await page.getByTestId("final-" + decision).click();

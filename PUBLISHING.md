@@ -1,10 +1,10 @@
-# CAESAR v2.0 – publikálás
+# CAESAR v2.1 – publikálás és ellenőrzés
 
-A teljes, háromfejezetes asztali játék forrása: https://github.com/Tikitaka1984/caesar-marcius-idusa
+Repository: https://github.com/Tikitaka1984/caesar-marcius-idusa
 
-GitHub Pages: https://tikitaka1984.github.io/caesar-marcius-idusa/
+Játék: https://tikitaka1984.github.io/caesar-marcius-idusa/
 
-## Kiadási ellenőrzés
+## Kiadási kapuk
 
 ```sh
 npm ci
@@ -13,18 +13,20 @@ npm run build
 npm run test:pages
 ```
 
-A teljes csomag 26 teszteset: a korábbi 18 regresszió; négy III. fejezeti állapotteszt; három, korábbi mentésből induló, ténylegesen végiggyalogolt III. fejezeti út; és egy friss játékból induló teljes kampány. A teljes kampányteszt nem hoz létre előrehaladott mentést és nem teleportál: az első beszélgetéstől a végső összegzésig használja a játékot, végül ellenőrzi az újratöltést és az újrakezdést.
+A teljes csomag 34 teszteset. A korábbi 26 ellenőrzés megmarad, a friss kampány útvonala az új történeti feladatok miatt mind az öt pályát bejárja. Hat városi állapotteszt vizsgálja a migrációt, az előfeltételeket, a futár újrakezdését, a régiónkénti pozíciókat és az érvénytelen adatokat. Két új böngészőteszt régi mentésből járja be az új helyszíneket, illetve a templom előtti állapotból a Forum bemutatkozási feladatának átmenetét.
 
-A production-próba valódi `dist/` fájlokat szolgál ki a projekt alkönyvtárában. Az alapvető WebGL/működés ellenőrzése mellett külön érvényes mentési fixture-rel a II. fejezet felületét és a Campus régióban a kampány befejezését is megnyitja. Ez a fixture-próba nem helyettesíti a teljes, előrehaladott mentés nélkül induló kampánytesztet.
+A teljes friss kampányteszt nem hoz létre előrehaladott mentést, és nem írja a kamera állapotát. Valódi WASD- és panelműveleteket használ az első beszélgetéstől az öt régión át a befejezésig, majd ellenőrzi az újratöltést és az újrakezdést. A külön, régi mentésből induló útvonal nem számít második teljes friss kampánynak.
 
-## Automatikus GitHub Actions
+A production-próba valódi `dist/` fájlokat szolgál ki a `/caesar-marcius-idusa/` alkönyvtár alatt. Utazással megnyitja a három új világot és azok térképét; külön, szabályos API-műveletekkel felépített mentési fixture-rel ellenőrzi a II. fejezet felületét és a kampány befejezését is. Ez a fixture-próba nem helyettesíti a teljes friss végigjátszást.
 
-A `.github/workflows/pages.yml` minden `main` push után telepít, tesztel, buildel, elvégzi a production prefix-próbát, majd artifactot tölt fel és GitHub Pages-re telepít. A deploy csak sikeres ellenőrzések után fut. Az újabb push megszakítja az elavult, azonos ághoz tartozó folyamatot, hogy a javított kiadás ellenőrzése ne várjon a korábbi változatra. PR-futások csak ellenőriznek. A Pages forrása GitHub Actions.
+## GitHub Actions és Pages
 
-A projekt relatív Vite-alapútvonalat használ. Mindkét régió és a teljes történeti adat a build része; nincs backend vagy saját API-kulcs. Az 1-es és 2-es mentések 3-as sémára migrálódnak, a régi `caesar.story.save.v1` kulcs alatt. A régió és a végleges kampányállapot is megmarad.
+A `.github/workflows/pages.yml` minden `main` push után telepít, tesztel, buildel, production-próbát futtat, majd Pages-artifactot tölt fel és telepít. A deploy csak sikeres build job után indul. Az újabb push leváltja az azonos ág elavult futását. A PR-futások ellenőriznek. A dokumentációs, `[skip ci]` commitok nem módosítják a kiadott játékkódot.
 
-## Ellenőrzési környezet
+Node.js 24 és valódi Chromium szükséges. A böngésző alapértelmezett helye `/usr/bin/chromium`; más telepítésnél `CHROMIUM_PATH` adható meg. A teljes szoftveres WebGL-futás több percet igényel.
 
-Node.js 24, valódi Chromium, Playwright. A böngésző alapértelmezett helye `/usr/bin/chromium`, más telepítésnél `CHROMIUM_PATH` használható. A teljes szoftveres WebGL-futás több percet igényel. A játék mobil érintésvezérlése a felhasználó kérésére későbbi feladat.
+## Mentések és átadás
 
-Az éles telepítés aktuális állapotát külön kell ellenőrizni. A helyi production-próba önmagában nem bizonyítja az éles telepítést. Ha a felhőkörnyezet a GitHub API-t vagy a Pages domaint tiltja, a már mentett `api.github.com` és `tikitaka1984.github.io` szabályokat kell alkalmazni; az örökölt proxyt és a TLS-ellenőrzést meg kell őrizni. A `github.com` nyilvános Actions-oldalának megengedett olvasása CI-állapotot igazolhat, de közvetlen éles böngészős végigjátszást nem helyettesít.
+A kiadás 4-es mentéssémát használ ugyanazon kulccsal. Az 1–3-as mentések megőrzik a régi főszálat; új játékban az új városi szálak is szükségesek. A régió, a régiónkénti pozíció és a kinyitott kertkapu tartós. A telefonos támogatás külön, utolsó fázis.
+
+A teszt alatt forrás és teszt nem változhat a végső megszakítás nélküli futásban. A jelentés rögzíti az ellenőrzött commitot, a tényleges eredményeket és a CI/deploy URL-jét. A közvetlen éles próbát nem helyettesíti a helyi production-próba: ha a futó környezet továbbra is tiltja a Pages-domaint, ezt külön kell jelezni.

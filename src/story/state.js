@@ -1,3 +1,12 @@
+import { REGIONS, REGION_IDS, cleanPosition } from "../world/regions.js";
+import {
+  freshCity,
+  normalizeCity,
+  installCity,
+  needsSubura,
+  needsCity2,
+  suburaQuest,
+} from "./city.js";
 import {
   freshChapter3,
   normalizeChapter3,
@@ -16,10 +25,12 @@ import { NPCS, VOICES, RECIPIENTS, QUESTS, TABLET } from "./data.js";
 export const SAVE_KEY = "caesar.story.save.v1";
 export function freshState() {
   return {
-    version: 3,
+    version: 4,
+    city: freshCity(),
+    regionPositions: {},
     chapter3: freshChapter3(),
     chapter2: freshChapter2(),
-    storyVersion: "2.0",
+    storyVersion: "2.1",
     answers: Object.fromEntries(Object.keys(NPCS).map((id) => [id, []])),
     responses: Object.fromEntries(Object.keys(NPCS).map((id) => [id, {}])),
     trust: Object.fromEntries(Object.keys(NPCS).map((id) => [id, 0])),
@@ -48,7 +59,7 @@ export function quests(s) {
     !!s.decisions.messageRecipient,
   ];
   let unlocked = true;
-  return QUESTS.map((q, i) => {
+  const original = QUESTS.map((q, i) => {
     const status = unlocked ? (done[i] ? "complete" : "active") : "locked";
     unlocked = unlocked && done[i];
     return {
@@ -57,6 +68,15 @@ export function quests(s) {
       progress: i === 0 ? `${voicesCount(s)}/3` : done[i] ? "1/1" : "0/1",
     };
   });
+  if (!s.city.legacyRoute) {
+    const active = !!s.interpretation;
+    if (!s.city.seal) original[3].status = "locked";
+    original.splice(3, 0, {
+      ...suburaQuest(s),
+      status: s.city.seal ? "complete" : active ? "active" : "locked",
+    });
+  }
+  return original;
 }
 export function currentQuest(s) {
   if (activeChapter3(s))
@@ -91,13 +111,14 @@ export function currentQuest(s) {
 export function normalizeSave(raw) {
   if (
     !raw ||
-    ![1, 2, 3].includes(raw.version) ||
+    ![1, 2, 3, 4].includes(raw.version) ||
     typeof raw.answers !== "object" ||
     !raw.answers ||
     Array.isArray(raw.answers)
   )
     throw new Error("unsupported-save");
   const s = freshState();
+  s.city = normalizeCity(raw.city, raw.version < 4);
   for (const id of Object.keys(NPCS)) {
     s.answers[id] = [
       ...new Set(Array.isArray(raw.answers[id]) ? raw.answers[id] : []),
@@ -126,7 +147,7 @@ export function normalizeSave(raw) {
   if (s.interpretation && RECIPIENTS.includes(raw.deliveryTarget))
     s.deliveryTarget = raw.deliveryTarget;
   const recipient = raw.decisions?.messageRecipient;
-  if (s.interpretation && RECIPIENTS.includes(recipient)) {
+  if (s.interpretation && !needsSubura(s) && RECIPIENTS.includes(recipient)) {
     s.decisions.messageRecipient = recipient;
     s.deliveryTarget = recipient;
     s.chapterComplete = true;
@@ -148,13 +169,6 @@ export function normalizeSave(raw) {
     : [];
   for (const key of ["x", "z", "yaw", "pitch"])
     if (Number.isFinite(raw.player?.[key])) s.player[key] = raw.player[key];
-  if (
-    s.player.x <= -21 ||
-    s.player.x >= 21 ||
-    s.player.z <= -53 ||
-    s.player.z >= 50
-  )
-    s.player = { ...freshState().player };
   s.player.yaw = ((s.player.yaw % (Math.PI * 2)) + Math.PI * 2) % (Math.PI * 2);
   s.player.pitch = Math.max(-1.1, Math.min(1.1, s.player.pitch));
   s.world.scrolls = Array.isArray(raw.world?.scrolls)
@@ -177,6 +191,9 @@ export function normalizeSave(raw) {
               "TEMPLUM SATURNI",
               "PORTICVS POMPEI",
               "CVRIA POMPEIA",
+              "SVBVRA",
+              "FORVM BOARIVM",
+              "DOMVS PALATINA",
             ].includes(v),
           ),
         ]),
@@ -184,9 +201,25 @@ export function normalizeSave(raw) {
     : ["VIA SACRA"];
   if (s.nextChapterReady)
     s.chapter2 = normalizeChapter2(raw.chapter2, s.decisions.messageRecipient);
+  if (!s.chapterComplete) {
+    s.city.dockRecords = [];
+    s.city.dockConclusion = false;
+    s.city.gateOpen = false;
+    s.city.delivered = false;
+  }
+  if (needsCity2(s)) s.chapter2.decision = null;
   s.chapter3 = normalizeChapter3(raw.chapter3, !!s.chapter2.decision);
-  s.player.region =
-    s.chapter3.started && raw.player?.region === "campus" ? "campus" : "rome";
+  const savedRegion =
+    REGION_IDS.includes(raw.player?.region) &&
+    (raw.player.region !== "campus" || s.chapter3.started)
+      ? raw.player.region
+      : "rome";
+  s.player = cleanPosition({ ...s.player }, savedRegion);
+  for (const id of REGION_IDS) {
+    if (raw.regionPositions?.[id] && (id !== "campus" || s.chapter3.started))
+      s.regionPositions[id] = cleanPosition(raw.regionPositions[id], id);
+  }
+  s.regionPositions[savedRegion] = { ...s.player };
   return s;
 }
 export class StoryStore {
@@ -284,7 +317,12 @@ export class StoryStore {
   }
   deliver(id) {
     const s = this.state;
-    if (!s.interpretation || s.chapterComplete || !RECIPIENTS.includes(id))
+    if (
+      !s.interpretation ||
+      s.chapterComplete ||
+      needsSubura(s) ||
+      !RECIPIENTS.includes(id)
+    )
       return false;
     s.decisions.messageRecipient = id;
     s.deliveryTarget = id;
@@ -302,6 +340,7 @@ export class StoryStore {
   }
   checkpoint(player, world) {
     this.state.player = { ...player };
+    this.state.regionPositions[player.region || "rome"] = { ...player };
     this.state.world = {
       scrolls: [...world.scrolls],
       visited: [...world.visited],
@@ -318,3 +357,5 @@ export class StoryStore {
 installChapter2(StoryStore);
 
 installChapter3(StoryStore);
+
+installCity(StoryStore);

@@ -51,6 +51,10 @@ test("early evidence survives; both wrong conclusions allow retry", () => {
   expect(s.state.interpretation).toBe(null);
   expect(s.conclude("B")).toBe(true);
   expect(s.state.conclusionAttempts).toBe(3);
+  expect(currentQuest(s.state).id).toBe("city-subura");
+  s.startCourier();
+  s.arriveCourier();
+  s.inspectSeal("limited");
   expect(currentQuest(s.state).id).toBe("delivery");
   s.ask("titus", "tablet");
   expect(s.state.responses.titus.tablet).toBe("answer");
@@ -63,6 +67,9 @@ for (const id of RECIPIENTS)
     gather(s);
     s.examineTablet();
     s.conclude("B");
+    s.startCourier();
+    s.arriveCourier();
+    s.inspectSeal("limited");
     s.chooseRecipient(id);
     expect(s.state.chapterComplete).toBe(false);
     expect(s.state.decisions.messageRecipient).toBe(null);
@@ -81,7 +88,7 @@ for (const id of RECIPIENTS)
     expect(restored.state.player.z).toBe(-2);
     expect(restored.state.world.scrolls).toEqual([0, 2]);
     expect(restored.state.journal).toEqual(s.state.journal);
-    expect(restored.state.version).toBe(3);
+    expect(restored.state.version).toBe(4);
     expect(currentQuest(restored.state).id).toBe("allies");
   });
 test("invalid, obsolete and unavailable storage never prevents play", () => {

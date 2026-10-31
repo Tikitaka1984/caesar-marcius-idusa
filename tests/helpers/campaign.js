@@ -1,5 +1,5 @@
 import { expect } from "@playwright/test";
-import { StoryStore } from "../../src/story/state.js";
+import { StoryStore, freshState } from "../../src/story/state.js";
 import { NPCS } from "../../src/story/data.js";
 import {
   BRANCHES,
@@ -12,7 +12,7 @@ export function memory(raw) {
   return { getItem: (k) => m.get(k) || null, setItem: (k, v) => m.set(k, v) };
 }
 export function completedSecond(recipient = "lucius", choice = "warn") {
-  const s = new StoryStore(memory());
+  const s = new StoryStore(memory({ ...freshState(), version: 3 }));
   for (const id of ["marcus", "lucius", "quintus"])
     s.ask(id, NPCS[id].questions[0].id);
   s.examineTablet();

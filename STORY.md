@@ -1,126 +1,79 @@
-# CAESAR – teljes asztali játék v2.0
+# CAESAR – három fejezet, öt római pálya · v2.1
 
-A játék három, egymásba kapcsolódó történeti fejezetből áll, saját befejezéssel és történeti utóhanggal. Kr. e. 44. március 15-én, a Via Sacrán, a Forumon, majd Pompeius porticusának és curiájának stilizált környezetében játszódik. A római grafika, a karakteratlasz, az eredeti tekercsek, a fizika és az asztali irányítás megmaradt. A telefonos támogatás a teljes asztali játék utáni, külön fejlesztési fázis.
+Kr. e. 44. március 15. A játékos írnoksegédként követi az információ útját. A Via Sacra és Forum mellett a Subura, a Forum Boarium a Tiberis-parttal, egy palatinusi magánház és Pompeius porticusa a curiával is bejárható. A V várostérkép megmutatja a kapcsolatokat. A három új városrész már az I. fejezetben látogatható; az ottani feladatok a történet megfelelő pontján aktiválódnak.
 
 ## I. fejezet – A város suttogása
 
-**Kezdőhelyszín:** Via Sacra. **Tervezett játékidő:** 6–10 perc olvasással; emberi időmérést nem végeztünk.
+1. Kérdezz legalább egyet Marcustól, Luciustól és Quintustól. Az ismételt válasz nem ad új bizalmat.
+2. Vizsgáld meg a viasztáblát a Via Sacra nyugati szélén, Quintus és Marcus között. Korábban is felvehető.
+3. A B panelen különítsd el az üzenet szövegét a feltételezett szándéktól. A helyes következtetés: találkozót említ, annak célját nem bizonyítja. Téves válasz után javíthatsz.
+4. Új játékban ellenőrizd a futár nyomát a Suburában. Ez a lépés a beszélgetésekkel és a tábla vizsgálatával párhuzamosan is elvégezhető.
+5. Válassz Lucius, Quintus és Titus közül, keresd fel személyesen, és erősítsd meg az átadást. Ez a döntés tartós.
+6. A Forumra érkezés aktiválja a II. fejezetet. A játék fejezetváltáskor sem felejti el a címzettet.
 
-Az írnoksegédként induló játékos három nézőpontot ismer meg, megvizsgál egy névtelen viasztáblát, majd dönt az információ útjáról.
+### Subura – A futár nyomában
 
-1. E-vel kérdezd meg Quintust az utca közepén, Marcust a keleti piaci standnál és Luciust a Forum nyugati oldalán. Mindegyiküktől legalább egy érdemi válasz szükséges; a HUD ezt 0/3–3/3 között mutatja. Az ismételt kérdezés nem növeli újra a bizalmat.
-2. Vizsgáld meg a viasztáblát a Via Sacra nyugati szélén, Quintus és Marcus között. Korábban is felvehető; a bizonyíték megmarad.
-3. A B panelen válaszd külön az üzenet szövegét a feltételezéstől. A helyes következtetés: találkozót említ, de annak célját nem bizonyítja. Hibás válasz után újrapróbálhatsz.
-4. Válassz Lucius, Quintus és Titus közül, keresd fel személyesen, majd erősítsd meg az átadást. Titus az utca déli végén vár. A kijelölés az átadásig módosítható; az átadott címzett tartós döntés.
-5. Az átadás lezárja az I. fejezetet. Ezután indulj a Forum Romanumra: az odaérkezés rögzíti a II. fejezet belépését és aktiválja annak első küldetését.
+V → Subura. Faustus a bejárat közelében vár. A „Követem a futárt” választás után láthatóan végighalad a kanyarokon a másolóműhely udvaráig. A térkép és a céljelzés mutatja a helyét. A követés a pecsét rögzítéséig újrakezdhető. A futár köztes megállói mentődnek; egy későbbi visszatérésnél a mozgás folytatódik.
 
-Az I. fejezet saját adatai: `answers`, `responses`, `trust`, `evidence`, `interpretation`, `deliveryTarget`, `decisions.messageRecipient`, `chapterComplete`, `nextChapterReady`, `journal`. A `chapterComplete` továbbra is kizárólag az I. fejezet lezárását jelenti; a II. fejezet nem írja át az első címzettet.
+A műhely előtt vizsgáld meg a pecsétet. A hasonló jel a másolás útjához ad nyomot, nem azonosít merénylőt vagy bizonyított szerzői szándékot. A helyes következtetés tartós. Teljesített feladatot az újabb megszólítás nem von vissza.
 
 ## II. fejezet – A köztársaság árnyéka
 
-**Kezdőhelyszín:** Forum Romanum. **Előfeltétel:** az I. fejezet személyes átadása és a Forumra érkezés. **Tervezett játékidő:** 10–15 perc olvasással; nincs mesterséges várakoztatás vagy időkorlát, tanulói időmérést nem végeztünk.
+### Politikai szövetségesek
 
-A négy küldetés sorrendben válik aktívvá. A korán megszerzett iratok megmaradnak, de az összevetéshez mindkét politikai szereplő mind a négy válasza és a kiegyensúlyozott politikai következtetés is szükséges.
+| Korábbi címzett | Közvetítő | Hozzáférés |
+| --- | --- | --- |
+| Lucius | Decimus (−5, −5) | A hatalmi irathoz Aulus négy válasza szükséges. |
+| Quintus | Servius (−5, −15) | A diadém iratához Publius négy válasza szükséges. |
+| Titus | Livia (2, −4) | A keleti futárjegyzék (10, −5) vizsgálata nyitja meg az iratokat. |
 
-### 1. Politikai szövetségesek
+Az E-vel megnyitott beszélgetésben az **„Elfogadom a közvetítést és teljesítem a feladatot”** választás rögzíti az elfogadást. A napló elején megjelenik a következő feladat, a panel pedig külön jelzi a sikeres lezárást. A koordináták játékpálya-egységek, nem földrajzi helyadatok.
 
-A mentett `decisions.messageRecipient` ténylegesen eltérő információhoz és hozzáférési lépéshez vezet:
+### A köztársaság mérlegen
 
-| Korábbi címzett | Első közvetítő                      | Hozzáférési különbség                                                                                                      |
-| --------------- | ----------------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
-| Lucius          | Decimus, veterán közvetítő (−5, −5) | Katonai kapcsolatokról ad háttérinformációt. A diadém irata korán hozzáférhető; a hatalmi irathoz Aulus négy válasza kell. |
-| Quintus         | Servius, senatorsegéd (−5, −15)     | Rendkívüli hatalomról mutat feljegyzést. A hatalmi irat korán hozzáférhető; a diadémhoz Publius négy válasza kell.         |
-| Titus           | Livia, futárközvetítő (2, −4)       | Egyik politikai kör sem tekint szövetségesének. A külön futárjegyzék vizsgálata (10, −5) nyitja meg az iratokat.           |
+Publius (9, −8) és Aulus (−8, −20) négy-négy válaszát ismerd meg. Ezután a **J naplóban politikai következtetés szükséges**: a stabilitás és reformok iránti igény, valamint a köztársasági intézmények féltése együtt értelmezhető. A céljelzés kiírja ezt az utolsó lépést; a napló elején külön gomb vezet hozzá.
 
-A futárjegyzék a meglévő keleti szobor mellett található: a piacépület és a szobor közötti szabad sávból közelíthető meg. Az akadályt meg kell kerülni. A közvetítő mellett fekvő irathoz közelebb lépve az irat célozható. Az új tárgyak nem adnak útzáró kollidereket. A koordináták a stilizált játékpálya egységei, nem földrajzi koordináták.
+### A senatorok iratai
 
-### 2. A köztársaság mérlegen
+Vizsgáld meg a rendkívüli hatalom összefoglalóját (−6, −17), a diadém ügyét (8, −18) és a titkos feljegyzést (1, −25). A B panel öt állítását sorold tény, értelmezés vagy fiktív játékbeli információ kategóriába. A hibák magyarázatot és újrapróbálkozást kapnak. A már sikeres összevetést az újranyitás nem törli.
 
-Publius (9, −8) Caesar támogatójának, Aulus (−8, −20) köztársaságpárti senatornak a nézőpontját mutatja be. Mindkét fiktív szereplőnek négy érdemi kérdése van. A játékosnak valamennyi választ meg kell ismernie.
+### Tanú a Tiberis-parton
 
-A J napló következtetése akkor helyes, ha egyszerre ismeri el a stabilitás és reformok iránti igényt, valamint a köztársasági intézmények kiüresedésétől való félelmet. A játék nem ír elő politikai pártállást. A hibás általánosítások magyarázatot és újrapróbálkozást kapnak.
+Új játékban a fejezet záródöntése előtt V → Forum Boarium. A raktárjegyzék (8, 3) és a rakomány jelzése (−11, −11) két külön vizsgálható tárgy. Utána beszélj Doriával (2, −14). A rakodási megfigyelés kihagyható; a bizonyíték-ellenőrzéshez nem kell kivárni egy időzítőt.
 
-### 3. A senatorok iratai
+A helyes következtetés: a tanú a kézbesítést látta, de a lezárt iratot nem olvasta. Ezért az átvételről tanúskodhat, a csomag tartalmáról és szándékáról nem. A folyó és a rakpart valódi mozgási határt jelent.
 
-Három külön helyszínen vizsgálható tárgy:
+### Üzenet a kertben
 
-- A rendkívüli hatalom (−6, −17): történeti összefoglaló Caesar élethosszig tartó dictatori címéről.
-- A diadém ügye (8, −18): a Lupercalia eseménye és annak vitatott politikai értelmezése.
-- A titkos feljegyzés (1, −25): kifejezetten fiktív, ismeretlen célú találkozóra utaló játékbeli üzenet.
+Új játékban V → Palatinusi ház. Felixnél (4, 8) az üzenet találási és átadási körülményeit add meg, a bizonytalanság feltüntetésével. A helyes válasz után a kertkapu fizikailag megnyílik. A kertben Claudiának (5, −15) add át a másolatot. A szobák és a kert eltérő terek, a visszaút küldetéstől függetlenül elérhető.
 
-Mindhárom irat és a politikai következtetés után a B panel öt állítást vet össze. Kategóriák: történelmileg alátámasztott tény; történeti értelmezés vagy vitatott állítás; fiktív játékbeli információ. Minden állításhoz ellenőrzött megoldás és magyarázat tartozik. Hibás besorolás után nincs végleges elakadás. A már helyesen lezárt összevetés későbbi használata nem törli az előrehaladást vagy a záródöntést.
+### A titkos találkozó
 
-### 4. A titkos találkozó és a záródöntés
+Az iratok sikeres összevetése után külön következtetés rögzíti: a politikai elégedetlenség és egy találkozó nyoma nem bizonyít konkrét merényleti részvételt. A friss kampány városi ellenőrzései után Naso (−4, −27) Pompeius curiája felé mutató nyomot ad.
 
-Az összevetés után külön következtetés rögzíti: a politikai elégedetlenség és a találkozó nyoma nem azonos konkrét személyek meghatározott merényleti tervének bizonyításával. Ezután Naso fiktív informátor (−4, −27) Pompeius curiájának környéke felé vezető nyomot ad.
+Három intézkedés választható és külön megerősítendő: `warn` – Caesar környezetének figyelmeztetése; `investigate` – további bizonyíték keresése; `locate` – az ülés helyszínének és idejének ellenőrzése. A fejezetzárásból, a naplóból vagy a várostérképről indulhatsz a III. fejezetbe. A curia nem a Forum Saturnus-temploma.
 
-A játékos három intézkedés közül választ és külön megerősíti azt. A mentett `chapter2.decision` értékei:
+## III. fejezet – Az összeesküvés
 
-- `warn`: Caesar környezetét próbálja figyelmeztetni.
-- `investigate`: további bizonyítékot keres az összeesküvők személyéről.
-- `locate`: ellenőrzi a senatus ülésének pontos helyszínét és a találkozó időpontját.
+1. Flaccus (−4, 25) azonosítja Pompeius porticusát és a curiát.
+2. A `warn` út Sabinához (4, 17), az `investigate` Valeriához (−6, 12), a `locate` Rufushoz (3, 7) vezet. Vizsgáld meg az ülés tábláját (−5, −6) és a tanú feljegyzését (6, −12). A B panelen mérlegelj, majd hajtsd végre a választott közvetítőnél a feladatot.
+3. A curia bejáratánál (0, −22) E-vel indítható a háromrészes elbeszélt jelenet. Caesar meggyilkolásának történeti kimenetele nem változik. A játék nem ábrázol grafikus támadást. Minden rész mentődik, a jelenet megszakítható.
+4. Az írnok asztalánál (4, −25) válaszd külön a korábban ismert nyomokat a később megismert eseménytől. A megerősített beszámoló lezárja a teljes játékot.
 
-A megerősítés lezárja a II. fejezetet: „II. fejezet teljesítve – Az összeesküvés következik.” A döntés a III. fejezet három eltérő feladatának egyikét indítja. A fejezetzárásból vagy a Forum nyugati útjelzőjénél (−7, −28) indítható a helyszínváltás. A curia a Forumtól nyugatra, Pompeius színházának épületegyüttesében volt, nem a Forum Saturnus-temploma.
+A befejezés megőrzi az első címzettet, a II. fejezet döntését, a városi nyomokat és a III. fejezet személyes következményét. A három út történeti kimenetele azonos, a saját cselekvés eltér. A döntések és az utóhang visszanézhetők. A „Szabad felfedezés a korábbi Rómában” a történet korábbi városát mutatja; nem állítja, hogy a régi NPC-párbeszédek a merénylet után hangzanak el.
 
-## III. fejezet – Az összeesküvés és a teljes játék befejezése
+## Tájékozódás és mentés
 
-A Forumról kifejezett utazási választás visz át a Campus Martius déli részén álló porticus stilizált helyszínére. A két helyszín azonos motorral, memóriában váltva működik; nem nevezünk át Forum-templomot curiává. Az új városrész külön térképpel, oszlopsorokkal, kerttel és bejárható tanácsteremmel rendelkezik.
+A V várostérkép a pályák között utaztat. Az M térkép az aktuális régiót mutatja, az aktív célpont körül kiemeléssel. A J napló elején az aktuális következő lépés látszik. A céljelzés a személy vagy tárgy irányát, illetve a szükséges napló- vagy bizonyítékpanelt is mutatja.
 
-1. **Pompeius nyomában:** Flaccus (−4, 25) azonosítja a porticust és a curiát. Fiktív vezető, történeti háttérrel.
-2. **A döntés határa:** a II. fejezet `warn` döntése Sabinához (4, 17), az `investigate` Valeriához (−6, 12), a `locate` Rufushoz (3, 7) vezet. Előbb olvasd el az ülés helyét rögzítő táblát (−5, −6) és a fiktív tanú feljegyzését (6, −12), majd a B panelen válaszd külön a helyszín tényét és az ismeretlen szándékot. Ezután a közvetítőnél végrehajtható a különböző feladat: figyelmeztetés másolatának átadása, a tanúvallomás határainak rögzítése, illetve a helyszín ellenőrzése.
-3. **Az ülés küszöbén:** a curia bejáratánál (0, −22) E-vel indítható az elbeszélt jelenet. A merénylet történeti kimenetele nem változik; grafikus támadást és sebeket nem ábrázolunk. A három szöveges rész egyenként mentődik, Esc után ugyanott folytatható.
-4. **Az írnok feljegyzése:** az asztalnál (4, −25) rögzítsd a korábban ismert nyomokat és a később megismert eseményt. Hibás általánosítás után javíthatsz. A megerősített beszámoló lezárja a teljes játékot.
+A tárolókulcs `caesar.story.save.v1`. A JSON `version: 4`, `storyVersion: "2.1"`. Az 1–3-as mentések a meglévő döntések és előrehaladás megtartásával migrálódnak. A `city` mező az új feladatokat, a futár megállóját és a kertkaput őrzi; a `regionPositions` az egyes pályák korábbi pozícióját. A `player.region` értéke `rome`, `subura`, `boarium`, `domus` vagy `campus`.
 
-A befejezés az első címzettet, a Forumon hozott döntést és a III. fejezetben végrehajtott cselekvést együtt összegzi. A három út személyes következménye eltér, a történeti Caesar-meggyilkolást egyik sem írja át. Az utóhang külön jelöli az utókor ismereteit; a játékos március 15-i korábbi tudását nem vetíti vissza utólag. A történetnek nincs „következő fejezet készül” lezárása.
+Korábbi mentésből a régi kampányút folytatható; ezt a `city.legacyRoute` jelöli. Az új helyszínek feladatai így külön, választható szálak. A migráció nem talál ki új feladatteljesítést. Új játékban a három városi ellenőrzés a főszál része. A teljes újrakezdés megerősítést kér és minden fejezetet újrakezd.
 
-A főmenü **A teljes történet** gombja áttekintést ad mindhárom fejezetről. A befejezés visszanézhető, vagy a korábbi római város szabadon felfedezhető. Új játék a teljes kampány előrehaladását törli, külön megerősítéssel.
+Ismeretlen régió vagy érvénytelen pozíció biztonságos belépési pontra áll vissza. A letiltott vagy betelt helyi tárolás figyelmeztetést ad; a munkamenetben tovább lehet játszani. A mentés böngészőhöz és originhez kötött, nem szinkronizált fiókmentés.
 
-## Közös irányítás és kezelőfelület
+## Ellenőrzés és fejlesztési határ
 
-WASD: mozgás; egér vagy nyilak: nézet; E: közeli, célzott interakció; M: térkép; J: küldetésnapló; B: bizonyítékok. Esc panelt zár vagy szüneteltet. A panelek alatt a mozgás szünetel. Bezárás után kattintással kérhető újra egérzár; a nyilas fordulás addig is használható.
+A 34 teszteset megőrzi a korábbi 26 ellenőrzést, és hat városi állapot-, valamint két városi böngészőteszttel bővül. A friss teljes kampány mind az öt régiót valódi irányítással járja be. A régi mentésből induló bejárás külön bizonyíték. A production-próba a valódi buildet szolgálja ki a Pages projektprefixe alatt.
 
-A paneleken 1–9 választ, Tab navigál, Enter aktivál. A szövegterület fókuszában a nyilak görgetnek; a legördülő besorolások saját billentyűkezelése megmarad. A HUD az aktuális fejezet feladatát mutatja; a II. fejezetben a dokumentumok és a két politikai beszélgetés számlálóját is. A napló a következtetéseket és a végső döntést is rögzíti.
-
-## Adatmodell, mentés és korábbi változatok migrációja
-
-| Fájl                       | Feladat                                                                   |
-| -------------------------- | ------------------------------------------------------------------------- |
-| `src/story/data.js`        | Az I. fejezet változatlan szereplői, kérdései, bizonyítéka és küldetései. |
-| `src/story/state.js`       | Közös mentéstároló, az I. fejezet állapotátmenetei és a fejezetválasztás. |
-| `src/story/ui.js`          | Közös panelkezelés és az I. fejezet felülete.                             |
-| `src/story/chapter2.js`    | A II. fejezet tartalma, állapotátmenetei és validálása.                   |
-| `src/story/chapter2-ui.js` | A II. fejezet párbeszédei, naplója, iratai és összevetése.                |
-| `src/world/chapter2.js`    | A meglévő anyagokra és karakterképekre épülő új interakciók.              |
-
-A kulcs változatlan: `caesar.story.save.v1`. A kulcsban szereplő v1 névtér, nem a jelenlegi séma száma. Az aktuális JSON `version: 3`, `storyVersion: "2.0"`; a betöltő a korábbi 1-es és 2-es sémát is elfogadja. A v1.1 érvényes mentése az eredeti címzett, lezárás, válaszok és válaszváltozatok, levezetett bizalom, bizonyíték, napló, játékospozíció, tekercsek és felfedezett körzetek megőrzésével migrálódik. A II. fejezet új állapota külön `chapter2` objektumba kerül.
-
-A validálás szűri az ismeretlen azonosítókat és csak teljes előfeltételekkel fogad el lezárást. A részleges párbeszédek, korai iratok és hibás besorolások újratölthetők; a migráció nem választ új címzettet. Mentés történik érdemi interakciónál, panelnyitás előtt, szüneteltetéskor, oldalelhagyáskor és játék közben ellenőrzőpontokon. A főmenüben visszatöltés és külön megerősítést kérő teljes újrakezdés van; ez utóbbi mindhárom fejezet előrehaladását törli.
-
-Sérült vagy nem támogatott mentés nem okoz összeomlást. Letiltott vagy betelt tárolás esetén figyelmeztetés jelenik meg, a munkamenetben tovább lehet játszani. A mentés böngészőhöz és originhez kötött, nem szinkronizálódik eszközök között. Az adatok kézi törlése vagy a privát mód elveszítheti az előrehaladást.
-
-## Történeti keret
-
-A polgárháborúk öröksége, a rendkívüli hatalom, a Lupercalia diadémjelenete és Pompeius curiája történeti háttér. A szereplők párbeszédei, a játékos szerepe, a viasztábla, a titkos feljegyzés és a futárjegyzék fikció. A királyi szándékot és a diadémjelenet célját nem kezeljük bizonyított tényként. A névtelen üzenet vagy politikai ellenzékiség önmagában nem bizonyít konkrét merényleti részvételt. A város stilizált, nem régészeti rekonstrukció. Források és megkülönböztetések: [HISTORICAL-NOTES.md](HISTORICAL-NOTES.md).
-
-## Ellenőrzés
-
-```sh
-npm ci
-npm test
-npm run build
-npm run test:pages
-```
-
-A teljes `npm test` 26 tesztesetet futtat egy munkással: 18 korábbi regressziót, négy III. fejezeti állapottesztet, három III. fejezeti bejárást és egy teljes, friss kampányból induló végigjátszást. A korábbi II. fejezeti böngészőtesztek v1.1-mentésből járják be a három címzetti előzményt. A három III. fejezeti böngészőteszt érvényes, II. fejezetet lezáró v1.2-mentésből indul, WASD-vel, teleportálás nélkül ellenőrzi a három folytatási utat, a kampányzárást és az újratöltést. A III. fejezeti állapotteszt mind a kilenc címzett–folytatási út kombinációt ellenőrzi. A production próba a tényleges `dist/` fájlokat szolgálja ki a Pages projektprefixe alatt; külön mentési fixture-rel ellenőrzi az új paneleket is. A v2.0 eredményei és ellenőrzött commitja: [DESKTOP-V2-TEST-RESULTS.md](artifacts/DESKTOP-V2-TEST-RESULTS.md).
-
-## A következő mobil-first fejlesztési fázis határa
-
-Telefonos és tabletes érintésvezérlés ebben a változatban nincs implementálva. A történeti állapotátmenetek a megjelenítéstől külön modulban maradnak; a közös mozgás a meglévő fizikai függvényen keresztül történik. A későbbi érintéses bemenet ezekhez a meglévő műveletekhez kapcsolható, az egér- és billentyűvezérlés megőrzésével. A végső minőségbiztosítás nem vezet be mobil UI-t, új bemeneti módot vagy új grafikai elemet.
-
-## A teljes játék mentési sémája
-
-A tárolókulcs továbbra is `caesar.story.save.v1`. A séma `version: 3`, a történetverzió `storyVersion: "2.0"`. Az 1-es és 2-es mentések automatikusan migrálódnak. Az I. és II. fejezet adatai, a bizalom és a döntések megmaradnak; külön `chapter3` objektum őrzi az új feladatokat, a jelenet lépését és a befejezést. A `player.region` értéke `rome` vagy `campus`; a nézet, a pozíció és a felfedezett körzetek mindkét helyszínen megmaradnak. Sérült vagy előfeltételek nélküli befejezésből nem keletkezik teljesített kampány.
-
-Új modulok: `src/story/chapter3.js`, `src/story/chapter3-ui.js`, `src/world/campus.js`. A korábbi motor és fizika megmarad; a fizikai körzetnév az új régiót is figyelembe veszi.
-
-A tervezett játékidő olvasási és keresési tempótól függ; nincs mesterséges várakoztatás, és emberi játékidőmérés nem történt. A teljes kampányt friss kezdésből, mesterségesen előrehaladott mentés nélkül is külön böngészőteszt járja be.
+A városrészek stilizáltak, nem teljes Róma-rekonstrukciók. Harc, hang és telefonos érintésvezérlés nincs ebben az asztali bővítésben. A mobilos fejlesztés a felhasználó kérésére külön, utolsó szakasz. Történeti források és fikció: [HISTORICAL-NOTES.md](HISTORICAL-NOTES.md).

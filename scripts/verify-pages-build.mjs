@@ -85,6 +85,20 @@ try {
       assets.has(`${prefix}assets/${file}`),
       `${file} must load below the project path`,
     );
+  // Load every new world from the compiled bundle using the actual travel controls.
+  for (const id of ["subura", "boarium", "domus", "rome"]) {
+    await page.keyboard.press("KeyV");
+    await page.getByTestId("travel-" + id).click();
+    await page.waitForFunction(
+      (id) =>
+        window.caesarState.region === id &&
+        window.caesarState.renderer.calls > 0,
+      id,
+    );
+    await page.keyboard.press("KeyM");
+    assert.equal(await page.locator("#map").isVisible(), true);
+    await page.keyboard.press("KeyM");
+  }
   // Production-only UI smoke uses a valid checkpoint assembled through story APIs.
   // The separate Chapter II browser suite completes all three branches by walking.
   let saved;
@@ -98,6 +112,9 @@ try {
     story.ask(id, NPCS[id].questions[0].id);
   story.examineTablet();
   story.conclude("B");
+  story.startCourier();
+  story.arriveCourier();
+  story.inspectSeal("limited");
   story.deliver("titus");
   story.enterForum();
   story.introduce2("courier");
@@ -141,6 +158,11 @@ try {
   // The full-campaign browser test separately walks all three chapters from an empty save.
   story.distinguish2("limited");
   story.inform2();
+  story.dockRecord("manifest");
+  story.dockRecord("cargo");
+  story.concludeDock("delivery");
+  story.openGarden("origin");
+  story.deliverGarden();
   story.finish2("warn");
   story.start3();
   story.guide3();
@@ -190,7 +212,7 @@ try {
   });
   assert.deepEqual(errors, []);
   console.log(
-    "Pages subdirectory smoke passed: WebGL, movement, map, both textures, Chapter II migration and controls, Campus region, complete campaign ending and epilogue; 0 console/JavaScript/HTTP errors.",
+    "Pages subdirectory smoke passed: all five worlds, WebGL, movement, maps, both textures, Chapter II controls, complete campaign ending and epilogue; 0 console/JavaScript/HTTP errors.",
   );
 } finally {
   await browser?.close();

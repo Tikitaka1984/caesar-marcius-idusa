@@ -23,6 +23,7 @@
         <div id="crosshair">+</div>
         <div id="message" role="status"></div>
         <div id="prompt"></div>
+        <div id="waypoint" role="status"></div>
         <div id="map" hidden>
           <h2>ROMA · TÉRKÉP</h2>
           <canvas id="mapCanvas" width="360" height="420"></canvas>
@@ -34,9 +35,9 @@
           <h2>MÁRCIUS IDUSA</h2>
           <p id="menuChapter">I. fejezet – A város suttogása</p>
           <p class="chapter-intro">
-            Három fejezet egy történetben: a Via Sacrától a Forumon át Pompeius
-            curiájáig. Kövesd az információ útját, dönts, és írd meg a
-            beszámolódat.
+            Öt helyszín, három fejezet: a Forumtól a Subura sikátorain és a
+            Tiberis-parton át a palatinusi kertig és Pompeius curiájáig. Kövess
+            egy futárt, ellenőrizd a nyomokat, és dönts.
           </p>
           <button id="play" disabled>BELÉPÉS RÓMÁBA <span>→</span></button>
           <div class="menu-actions">
@@ -46,9 +47,9 @@
           <button id="campaignButton">A TELJES TÖRTÉNET</button>
           <div id="saveStatus" role="status"></div>
           <div class="controls">
-            W A S D · MOZGÁS &nbsp; EGÉR / ← → · NÉZET<br />E · INTERAKCIÓ
-            &nbsp; M · TÉRKÉP &nbsp; J · NAPLÓ &nbsp; B · BIZONYÍTÉKOK &nbsp;
-            ESC · MENÜ
+            W A S D · MOZGÁS &nbsp; EGÉR / ← → · NÉZET<br />V · VÁROSRÉSZEK
+            &nbsp; E · INTERAKCIÓ &nbsp; M · TÉRKÉP &nbsp; J · NAPLÓ &nbsp; B ·
+            BIZONYÍTÉKOK &nbsp; ESC · MENÜ
           </div>
           <footer>HÁROMFEJEZETES TÖRTÉNELMI JÁTÉK · ASZTALI KIADÁS</footer>
         </section>
@@ -91,7 +92,8 @@
         </div>
         <div class="seal"><span>❧</span> SPQR <span>❧</span></div>
         <div>
-          <small>FELFEDEZÉS</small><strong id="explored">1 <em>/ 3</em></strong>
+          <small>HELYI FELFEDEZÉS</small
+          ><strong id="explored">1 <em>/ 3</em></strong>
         </div>
         <div class="objective">
           <small>KÜLDETÉS <span id="questProgress">0/3</span></small>
@@ -106,10 +108,11 @@
         <span>WASD <i>mozgás</i></span
         ><span>EGÉR / ← → <i>körülnézés</i></span
         ><span>E <i>interakció</i></span
+        ><button id="cityButton">V · VÁROS</button
         ><button id="mapButton">M · TÉRKÉP</button
         ><button id="journalButton">J · NAPLÓ</button
         ><button id="evidenceButton">B · BIZONYÍTÉKOK</button
-        ><span class="signature">TELJES JÁTÉK v2.0</span>
+        ><span class="signature">RÓMA VÁROSRÉSZEI v2.1</span>
       </nav>
     </div>
     <script type="module" src="/src/main.js"></script>

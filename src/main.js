@@ -1,11 +1,11 @@
 import { activeChapter3, ROUTES3 } from "./story/chapter3.js";
-import { createCampus, addCampusTravel } from "./world/campus.js";
+import { createWorldRegistry } from "./world/registry.js";
+import { REGIONS } from "./world/regions.js";
+import { navigationTarget } from "./story/navigation.js";
 import { BRANCHES, activeChapter2 } from "./story/chapter2.js";
-import { addChapter2World } from "./world/chapter2.js";
 import * as T from "three";
 import "./style.css";
 import { loadArt } from "./art/textures.js";
-import { createRome } from "./world/rome.js";
 import { movePlayer, district, canOccupy } from "./game/physics.js";
 import { StoryStore, currentQuest, voicesCount } from "./story/state.js";
 import { NPCS, TABLET } from "./story/data.js";
@@ -53,27 +53,22 @@ for (let i = 0; i < 17; i++) {
   scene.add(cloud);
 }
 await loadArt();
-const romeWorld = createRome(scene);
-addChapter2World(scene, romeWorld);
-addCampusTravel(scene, romeWorld);
-const romeObjects = scene.children.filter(
-  (o) => o.isMesh || o.isSprite || o.isGroup || o.isPointLight,
-);
-const campusWorld = createCampus(scene);
+const worlds = createWorldRegistry(scene);
+const romeWorld = worlds.get("rome");
 let world = romeWorld,
   region = "rome";
 function setRegion(next) {
-  region = next;
-  world = region === "campus" ? campusWorld : romeWorld;
-  romeObjects.forEach((o) => (o.visible = region === "rome"));
-  campusWorld.root.visible = region === "campus";
+  region = REGIONS[next] ? next : "rome";
+  world = worlds.show(region);
   renderer.shadowMap.needsUpdate = true;
 }
 function exploration() {
   const areas =
     region === "campus"
       ? ["PORTICVS POMPEI", "CVRIA POMPEIA"]
-      : ["VIA SACRA", "FORUM ROMANUM", "TEMPLUM SATURNI"];
+      : region === "rome"
+        ? ["VIA SACRA", "FORUM ROMANUM", "TEMPLUM SATURNI"]
+        : [REGIONS[region].short];
   return `${[...visited].filter((v) => areas.includes(v)).length} <em>/ ${areas.length}</em>`;
 }
 renderer.shadowMap.autoUpdate = false;
@@ -114,8 +109,9 @@ function restoreRuntime() {
   const saved = story.state.player;
   setRegion(saved.region || "rome");
   camera.position.set(saved.x, 1.7, saved.z);
-  if (!canOccupy(saved.x, saved.z, world.colliders))
-    camera.position.set(0, 1.7, 33);
+  world.update?.(story.state, 0, performance.now(), story);
+  if (!canOccupy(saved.x, saved.z, world.colliders, world.bounds))
+    camera.position.set(REGIONS[region].spawn.x, 1.7, REGIONS[region].spawn.z);
   yaw = saved.yaw;
   pitch = saved.pitch;
   keys.clear();
@@ -123,8 +119,8 @@ function restoreRuntime() {
   for (const area of story.state.world.visited) visited.add(area);
   scrollItems.forEach((o, i) => {
     o.taken = story.state.world.scrolls.includes(i);
-    if (o.taken) scene.remove(o.mesh);
-    else if (!o.mesh.parent) scene.add(o.mesh);
+    if (o.taken) o.mesh.removeFromParent();
+    else if (!o.mesh.parent) romeWorld.root.add(o.mesh);
   });
   total = scrollItems.filter((o) => o.taken).length;
   $("scrolls").innerHTML = `${total} <em>/ 3</em>`;
@@ -207,12 +203,19 @@ const storyUI = new StoryUI(story, {
     updateStoryHUD();
   },
 });
+let previousQuest = currentQuest(story.state).id;
 story.onChange(() => {
   if ((story.state.player.region || "rome") !== region) restoreRuntime();
   updateStoryHUD();
+  const q = currentQuest(story.state);
+  if (q.id !== previousQuest) {
+    message("Feladat rögzítve · Következő: " + q.title + ". " + q.task);
+    previousQuest = q.id;
+  }
 });
 restoreRuntime();
 updateStoryHUD();
+$("cityButton").onclick = () => storyUI.cityMap();
 $("campaignButton").onclick = () => storyUI.campaign();
 $("journalButton").onclick = () => storyUI.journal();
 $("evidenceButton").onclick = () => storyUI.evidence();
@@ -313,6 +316,10 @@ document.addEventListener("keydown", (e) => {
     pause();
     return;
   }
+  if (e.code === "KeyV") {
+    storyUI.cityMap();
+    return;
+  }
   if (e.code === "KeyM") {
     toggleMap();
     return;
@@ -332,6 +339,14 @@ document.addEventListener("keydown", (e) => {
 document.addEventListener("keyup", (e) => keys.delete(e.code));
 function interact() {
   if (!nearest) return;
+  if (nearest.type === "city-map" || nearest.type === "city-return") {
+    storyUI.cityMap();
+    return;
+  }
+  if (nearest.type === "city") {
+    storyUI.cityInteraction(nearest.id);
+    return;
+  }
   if (nearest.type === "travel3") {
     storyUI.travel3();
     return;
@@ -365,7 +380,7 @@ function interact() {
     return;
   }
   if (nearest.type === "scroll") {
-    scene.remove(nearest.mesh);
+    nearest.mesh.removeFromParent();
     nearest.taken = true;
     total++;
     $("scrolls").innerHTML = `${total} <em>/ 3</em>`;
@@ -380,18 +395,48 @@ function drawMap() {
     g = c.getContext("2d");
   g.fillStyle = "#b8a77f";
   g.fillRect(0, 0, c.width, c.height);
-  const sx = 6,
-    sz = 3.6,
-    px = (x) => 180 + x * sx,
-    pz = (z) => 205 + z * sz;
+  const bounds = world.bounds;
+  const sx = 320 / (bounds.maxX - bounds.minX),
+    sz = 365 / (bounds.maxZ - bounds.minZ);
+  const px = (x) => 20 + (x - bounds.minX) * sx,
+    pz = (z) => 30 + (z - bounds.minZ) * sz;
+  const target = navigationTarget(story.state, region, world);
+  const targetMark = () => {
+    if (target.region !== region || !Number.isFinite(target.x)) return;
+    g.strokeStyle = "#ae2b20";
+    g.lineWidth = 3;
+    g.beginPath();
+    g.arc(px(target.x), pz(target.z), 8, 0, Math.PI * 2);
+    g.stroke();
+  };
   g.fillStyle = "#5b5343";
   for (const r of world.colliders) {
+    if (r.disabled) continue;
     g.fillRect(
       px(r.x - r.w / 2),
       pz(r.z - r.d / 2),
       r.w * sx,
       Math.max(2, r.d * sz),
     );
+  }
+  if (["subura", "boarium", "domus"].includes(region)) {
+    g.fillStyle = "#432c1c";
+    g.font = "13px Georgia";
+    g.textAlign = "center";
+    g.fillText(REGIONS[region].short, 180, 20);
+    for (const o of world.interactables) {
+      g.fillStyle = "#842f29";
+      g.fillRect(px(o.x) - 3, pz(o.z) - 3, 6, 6);
+      g.font = "9px Georgia";
+      g.textAlign = "left";
+      g.fillText(o.label.replace(/ meg.*$/, ""), px(o.x) + 5, pz(o.z));
+    }
+    targetMark();
+    g.fillStyle = "#fff0bd";
+    g.beginPath();
+    g.arc(px(camera.position.x), pz(camera.position.z), 5, 0, Math.PI * 2);
+    g.fill();
+    return;
   }
   if (region === "campus") {
     g.fillStyle = "#432c1c";
@@ -407,6 +452,7 @@ function drawMap() {
       g.textAlign = "left";
       g.fillText(o.label, px(o.x) + 5, pz(o.z));
     }
+    targetMark();
     g.save();
     g.translate(px(camera.position.x), pz(camera.position.z));
     g.rotate(-yaw);
@@ -455,6 +501,7 @@ function drawMap() {
     }
   g.fillStyle = story.state.evidence.length ? "#81765e" : "#a12e22";
   g.fillRect(px(TABLET.x) - 4, pz(TABLET.z) - 3, 8, 6);
+  targetMark();
   g.save();
   g.translate(px(camera.position.x), pz(camera.position.z));
   g.rotate(-yaw);
@@ -484,6 +531,7 @@ function tick(now) {
       (-Math.sin(yaw) * f + Math.cos(yaw) * s) * speed,
       (-Math.cos(yaw) * f - Math.sin(yaw) * s) * speed,
       world.colliders,
+      world.bounds,
     );
     walk += (Math.abs(f) + Math.abs(s)) * dt * 8;
     camera.position.y = 1.7 + Math.sin(walk) * (f || s ? 0.035 : 0);
@@ -492,6 +540,7 @@ function tick(now) {
     visited.add(area);
     $("explored").innerHTML = exploration();
     if (
+      region === "rome" &&
       story.state.chapterComplete &&
       !story.state.nextChapterReady &&
       area === "FORUM ROMANUM"
@@ -507,6 +556,29 @@ function tick(now) {
       lastCheckpoint = now;
       updateStoryHUD();
     }
+  }
+  world.update?.(story.state, active ? dt : 0, now, story);
+  const goal = navigationTarget(story.state, region, world);
+  if (goal.hint) $("waypoint").textContent = goal.hint;
+  else if (goal.region !== region)
+    $("waypoint").textContent =
+      "V → " + REGIONS[goal.region].name + " · " + goal.name;
+  else {
+    const dx = goal.x - camera.position.x,
+      dz = goal.z - camera.position.z,
+      d = Math.hypot(dx, dz);
+    const angle = Math.atan2(-dx, -dz) - yaw,
+      direction = Math.atan2(Math.sin(angle), Math.cos(angle));
+    const arrow =
+      Math.abs(direction) < 0.3
+        ? "↑"
+        : Math.abs(direction) > 2.6
+          ? "↶"
+          : direction > 0
+            ? "←"
+            : "→";
+    $("waypoint").textContent =
+      arrow + " " + goal.name + " · " + Math.round(d) + " lépés";
   }
   camera.rotation.order = "YXZ";
   camera.rotation.set(pitch, yaw, 0);
@@ -550,9 +622,7 @@ function tick(now) {
         activeChapter2(story.state) &&
         (o.type !== "guide2" ||
           o.id === BRANCHES[story.state.decisions.messageRecipient]?.guide);
-  campusWorld.crowd.forEach(
-    (m) => (m.visible = story.state.chapter3.eventStep < 2),
-  );
+  world.crowd?.forEach((m) => (m.visible = story.state.chapter3.eventStep < 2));
   renderer.render(scene, camera);
 }
 // Read-only telemetry lets browser tests verify actual movement and district traversal.
@@ -564,6 +634,7 @@ Object.defineProperty(window, "caesarState", {
     pitch,
     active,
     region,
+    loadedRegions: worlds.loaded,
     district: district(camera.position.z, region),
     scrolls: total,
     visited: [...visited],

@@ -1,3 +1,4 @@
+import { playSubura } from "./helpers/city-play.js";
 import { test, expect } from "@playwright/test";
 import { SAVE_KEY } from "../src/story/state.js";
 test("chapter one: all quests, retry, delivery, Forum handoff and reload", async ({
@@ -87,6 +88,7 @@ test("chapter one: all quests, retry, delivery, Forum handoff and reload", async
   await expect(page.locator("#questTitle")).toHaveText("Az elveszett üzenet");
   await expect(page.locator("#voicesProgress")).toHaveText("RÓMA HANGJAI 3/3");
   await closeAnswer();
+  await playSubura(page);
   await go("KeyS", "z", 16.5, false);
   await interact("tablet");
   await expect(page.locator("#storyPanel")).toContainText(
@@ -130,7 +132,7 @@ test("chapter one: all quests, retry, delivery, Forum handoff and reload", async
     (key) => JSON.parse(localStorage.getItem(key)),
     SAVE_KEY,
   );
-  expect(saved.version).toBe(3);
+  expect(saved.version).toBe(4);
   expect(saved.decisions.messageRecipient).toBe("titus");
   expect(saved.interpretation).toBe("B");
   expect(saved.conclusionAttempts).toBe(3);

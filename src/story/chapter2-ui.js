@@ -1,3 +1,4 @@
+import { needsCity2 } from "./city.js";
 import {
   TITLE,
   BRANCHES,
@@ -86,10 +87,14 @@ export function installChapter2UI(UI) {
       this.text(b.opening, "story-quote");
       this.text(b.detail);
       this.button(
-        "Elfogadom a közvetítést",
+        "Elfogadom a közvetítést és teljesítem a feladatot",
         () => {
           this.store.introduce2(id);
           this.journal();
+          this.text(
+            "✓ A közvetítést elfogadtad; ez a feladat teljesült. Következő lépés: Publius és Aulus meghallgatása.",
+            "story-feedback good",
+          );
         },
         "introduce2",
       );
@@ -137,6 +142,15 @@ export function installChapter2UI(UI) {
               () => this.close(true),
               "close2",
             );
+            if (
+              !c.politicalConclusion &&
+              Object.values(c.answers).every((a) => a.length === 4)
+            )
+              this.button(
+                "Lezárom a meghallgatást: politikai következtetés",
+                () => this.politics2(),
+                "answer-politics",
+              );
             this.finish();
           },
           `question2-${id}-${q[0]}`,
@@ -313,7 +327,9 @@ export function installChapter2UI(UI) {
           this.store.distinguish2("limited");
           this.open("Új nyom", "distinction2");
           this.text(
-            "Helyes: a két állítás nem azonos. Naso informátort keresd a Forum északi részén (−4, −27).",
+            needsCity2(this.store.state)
+              ? "Helyes: a két állítás nem azonos. A végső döntés előtt ellenőrizd a Tiberis-parti tanút és keresd fel a palatinusi kert közvetítőjét. A J napló mutatja a soron következő feladatot."
+              : "Helyes: a két állítás nem azonos. Naso informátort keresd a Forum északi részén (−4, −27).",
           );
           this.finish();
         },
@@ -332,6 +348,7 @@ export function installChapter2UI(UI) {
       this.finish();
     },
     informant2() {
+      if (this.requireCitySecond()) return;
       this.open(`${INFORMANT.name} – ${INFORMANT.role}`, "informant2");
       if (!this.store.inform2()) {
         this.text(

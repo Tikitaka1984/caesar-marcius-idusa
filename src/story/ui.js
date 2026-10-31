@@ -1,3 +1,4 @@
+import { installCityUI } from "./city-ui.js";
 import { installChapter3UI } from "./chapter3-ui.js";
 import { installChapter2UI } from "./chapter2-ui.js";
 import {
@@ -255,6 +256,7 @@ export class StoryUI {
     this.finish();
   }
   confirmDelivery(id) {
+    if (this.requireCityFirst()) return;
     this.open(`Üzenet átadása – ${NPCS[id].name}`, "confirm-delivery");
     this.text(DELIVERY[id]);
     this.text(
@@ -383,3 +385,5 @@ export class StoryUI {
 installChapter2UI(StoryUI);
 
 installChapter3UI(StoryUI);
+
+installCityUI(StoryUI);

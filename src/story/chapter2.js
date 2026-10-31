@@ -1,3 +1,4 @@
+import { needsCity2, city2Quests } from "./city.js";
 // Chapter II content: facts, interpretations and gameplay fiction are explicit.
 export const TITLE = "II. fejezet – A köztársaság árnyéka";
 export const BRANCHES = {
@@ -221,7 +222,7 @@ export function chapter2Quests(s) {
     "A politikai elégedetlenség nem bizonyít konkrét merényletet. A B panelen mérlegelj, majd keresd Nasót (−4, −27), és dönts.",
   ];
   let unlocked = true;
-  return [
+  const original = [
     "Politikai szövetségesek",
     "A köztársaság mérlegen",
     "A senatorok iratai",
@@ -237,6 +238,17 @@ export function chapter2Quests(s) {
       progress: i === 2 ? `${c.documents.length}/3` : done[i] ? "1/1" : "0/1",
     };
   });
+  if (!s.city.legacyRoute) {
+    let open = c.comparisonComplete;
+    const added = city2Quests(s).map((q) => {
+      const status = open ? (q.done ? "complete" : "active") : "locked";
+      open = open && q.done;
+      return { ...q, status };
+    });
+    if (!open) original[3].status = "locked";
+    original.splice(3, 0, ...added);
+  }
+  return original;
 }
 export function activeChapter2(s) {
   return s.chapterComplete && s.nextChapterReady;
@@ -387,6 +399,7 @@ export function installChapter2(Store) {
       if (
         !activeChapter2(this.state) ||
         !c.informed ||
+        needsCity2(this.state) ||
         c.decision ||
         !Object.hasOwn(FINAL_CHOICES, choice)
       )

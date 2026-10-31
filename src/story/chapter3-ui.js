@@ -17,6 +17,14 @@ export function installChapter3UI(UI) {
       this.open("CAESAR – a teljes történet", "campaign");
       const s = this.store.state;
       this.text("Kr. e. 44. március 15. · Történelmi fikció", "story-caption");
+      this.text(
+        "Öt külön bejárható helyszín: Forum és Via Sacra; Subura; Forum Boarium és Tiberis-part; palatinusi ház; Pompeius porticusa és curiája.",
+      );
+      this.button(
+        "Várostérkép és utazás",
+        () => this.cityMap(),
+        "campaign-city-map",
+      );
       for (const [title, description, done] of [
         [
           "I. A város suttogása",
@@ -228,7 +236,8 @@ export function installChapter3UI(UI) {
       this.finish();
     },
     evidence(feedback = "") {
-      if (!activeChapter3(this.store.state)) return evidence.call(this, feedback);
+      if (!activeChapter3(this.store.state))
+        return evidence.call(this, feedback);
       const c = this.store.state.chapter3;
       this.open("Bizonyítékok – III. fejezet", "evidence3");
       for (const r of RECORDS3) {
@@ -371,6 +380,13 @@ export function installChapter3UI(UI) {
       const s = this.store.state;
       if (!s.chapter3.finished) return;
       this.open("CAESAR – a történet véget ért", "campaign-ending");
+      this.text(
+        "Városi nyomok: " +
+          (s.city.seal ? "Subura ✓ · " : "Subura — · ") +
+          (s.city.dockConclusion ? "Tiberis-part ✓ · " : "Tiberis-part — · ") +
+          (s.city.delivered ? "Palatinusi kert ✓" : "Palatinusi kert —"),
+        "story-caption",
+      );
       this.text(
         "Három fejezetet jártál végig. Nem láttál minden szándékot előre, de döntöttél arról, mit teszel a rád bízott információval.",
         "story-quote",

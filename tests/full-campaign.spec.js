@@ -1,6 +1,6 @@
 import { test, expect } from "@playwright/test";
 import { playFirst, playSecond, playThird } from "./helpers/play-chapters.js";
-test("complete fresh campaign: Via Sacra to Forum to curia to ending, without seeded state", async ({
+test("complete fresh campaign: all five Roman scenes to ending, without seeded state", async ({
   page,
 }) => {
   test.setTimeout(900000);
@@ -30,6 +30,21 @@ test("complete fresh campaign: Via Sacra to Forum to curia to ending, without se
   expect(final.chapterComplete).toBe(true);
   expect(final.chapter2.decision).toBe("warn");
   expect(final.chapter3.finished).toBe(true);
+  expect(
+    final.city.seal && final.city.dockConclusion && final.city.delivered,
+  ).toBe(true);
+  expect(final.world.visited).toEqual(
+    expect.arrayContaining([
+      "SVBVRA",
+      "FORVM BOARIVM",
+      "DOMVS PALATINA",
+      "PORTICVS POMPEI",
+      "CVRIA POMPEIA",
+    ]),
+  );
+  expect(await page.evaluate(() => window.caesarState.loadedRegions)).toEqual(
+    expect.arrayContaining(["rome", "subura", "boarium", "domus", "campus"]),
+  );
   await page.reload();
   await expect(page.locator("#play")).toBeEnabled();
   expect(

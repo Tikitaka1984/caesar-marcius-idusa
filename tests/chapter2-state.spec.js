@@ -57,7 +57,7 @@ for (const recipient of Object.keys(BRANCHES))
       expect(s.state[field]).toEqual(
         field === "player" ? { ...raw[field], region: "rome" } : raw[field],
       );
-    expect(s.state.version).toBe(3);
+    expect(s.state.version).toBe(4);
     expect(s.state.chapterComplete).toBe(true);
     expect(currentQuest(s.state).id).toBe("allies");
     expect(s.finish2("warn")).toBe(false);

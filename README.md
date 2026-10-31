@@ -1,21 +1,42 @@
-# CAESAR – Március idusa
+# CAESAR – Március idusa · Róma városrészei
 
-**[Játék indítása – CAESAR teljes történet](https://tikitaka1984.github.io/caesar-marcius-idusa/)**
+**[Játék indítása](https://tikitaka1984.github.io/caesar-marcius-idusa/)**
 
-Magyar nyelvű, böngészős, háromfejezetes történelmi játék, Three.js és Vite alapon. A **v2.0 teljes asztali története** a Via Sacrától a Forumon át Pompeius curiájáig vezet, saját befejezéssel és a döntéseid összegzésével. Az első két fejezetre épülő III. fejezet már játszható; a mobilos érintésvezérlés későbbre marad.
+Magyar nyelvű, böngészős történelmi játék. A v2.1 három fejezetet és **öt külön bejárható pályát** kapcsol össze: Via Sacra és Forum; Subura; Forum Boarium és Tiberis-part; palatinusi magánház és kert; Pompeius porticusa és curiája.
 
-Nincs backend, fiók vagy API-kulcs. A grafikai assetek és a történeti adatok helyben töltődnek. A részletes játékmenet és mentési séma: [STORY.md](STORY.md). Történelmi keret és fikció: [HISTORICAL-NOTES.md](HISTORICAL-NOTES.md).
+Az új városrészek már az I. fejezetben elérhetők a **V · Város** gombbal. A Suburában mozgó futár vezet a műhelyhez; a folyóparton iratokat és tanúvallomást ellenőrzöl; a magánházban egy valóban lezárt kertkaput nyitsz meg és másolatot adsz át. A háromfejezetes történetnek saját befejezése, döntésösszegzése és történeti utóhangja van.
 
-## Futtatás
+Nincs backend, fiók vagy API-kulcs. Az erőforrások helyben töltődnek. Asztali, WebGL-képes böngésző és billentyűzet szükséges. A telefonos érintésvezérlés a felhasználó kérésére külön, utolsó fejlesztési szakasz.
 
-Node.js 24 alatt ellenőrizve.
+## Irányítás
+
+| Billentyű | Művelet |
+| --- | --- |
+| W / A / S / D | Mozgás |
+| Egér vagy bal / jobb nyíl | Körülnézés |
+| E | Közeli, a nézés irányába eső szereplő vagy tárgy használata |
+| V | Várostérkép és utazás az öt pálya között |
+| M | A jelenlegi pálya térképe, kiemelt célponttal |
+| J | Küldetésnapló, az aktuális következő lépéssel az elején |
+| B | Bizonyítékok és következtetések |
+| Esc | Panel bezárása vagy szüneteltetés |
+
+Az egérzárhoz a böngésző engedélyt kérhet; a nyilakkal nélküle is lehet fordulni. Beszélgetésnél a feladatot lezáró megerősítést is válaszd ki. A II. fejezetben mindkét politikai szereplő négy-négy válasza után a naplóban politikai következtetés szükséges. A céljelzés ezt is kiírja. A részletes útvonal: [STORY.md](STORY.md).
+
+## Mentés
+
+A játék automatikusan, a böngésző helyi tárolójába ment. A régi 1–3-as sémájú mentések 4-esre migrálódnak ugyanazon `caesar.story.save.v1` kulcson. Az előrehaladás, a döntések, a felvett tekercsek és a bejárt körzetek megmaradnak. A pozíció régiónként tárolódik.
+
+**Új játékban** a három új városi feladat a fő történet része. **Korábbi mentésből folytatva** az eddigi kampányút megmarad, és az új városi szálak külön választhatók. A migráció nem jelöl teljesítettnek el nem végzett új feladatot. A főmenü „Új játék” gombja megerősítéssel mindhárom fejezetet és a városi előrehaladást is újrakezdi. A mentés böngészőhöz és webcímhez kötött; eszközök közt nem szinkronizálódik.
+
+## Futtatás és ellenőrzés
+
+Node.js 24 alatt:
 
 ```sh
 npm ci
 npm run dev -- --port 5173
 ```
-
-A böngészőben a Vite által kiírt címet nyisd meg. A „Belépés Rómába” gomb aktiválja az irányítást és kéri az egérzárat. Az egérzárhoz böngészőengedély kell; a nyilakkal enélkül is lehet fordulni. WebGL-képes asztali böngésző és billentyűzet szükséges.
 
 ```sh
 npm run build
@@ -24,68 +45,27 @@ npm test
 npm run test:pages
 ```
 
-A böngészős tesztek a `/usr/bin/chromium` programot használják. Más telepítésnél a `CHROMIUM_PATH` változóval adható meg a böngésző. A Playwright valódi billentyű- és egéreseményekkel járja be a pályát; nem teleportálja a kamerát. A teszt szoftveres WebGL-lel is fut, ezért lassabb lehet. Eredményei az `artifacts/` könyvtárban található tényleges képernyőképek.
+A böngészős tesztek alapértelmezés szerint a `/usr/bin/chromium` programot használják. Más telepítésnél `CHROMIUM_PATH` adható meg. A teljes csomag 34 teszteset, egy munkással. A friss kampány tesztje előrehaladott mentés nélkül, tényleges WASD- és panelműveletekkel járja be mind az öt pályát és a befejezést. A production-próba a valódi `dist/` fájlokat szolgálja ki a GitHub Pages projektprefixe alatt.
 
-## Irányítás
+A build-csomag Node.js nélkül is kiszolgálható: kicsomagolás után `python3 -m http.server 8080`, majd `http://localhost:8080/`. A HTML fájl közvetlen megnyitása nem megfelelő. A relatív erőforrásútvonalak a domain gyökerében és a Pages alkönyvtárában is működnek.
 
-| Billentyű       | Művelet                                             |
-| --------------- | --------------------------------------------------- |
-| W / S           | Előre / hátra                                       |
-| A / D           | Oldalazás                                           |
-| Egér            | Körülnézés                                          |
-| Bal / jobb nyíl | Fordulás                                            |
-| E               | Közeli, a látóirányba eső tárgy vagy NPC használata |
-| M               | Térkép megnyitása / bezárása                        |
-| Esc             | Panel bezárása vagy szünet; egér felszabadítása     |
-| J               | Küldetésnapló                                       |
-| B               | Bizonyítékok és következtetés                       |
+## Szerkezet
 
-## A játék
+- `src/main.js`: megjelenítés, bemenet, HUD, helyi térkép és régióváltás.
+- `src/world/registry.js`, `regions.js`: az öt pálya gyárai, belépési pontok és pályahatárok.
+- `src/world/rome.js`, `campus.js`: az eredeti római főpálya és Pompeius környéke.
+- `src/world/subura.js`, `boarium.js`, `domus.js`, `kit.js`: új városrészek és közös építési segédek.
+- `src/story/`: történet, mentés, állapotgépek, panelek és célpontok.
+- `src/game/physics.js`: régiónkénti határok és ütközések.
+- `tests/`: korábbi regressziók, városi állapot- és bejárástesztek, teljes friss kampány.
+- `scripts/verify-pages-build.mjs`: a lefordított játék ellenőrzése a projektprefix alatt.
 
-A Via Sacra piacutcája, a porticusokkal és szobrokkal szegélyezett Forum Romanum és a Saturnus-templom ihlette középület előtere folyamatosan bejárható. Hét álló NPC, három felvehető tekercs, olvasható felirat, térkép, felfedezési számláló és magyar HUD szerepel a pályán. Falak, oszlopok, amforák, ládák, szobortalapzatok és NPC-k akadályozzák a mozgást. A lépcsők díszletek; a templombelső nem bejárható.
+## Történeti keret és korlátok
 
-A Kr. e. 44-es városképet idéző művészi helyszín nem régészeti rekonstrukció. Colosseum, Hadrianus-kori Pantheon és Traianus-fórum nem szerepel benne. Nincs harc vagy sérülés; az életjelző dekoratív. Az első történeti fejezet négy fiktív szereplő beszélgetésein, egy viasztábla vizsgálatán és az információ továbbadásáról hozott döntésen vezet végig.
+Kr. e. 44. március 15-én járunk. A környezet stilizált művészi rekonstrukció. A szereplők, a futár, a pecsétek, a rakományjegyzék és a magánház fikció; a történeti állításokat és az utólagos tudást külön jelöljük. A palatinusi ház nem császári palota vagy Caesar igazolt lakóhelye. [Történeti jegyzetek](HISTORICAL-NOTES.md).
 
-A II. fejezet négy küldetése három eltérő előzményből játszható végig: politikai közvetítő keresése, Publius és Aulus négy-négy érvének megismerése, három irat gyűjtése és forráskritikai összevetése, majd a titkos találkozó nyomának mérlegelése és háromféle záródöntés. A folytatás az I. fejezet mentett címzettjét használja, a Forumra érkezéskor indul. [Történeti jegyzetek](HISTORICAL-NOTES.md).
+A helyszínek között stilizált utazás történik; nincs folyamatos, teljes Róma-modell. A karakteratlasz és az épületdíszek egyszerűbbek a felhasználó eredeti referenciájánál. Nincs harc, sérülés, hang vagy mobilos érintésvezérlés. Az életjelző dekoratív. A futár és a kikötői jelenet újrapróbálható, nincs végleges időkorlát. Emberi játékidőmérés nem történt.
 
-A III. fejezetben külön helyszínre, Pompeius porticusához és curiájához utazol. A Forumon választott cél három eltérő személyes feladatot ad. Két forrás vizsgálata után következik a március idusát elbeszélő jelenet, az írnoki beszámoló és a teljes játék lezárása. A mentett döntések visszanézhetők, az utóhang után pedig szabadon nézelődhetsz a korábbi Rómában.
+A felhasználó korábbi konkrét elakadt mentése nem áll rendelkezésre. A hasonló templom előtti mentésből a Forum-feladat átmenetét külön teszt ellenőrzi; ez nem bizonyítja a felhasználó saját mentésének hibamentességét. A céljelzés és a napló egyértelműbben mutatja a még szükséges megerősítést.
 
-## Felépítés
-
-- `src/main.js`: renderelés, kamera, bemenet, HUD, interakciók és térkép.
-- `src/world/rome.js`: pálya, építészet, objektumok és statikus geometria összevonása.
-- `src/art/textures.js`: procedurális pixeltextúrák és karakteratlasz-kezelés.
-- `src/game/physics.js`: ütközéskezelés és területazonosítás.
-- `src/world/campus.js`: Pompeius porticusa, a curia és a régióváltás.
-- `src/story/`: történeti adatok, küldetésállapotok, verziózott localStorage-mentés és panelek.
-- `tests/demo.spec.js`: a meglévő fizika, vezérlés és három körzet regressziós ellenőrzése.
-- `tests/story-state.spec.js`: küldetések, három címzett, mentési validálás és hibakezelés.
-- `tests/story-browser.spec.js`: az I. fejezet és a Forum-átadás valódi Chromiumban.
-- `tests/chapter2-state.spec.js`: v1.1 migráció, mindhárom hozzáférési ág, újrapróbálkozás és döntések.
-- `tests/chapter2-browser.spec.js`: a II. fejezet mindhárom ága tényleges WASD-mozgással és újratöltéssel.
-- `tests/chapter3-browser.spec.js`: három eltérő III. fejezeti út és a végső mentés.
-- `tests/full-campaign.spec.js`: teljes friss kampány az első lépéstől a végső képernyőig.
-- `scripts/verify-pages-build.mjs`: a production build ellenőrzése a Pages alkönyvtárát utánzó helyi HTTP-kiszolgálóval.
-- `artifacts/`: valódi játékképernyőképek, tesztjelentés.
-
-## Ismert korlátok
-
-A mellékelt referencia kompozíciója, római motívumai és palettája szolgált célként; a jelenlegi szobrok és épületdíszek egyszerűbbek a képnél. Nem állítjuk a referencia részletességének elérését. Az I. fejezet becsült játékideje 6–10 perc, a párbeszédek elolvasásától és a kereséstől függően; emberi játékidőmérést nem végeztünk. A II. fejezet tervezési célja 10–15 perc olvasással; ezt sem igazoltuk tanulói időméréssel. A III. fejezet a porticusban és a curiánál zárja le a játékot. Az NPC-k nem járőröznek; a víz és az ég stilizált. A statikus árnyékok egyszer készülnek el. Mobil érintésvezérlés, hang és akadálymentes alternatív 3D-játéknézet nincs. A történeti panelek billentyűzettel kezelhetők. A mentés helyi böngészőadat, nem eszközök között szinkronizált fiókmentés. A WebGL-képesség vagy egérzár böngészőnként eltérhet.
-
-A forrás repositoryja: [Tikitaka1984/caesar-marcius-idusa](https://github.com/Tikitaka1984/caesar-marcius-idusa). A GitHub Pages-publikálás és ellenőrzés lépéseit a [PUBLISHING.md](PUBLISHING.md) írja le.
-
-A külön build-csomag Node.js nélkül is kiszolgálható: kicsomagolás után `python3 -m http.server 8080`. A böngészővel a helyi HTTP-szerver címét kell megnyitni; a HTML fájl közvetlen megnyitása nem megfelelő.
-
-A Vite relatív erőforrásútvonalakat használ, ezért ugyanaz a build a domain gyökerében és GitHub Pages-projekt alkönyvtárában is kiszolgálható. A `main` ágra történő push tesztelést, buildet és Pages-telepítést indít. Az első telepítéshez a repository Settings → Pages oldalán a Source értéke **GitHub Actions** legyen.
-
-A történeti fejezet mentése automatikus. A szünetmenüben visszatöltés és megerősítést kérő újrakezdés is elérhető. Az érvényes v1.1-es és v1.2-es mentés megmarad és 3-as sémára migrálódik, ugyanazon localStorage-kulcson. Sérült vagy nem támogatott mentés esetén a játék biztonságosan új fejezetből indul; letiltott tárolásnál figyelmeztet, és munkameneten belül tovább játszható.
-
-A v1.1 ellenőrzési jegyzőkönyve: [STORY-TEST-RESULTS.md](artifacts/STORY-TEST-RESULTS.md). Játékképek: [beszélgetés](artifacts/05-story-dialogue.png), [bizonyíték](artifacts/06-story-evidence.png), [fejezetlezárás](artifacts/07-story-ending.png).
-
-A v1.2 tesztjelentése és képernyőképei: [CHAPTER-2-TEST-RESULTS.md](artifacts/CHAPTER-2-TEST-RESULTS.md). A PR-ellenőrzés tesztel és buildel; Pages-telepítés csak a `main` ágra érkező push esetén fut.
-
-A II. fejezet összevonása utáni, 2026. október 31-i ismételt ellenőrzés: **18/18 sikeres teszt**, sikeres build és production prefix-próba. [Részletes jegyzőkönyv és gépi eredmények](artifacts/resume-2026-10-31/README.md).
-
-A főmenü **A teljes történet** gombja mutatja a kampányt. A III. fejezet befejezése után visszanézhetők a döntések és a történeti utóhang, vagy folytatható a szabad nézelődés. Az **Új játék** mindhárom fejezetet újrakezdi, megerősítéssel.
-
-A teljes asztali v2.0 kiadás: **26/26 sikeres helyi teszt**, sikeres build és production-próba; [sikeres GitHub CI és Pages-telepítés](https://github.com/Tikitaka1984/caesar-marcius-idusa/actions/runs/41186390060). [Részletes tesztjelentés és kiadási bizonyítékok](artifacts/DESKTOP-V2-TEST-RESULTS.md). A felhőkörnyezet Pages-domainre vonatkozó hálózati tiltása miatt friss, közvetlen éles böngészős próbát nem állítunk.
+Publikálás: [PUBLISHING.md](PUBLISHING.md). Korábbi ellenőrzött kiadás: [v2.0 tesztjelentés](artifacts/DESKTOP-V2-TEST-RESULTS.md). A v2.1 végső ellenőrzésének eredményeit külön jelentés rögzíti a kiadáskor.
