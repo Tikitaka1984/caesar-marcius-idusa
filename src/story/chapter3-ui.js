@@ -228,7 +228,7 @@ export function installChapter3UI(UI) {
       this.finish();
     },
     evidence(feedback = "") {
-      if (!activeChapter3(this.store.state)) return evidence.call(this);
+      if (!activeChapter3(this.store.state)) return evidence.call(this, feedback);
       const c = this.store.state.chapter3;
       this.open("Bizonyítékok – III. fejezet", "evidence3");
       for (const r of RECORDS3) {
