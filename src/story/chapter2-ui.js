@@ -1,3 +1,4 @@
+import { inRandomOrder } from "./choice.js";
 import { needsCity2 } from "./city.js";
 import {
   TITLE,
@@ -74,8 +75,13 @@ export function installChapter2UI(UI) {
       if (c.decision)
         this.button("Fejezetzárás", () => this.ending2(), "ending2-review");
       this.text(
-        "Az új szereplők, párbeszédek, iratok és futáresemények fiktívek. A történeti háttér forrásait a HISTORICAL-NOTES.md ismerteti.",
+        "Az új szereplők, párbeszédek, iratok és futáresemények fiktívek. A történeti háttér forrásait a Források és fogalmak lap ismerteti.",
         "story-caption",
+      );
+      this.button(
+        "Források és fogalmak",
+        () => this.sources(),
+        "journal-sources",
       );
       this.finish(true);
     },
@@ -164,27 +170,27 @@ export function installChapter2UI(UI) {
         "story-quote",
       );
       if (feedback) this.text(feedback, "story-feedback");
-      for (const [id, label] of [
-        [
-          "loyal",
-          "Minden támogató csak jutalmat akart, az ellenfeleknek volt igazuk.",
-        ],
-        [
-          "balanced",
-          "Sokan stabilitást és reformokat reméltek; mások a köztársasági intézmények kiüresedésétől tartottak.",
-        ],
-        [
-          "traitors",
-          "Minden ellenfele áruló volt; a rend minden személyes hatalmat igazol.",
-        ],
-      ])
+      for (const { id, text } of inRandomOrder("politics2", [
+        {
+          id: "loyal",
+          text: "Caesar támogatói főként a reformokat és a stabilitást értékelték, ezért ellenfeleinek aggodalma alaptalan volt.",
+        },
+        {
+          id: "balanced",
+          text: "A támogatók gyakran stabilitást és reformokat vártak, az ellenfelek pedig a köztársasági intézmények gyengülésétől tartottak.",
+        },
+        {
+          id: "traitors",
+          text: "Az ellenfelek elsősorban személyes ambícióból léptek fel; a köztársasági érvek csak ürügyül szolgáltak.",
+        },
+      ]))
         this.button(
-          label,
+          text,
           () => {
             if (this.store.politics2(id)) this.journal();
             else
               this.politics2(
-                "Ez általánosítás. Vizsgáld a rend iránti igényt és a hatalom korlátait is; újra próbálkozhatsz.",
+                "Ez a válasz az egyik fél indítékát tekinti kizárólagosnak. Vizsgáld a rend iránti igényt és a hatalom korlátait is; újra próbálkozhatsz.",
               );
           },
           `politics-${id}`,
@@ -321,30 +327,44 @@ export function installChapter2UI(UI) {
         "story-quote",
       );
       if (feedback) this.text(feedback, "story-feedback");
-      this.button(
-        "Az elégedetlenség és egy találkozó nyoma nem bizonyítja konkrét személyek meghatározott merényleti tervét.",
-        () => {
-          this.store.distinguish2("limited");
-          this.open("Új nyom", "distinction2");
-          this.text(
-            needsCity2(this.store.state)
-              ? "Helyes: a két állítás nem azonos. A végső döntés előtt ellenőrizd a Tiberis-parti tanút és keresd fel a palatinusi kert közvetítőjét. A J napló mutatja a soron következő feladatot."
-              : "Helyes: a két állítás nem azonos. Naso informátort keresd a Forum északi részén (−4, −27).",
-          );
-          this.finish();
+      const reject = (id, message) => () => {
+        this.store.distinguish2(id);
+        this.distinction2(message);
+      };
+      const options = [
+        {
+          id: "limited",
+          text: "A nyilvános ellenzékiség és a titkos találkozó nyoma megalapozott kérdéseket vet fel, de konkrét személyek merényleti tervét nem bizonyítja.",
+          run: () => {
+            this.store.distinguish2("limited");
+            this.open("Új nyom", "distinction2");
+            this.text(
+              needsCity2(this.store.state)
+                ? "Helyes: a két állítás nem azonos. A végső döntés előtt ellenőrizd a Tiberis-parti tanút és keresd fel a palatinusi kert közvetítőjét. A J napló mutatja a soron következő feladatot."
+                : "Helyes: a két állítás nem azonos. Naso informátort keresd a Forum északi részén (−4, −27).",
+            );
+            this.finish();
+          },
         },
-        "distinction-limited",
-      );
-      this.button(
-        "Minden Caesar-ellenes senator bizonyítottan merényletet tervez.",
-        () => {
-          this.store.distinguish2("accuse");
-          this.distinction2(
+        {
+          id: "accuse",
+          text: "A feljegyzések és a vallomások együtt elég alapot adnak arra, hogy a Caesar-ellenes senatorokat a terv résztvevőinek tekintsük.",
+          run: reject(
+            "accuse",
             "A politikai ellenzékiség nem részvételi bizonyíték. A feljegyzés nem nevez meg merénylőket. Próbáld újra.",
-          );
+          ),
         },
-        "distinction-accuse",
-      );
+        {
+          id: "dismiss",
+          text: "A találkozó nyoma szinte biztosan hétköznapi politikai egyeztetés, ezért a további vizsgálat felesleges.",
+          run: reject(
+            "dismiss",
+            "A találkozó ártalmatlansága sem bizonyított: a forrás nem tárja fel a célját. A vizsgálat folytatását nem zárhatod ki. Próbáld újra.",
+          ),
+        },
+      ];
+      for (const o of inRandomOrder("distinction2", options))
+        this.button(o.text, o.run, `distinction-${o.id}`);
       this.finish();
     },
     informant2() {

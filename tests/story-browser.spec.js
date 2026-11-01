@@ -56,7 +56,9 @@ test("chapter one: all quests, retry, delivery, Forum handoff and reload", async
   expect(await page.evaluate(() => window.caesarState.z)).toBe(z);
   await page.keyboard.press("Digit1");
   await expect(page.locator("#questProgress")).toHaveText("1/3");
-  await page.screenshot({ path: "artifacts/05-story-dialogue.png" });
+  await page.screenshot({
+    path: "test-results/screenshots/05-story-dialogue.png",
+  });
   await closeAnswer();
   // ESC closes an overlay without unexpectedly opening the pause menu.
   await page.keyboard.press("KeyJ");
@@ -103,7 +105,9 @@ test("chapter one: all quests, retry, delivery, Forum handoff and reload", async
     await page.evaluate(() => window.caesarState.story.interpretation),
   ).toBe(null);
   await expect(page.getByTestId("conclusion-B")).toBeVisible();
-  await page.screenshot({ path: "artifacts/06-story-evidence.png" });
+  await page.screenshot({
+    path: "test-results/screenshots/06-story-evidence.png",
+  });
   await page.getByTestId("conclusion-C").click();
   await expect(page.locator('#storyPanel [role="status"]')).toContainText(
     "bizonyítatlan",
@@ -127,7 +131,9 @@ test("chapter one: all quests, retry, delivery, Forum handoff and reload", async
   await expect(page.locator("#storyPanel")).toContainText(
     "I. fejezet teljesítve – A köztársaság árnyéka következik.",
   );
-  await page.screenshot({ path: "artifacts/07-story-ending.png" });
+  await page.screenshot({
+    path: "test-results/screenshots/07-story-ending.png",
+  });
   const saved = await page.evaluate(
     (key) => JSON.parse(localStorage.getItem(key)),
     SAVE_KEY,

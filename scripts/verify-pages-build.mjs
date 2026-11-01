@@ -79,7 +79,7 @@ try {
   await page.keyboard.press("KeyM");
   assert.equal(await page.locator("#map").isVisible(), true);
   await page.keyboard.press("KeyM");
-  await page.screenshot({ path: "artifacts/04-pages-build.png" });
+  await page.screenshot({ path: "test-results/screenshots/04-pages-build.png" });
   for (const file of ["roman-citizens.png", "roman-pavement.png"])
     assert(
       assets.has(`${prefix}assets/${file}`),
@@ -146,7 +146,7 @@ try {
       claim.category,
     );
   await page.getByTestId("classify-title").scrollIntoViewIfNeeded();
-  await page.screenshot({ path: "artifacts/chapter2-comparison-controls.png" });
+  await page.screenshot({ path: "test-results/screenshots/chapter2-comparison-controls.png" });
   await page.keyboard.press("Escape");
   await page.keyboard.press("KeyJ");
   assert(
@@ -208,7 +208,7 @@ try {
     ),
   );
   await finalPage.screenshot({
-    path: "artifacts/production-campaign-ending.png",
+    path: "test-results/screenshots/production-campaign-ending.png",
   });
   assert.deepEqual(errors, []);
   console.log(

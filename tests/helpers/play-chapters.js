@@ -112,7 +112,9 @@ export async function playThird(page, choice = "warn", pictures = false) {
   await page.getByTestId("travel-campus").click();
   await expect.poll(async () => (await c.pos()).region).toBe("campus");
   if (pictures)
-    await page.screenshot({ path: "artifacts/chapter3-porticus.png" });
+    await page.screenshot({
+      path: "test-results/screenshots/chapter3-porticus.png",
+    });
   await c.walk(GUIDE3.x, GUIDE3.z);
   await c.interact(GUIDE3.id);
   await page.getByTestId("guide3-confirm").click();
@@ -140,7 +142,10 @@ export async function playThird(page, choice = "warn", pictures = false) {
   await c.walk(GATE3.x, GATE3.z);
   await c.interact(GATE3.id);
   for (let i = 0; i < 3; i++) await page.getByTestId("scene3-next").click();
-  if (pictures) await page.screenshot({ path: "artifacts/chapter3-curia.png" });
+  if (pictures)
+    await page.screenshot({
+      path: "test-results/screenshots/chapter3-curia.png",
+    });
   await page.getByTestId("event3-close").click();
   await c.walk(DESK3.x, DESK3.z);
   await c.interact(DESK3.id);
@@ -153,6 +158,6 @@ export async function playThird(page, choice = "warn", pictures = false) {
   );
   if (pictures)
     await page.screenshot({
-      path: "artifacts/campaign-ending-" + choice + ".png",
+      path: "test-results/screenshots/campaign-ending-" + choice + ".png",
     });
 }

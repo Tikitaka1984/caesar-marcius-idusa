@@ -1,3 +1,4 @@
+import { inRandomOrder } from "./choice.js";
 import { REGIONS, REGION_IDS } from "../world/regions.js";
 import { needsSubura, needsCity2 } from "./city.js";
 import { currentQuest } from "./state.js";
@@ -139,23 +140,35 @@ export function installCityUI(UI) {
             "A műhely mintáján ugyanaz a növényi jel látható, mint az üzenet másolatán. A másoló több megrendelőnek is dolgozik. Mit igazol ez?",
             "story-quote",
           );
-          this.button(
-            "A jel önmagában azonosítja az összeesküvőket.",
-            () =>
-              this.cityInteraction(
-                id,
-                "A műhely több embernek dolgozik. A pecsét nem személyazonosító bizonyíték; próbáld újra.",
-              ),
-            "seal-accuse",
-          );
-          this.button(
-            "A másolás útjához ad nyomot, a szerző szándékát nem bizonyítja.",
-            () => {
-              this.store.inspectSeal("limited");
-              this.cityDone("A futár nyomát ellenőrizted.", "seal-done");
+          for (const o of inRandomOrder("seal", [
+            {
+              id: "accuse",
+              text: "A közös növényi jel arra utal, hogy a megrendelők egy csoportot alkotnak, és ez a csoport tervezte az ügyet.",
+              run: () =>
+                this.cityInteraction(
+                  id,
+                  "A műhely több embernek dolgozik. A pecsét nem személyazonosító bizonyíték; próbáld újra.",
+                ),
             },
-            "seal-limited",
-          );
+            {
+              id: "limited",
+              text: "A jel a másolás útjához ad nyomot; a szerző szándékát és a megrendelők kapcsolatát nem bizonyítja.",
+              run: () => {
+                this.store.inspectSeal("limited");
+                this.cityDone("A futár nyomát ellenőrizted.", "seal-done");
+              },
+            },
+            {
+              id: "ignore",
+              text: "A közös jel valószínűleg jelentéktelen műhelyszokás, ezért a másolás útját nem érdemes tovább követni.",
+              run: () =>
+                this.cityInteraction(
+                  id,
+                  "A jel jelentéktelensége sem bizonyított: éppen a másolás útját mutatja meg. Ne zárd ki a nyomot; próbáld újra.",
+                ),
+            },
+          ]))
+            this.button(o.text, o.run, `seal-${o.id}`);
         }
       } else if (id === "manifest" || id === "cargo") {
         this.title.textContent =
@@ -193,26 +206,38 @@ export function installCityUI(UI) {
             "Előbb vizsgáld meg a raktár jegyzékét és a rakomány jelzését. A feladat a II. fejezethez kapcsolódik.",
           );
         else {
-          this.button(
-            "Doria biztosan ismerte a csomag teljes tartalmát.",
-            () =>
-              this.cityInteraction(
-                id,
-                "A tanú a kézbesítést látta, de az iratot nem olvasta. Próbáld újra.",
-              ),
-            "dock-accuse",
-          );
-          this.button(
-            "A kézbesítést igazolja, a tartalmat és a szándékot nem.",
-            () => {
-              this.store.concludeDock("delivery");
-              this.cityDone(
-                "A Tiberis-parti tanú vallomását ellenőrizted.",
-                "dock-done",
-              );
+          for (const o of inRandomOrder("dock", [
+            {
+              id: "accuse",
+              text: "Doria vallomása alapján valószínű, hogy ismerte a csomag tartalmát, ezért tanúként megbízhatatlan.",
+              run: () =>
+                this.cityInteraction(
+                  id,
+                  "A tanú a kézbesítést látta, de az iratot nem olvasta. Próbáld újra.",
+                ),
             },
-            "dock-delivery",
-          );
+            {
+              id: "delivery",
+              text: "Doria vallomása a csomag átvételét és továbbadását igazolja; a tartalomról és a szándékról nem tud.",
+              run: () => {
+                this.store.concludeDock("delivery");
+                this.cityDone(
+                  "A Tiberis-parti tanú vallomását ellenőrizted.",
+                  "dock-done",
+                );
+              },
+            },
+            {
+              id: "dismiss",
+              text: "Doria nem olvasta az iratot, ezért a vallomása semmilyen bizonyítékként nem használható.",
+              run: () =>
+                this.cityInteraction(
+                  id,
+                  "A vallomás korlátozott, de nem értéktelen: a kézbesítést igazolja. Próbáld újra.",
+                ),
+            },
+          ]))
+            this.button(o.text, o.run, `dock-${o.id}`);
         }
       } else if (id === "doorkeeper") {
         this.title.textContent = "Felix – a palatinusi ház kapuőre";
@@ -225,26 +250,38 @@ export function installCityUI(UI) {
             "A közvetítő az I. fejezetben hozott átadási döntésed után fogad. A ház előtere és oldalszobája addig is bejárható.",
           );
         else {
-          this.button(
-            "Bizonyított merényleti tervnek nevezem.",
-            () =>
-              this.cityInteraction(
-                id,
-                "Nem tudsz ilyet igazolni. A kapuőr a forrást és annak határait kéri.",
-              ),
-            "garden-accuse",
-          );
-          this.button(
-            "Elmondom a találás és az átadás körülményeit; a célját bizonytalannak jelölöm.",
-            () => {
-              this.store.openGarden("origin");
-              this.cityDone(
-                "A kapuőr megnyitotta a kertbe vezető átjárót. Keresd Claudiát.",
-                "garden-open-done",
-              );
+          for (const o of inRandomOrder("garden", [
+            {
+              id: "accuse",
+              text: "Elmondom, hogy az üzenet valószínűleg merényleti tervre utal, ezért sürgős lépést kérek.",
+              run: () =>
+                this.cityInteraction(
+                  id,
+                  "Nem tudsz ilyet igazolni. A kapuőr a forrást és annak határait kéri.",
+                ),
             },
-            "garden-origin",
-          );
+            {
+              id: "origin",
+              text: "Elmondom a találás és az átadás körülményeit; a célját bizonytalannak jelölöm.",
+              run: () => {
+                this.store.openGarden("origin");
+                this.cityDone(
+                  "A kapuőr megnyitotta a kertbe vezető átjárót. Keresd Claudiát.",
+                  "garden-open-done",
+                );
+              },
+            },
+            {
+              id: "silent",
+              text: "Csak annyit mondok, hogy az üzenet fontos; a forrásról és a találás körülményeiről nem beszélek.",
+              run: () =>
+                this.cityInteraction(
+                  id,
+                  "A kapuőr a forrást is kéri: forrás nélkül az üzenet nem értékelhető. Próbáld újra.",
+                ),
+            },
+          ]))
+            this.button(o.text, o.run, `garden-${o.id}`);
         }
       } else if (id === "host") {
         this.title.textContent = "Claudia – a kert közvetítője";

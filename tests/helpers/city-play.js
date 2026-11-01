@@ -16,7 +16,8 @@ export async function playSubura(page, pictures = false) {
   const c = controls(page);
   if (pictures)
     await expect(page.locator("#message")).toHaveText("", { timeout: 7000 });
-  if (pictures) await page.screenshot({ path: "artifacts/city-subura.png" });
+  if (pictures)
+    await page.screenshot({ path: "test-results/screenshots/city-subura.png" });
   await c.walk(0, 16);
   await c.interact("courier");
   await page.getByTestId("courier-start").click();
@@ -49,7 +50,10 @@ export async function playBoarium(page, pictures = false) {
   const c = controls(page);
   if (pictures)
     await expect(page.locator("#message")).toHaveText("", { timeout: 7000 });
-  if (pictures) await page.screenshot({ path: "artifacts/city-boarium.png" });
+  if (pictures)
+    await page.screenshot({
+      path: "test-results/screenshots/city-boarium.png",
+    });
   for (const [id, x, z] of [
     ["manifest", 8, 3],
     ["cargo", -11, -11],
@@ -79,7 +83,8 @@ export async function playDomus(page, pictures = false) {
   const c = controls(page);
   if (pictures)
     await expect(page.locator("#message")).toHaveText("", { timeout: 7000 });
-  if (pictures) await page.screenshot({ path: "artifacts/city-domus.png" });
+  if (pictures)
+    await page.screenshot({ path: "test-results/screenshots/city-domus.png" });
   // The still-closed gate physically blocks the central passage into the garden.
   await c.move("z", -3.1);
   const before = (await c.pos()).z;
@@ -106,6 +111,8 @@ export async function playDomus(page, pictures = false) {
   if (pictures)
     await expect(page.locator("#message")).toHaveText("", { timeout: 7000 });
   if (pictures)
-    await page.screenshot({ path: "artifacts/city-domus-garden.png" });
+    await page.screenshot({
+      path: "test-results/screenshots/city-domus-garden.png",
+    });
   await travel(page, "rome");
 }

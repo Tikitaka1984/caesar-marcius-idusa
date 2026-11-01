@@ -4,8 +4,17 @@ function rand() {
   seed = (seed * 1664525 + 1013904223) >>> 0;
   return seed / 4294967296;
 }
+const textureCache = new Map();
+// Procedural textures are generated once per kind and shared by every world.
 export function texture(kind) {
   if (kind === "ground" && pavement) return pavement;
+  const cached = textureCache.get(kind);
+  if (cached) return cached;
+  const made = makeTexture(kind);
+  textureCache.set(kind, made);
+  return made;
+}
+function makeTexture(kind) {
   const c = document.createElement("canvas");
   c.width = c.height = 128;
   const g = c.getContext("2d");
@@ -19,14 +28,18 @@ export function texture(kind) {
     plaster: [184, 161, 121],
   };
   const base = palette[kind] || palette.stone;
-  g.fillStyle = `rgb(${base})`;
-  g.fillRect(0, 0, 128, 128);
-  for (let y = 0; y < 128; y++)
-    for (let x = 0; x < 128; x++) {
-      const n = (rand() - 0.5) * 34;
-      g.fillStyle = `rgba(${base.map((v) => Math.max(0, v + n)).join(",")},.65)`;
-      g.fillRect(x, y, 1, 1);
+  // Per-pixel noise written in one ImageData pass (65 % blend of the noisy
+  // colour over the base colour, as the former 16 384 fillRect calls did).
+  const image = g.createImageData(128, 128);
+  for (let i = 0; i < 128 * 128; i++) {
+    const n = (rand() - 0.5) * 34;
+    for (let k = 0; k < 3; k++) {
+      const noisy = Math.min(255, Math.max(0, base[k] + n));
+      image.data[i * 4 + k] = Math.round(base[k] + (noisy - base[k]) * 0.65);
     }
+    image.data[i * 4 + 3] = 255;
+  }
+  g.putImageData(image, 0, 0);
   if (["stone", "brick", "ground"].includes(kind)) {
     const h = kind === "ground" ? 25 : 16;
     for (let y = 0; y < 128; y += h) {
@@ -270,15 +283,28 @@ function proceduralCitizenTexture(role) {
 let citizenAtlas, pavement;
 export async function loadArt() {
   const loader = new THREE.TextureLoader();
-  [citizenAtlas, pavement] = await Promise.all([
-    loader.loadAsync(`${import.meta.env.BASE_URL}assets/roman-citizens.png`),
-    loader.loadAsync(`${import.meta.env.BASE_URL}assets/roman-pavement.png`),
+  const base = import.meta.env.BASE_URL;
+  // A missing or blocked image must not stop the game: the procedural
+  // fallbacks (citizen sprites, paving texture) take over.
+  const [citizens, paving] = await Promise.allSettled([
+    loader.loadAsync(`${base}assets/roman-citizens.png`),
+    loader.loadAsync(`${base}assets/roman-pavement.png`),
   ]);
-  pavement.colorSpace = THREE.SRGBColorSpace;
-  pavement.wrapS = pavement.wrapT = THREE.RepeatWrapping;
-  pavement.magFilter = THREE.NearestFilter;
-  pavement.minFilter = THREE.NearestMipmapNearestFilter;
-  citizenAtlas.colorSpace = THREE.SRGBColorSpace;
+  if (citizens.status === "fulfilled") {
+    citizenAtlas = citizens.value;
+    citizenAtlas.colorSpace = THREE.SRGBColorSpace;
+  }
+  if (paving.status === "fulfilled") {
+    pavement = paving.value;
+    pavement.colorSpace = THREE.SRGBColorSpace;
+    pavement.wrapS = pavement.wrapT = THREE.RepeatWrapping;
+    pavement.magFilter = THREE.NearestFilter;
+    pavement.minFilter = THREE.NearestMipmapNearestFilter;
+  }
+  return {
+    citizens: citizens.status === "fulfilled",
+    pavement: paving.status === "fulfilled",
+  };
 }
 export function citizenTexture(role) {
   if (!citizenAtlas) return proceduralCitizenTexture(role);

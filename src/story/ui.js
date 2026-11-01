@@ -1,3 +1,11 @@
+import { inRandomOrder, LETTERS } from "./choice.js";
+import {
+  CONCEPTS,
+  ANCIENT_SOURCES,
+  MODERN_SOURCES,
+  FICTION_NOTE,
+  SOURCE_CAVEAT,
+} from "./sources.js";
 import { installCityUI } from "./city-ui.js";
 import { installChapter3UI } from "./chapter3-ui.js";
 import { installChapter2UI } from "./chapter2-ui.js";
@@ -77,10 +85,14 @@ export class StoryUI {
       this.close(false);
       return;
     }
-    if (e.target.tagName === "SELECT" && e.code !== "Tab") return;
+    if (
+      ["SELECT", "INPUT", "TEXTAREA"].includes(e.target.tagName) &&
+      e.code !== "Tab"
+    )
+      return;
     const all = [
       ...this.root.querySelectorAll(
-        'button:not([disabled]), select, .story-content[tabindex="0"]',
+        'button:not([disabled]), select, input, textarea, .story-content[tabindex="0"]',
       ),
     ];
     if (e.code === "Tab") {
@@ -205,9 +217,9 @@ export class StoryUI {
           "open-delivery",
         );
     } else if (currentQuest(this.store.state).id === "interpretation")
-      CONCLUSIONS.forEach((c) =>
+      inRandomOrder("conclusion", CONCLUSIONS).forEach((c, i) =>
         this.button(
-          `${c.id}) ${c.text}`,
+          `${LETTERS[i]}) ${c.text}`,
           () => {
             const ok = this.store.conclude(c.id);
             this.conclusion(c.feedback, ok);
@@ -334,7 +346,30 @@ export class StoryUI {
         () => this.ending(),
         "review-ending",
       );
+    this.button(
+      "Források és fogalmak",
+      () => this.sources(),
+      "journal-sources",
+    );
     this.text(CHAPTER.fiction, "story-caption");
+    this.finish(true);
+  }
+  sources(back) {
+    this.open("Források és fogalmak", "sources");
+    this.text(
+      "Ez a lap a játék tényeit, értelmezéseit és fikcióját különíti el.",
+      "story-caption",
+    );
+    this.content.append(node("h3", "Fogalmak"));
+    for (const [term, meaning] of CONCEPTS) this.text(`${term}: ${meaning}`);
+    this.content.append(node("h3", "Ókori források"));
+    for (const item of ANCIENT_SOURCES) this.text(item);
+    this.content.append(node("h3", "Modern háttér"));
+    for (const item of MODERN_SOURCES) this.text(item);
+    this.content.append(node("h3", "Mi fikció a játékban?"));
+    this.text(FICTION_NOTE);
+    this.text(SOURCE_CAVEAT, "story-caption");
+    this.button("Vissza", back || (() => this.journal()), "sources-back");
     this.finish(true);
   }
   evidence() {

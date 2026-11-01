@@ -363,7 +363,7 @@ export function createRome(scene) {
       -1,
       19,
       "senator",
-      "A szenátor: „A szenátus ma Pompeius kúriájában ülésezik.”",
+      "A szenátor: „A szenátus ma Pompeius curiájában ülésezik.”",
     ],
     [
       4,
@@ -440,7 +440,7 @@ export function createRome(scene) {
   const batches = new Map();
   scene.updateMatrixWorld(true);
   scene.traverse((m) => {
-    if (!m.isMesh || dynamic.has(m)) return;
+    if (!m.isMesh || dynamic.has(m) || m.userData.noBatch) return;
     const key = m.material.uuid + "-" + m.castShadow;
     let b = batches.get(key);
     if (!b) {
