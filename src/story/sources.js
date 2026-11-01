@@ -4,27 +4,27 @@
 export const CONCEPTS = [
   [
     "Tény",
-    "Forrásokkal alátámasztott állítás, például hogy Caesart Kr. e. 44. március 15-én Pompeius színházának épületegyüttesében megölték.",
+    "forrásokkal alátámasztott állítás, például hogy Caesart Kr. e. 44. március 15-én Pompeius színházának épületegyüttesében megölték.",
   ],
   [
     "Értelmezés",
-    "Magyarázat a tények között: például egy szereplő szándéka vagy egy jelenet mögötti terv. Mérlegelést igényel, és vitatható.",
+    "magyarázat a tények között: például egy szereplő szándéka vagy egy jelenet mögötti terv. Mérlegelést igényel, és vitatható.",
   ],
   [
     "Fikció",
-    "A játék szerzői kitalációja: a szereplők, a viasztábla, a levelek és a jegyzékek. Nem ókori források.",
+    "a játék szerzői kitalációja: a szereplők, a viasztábla, a levelek és a jegyzékek. Nem ókori források.",
   ],
   [
     "Utólagos tudás",
-    "Amit az utókor a kimenetelről tud. A merénylet előtt élő ember nem rendelkezett vele, ezért a korábbi nyomokat nem lehet a kimenetel ismeretében bizonyítékként olvasni.",
+    "amit az utókor a kimenetelről tud. A merénylet előtt élő ember nem rendelkezett vele, ezért a korábbi nyomokat nem lehet a kimenetel ismeretében bizonyítékként olvasni.",
   ],
   [
     "Forráskritika",
-    "Annak vizsgálata, ki írta a forrást, mikor, milyen céllal és milyen nézőpontból. Egy forrás állítása nem azonos a megtörtént eseménnyel.",
+    "annak vizsgálata, ki írta a forrást, mikor, milyen céllal és milyen nézőpontból. Egy forrás állítása nem azonos a megtörtént eseménnyel.",
   ],
   [
     "Több nézőpont",
-    "Ugyanazt az eseményt a támogatók, az ellenfelek és a közömbös szemlélők eltérően látták; a következtetés előtt ezeket együtt kell mérlegelni.",
+    "ugyanazt az eseményt a támogatók, az ellenfelek és a közömbös szemlélők eltérően látták; a következtetés előtt ezeket együtt kell mérlegelni.",
   ],
 ];
 export const ANCIENT_SOURCES = [
