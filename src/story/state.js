@@ -23,6 +23,7 @@ import {
 } from "./chapter2.js";
 import { NPCS, VOICES, RECIPIENTS, QUESTS, TABLET } from "./data.js";
 export const SAVE_KEY = "caesar.story.save.v1";
+export const BACKUP_KEY = "caesar.story.save.v1.unreadable";
 export function freshState() {
   return {
     version: 4,
@@ -247,9 +248,21 @@ export class StoryStore {
       this.state = freshState();
       this.notice =
         "A mentés sérült, régebbi vagy nem elérhető. A fejezet biztonságosan újrakezdhető.";
+      this.keepUnreadable();
     }
     this.emit();
     return this.state;
+  }
+  // The next persist() replaces the primary save, so an unreadable (corrupt or
+  // newer-format) save is first copied aside rather than silently destroyed.
+  keepUnreadable() {
+    try {
+      const text = this.storage?.getItem(SAVE_KEY);
+      if (text && !this.storage.getItem(BACKUP_KEY))
+        this.storage.setItem(BACKUP_KEY, text);
+    } catch {
+      /* Storage may be blocked or full; the backup is best effort. */
+    }
   }
   persist() {
     try {

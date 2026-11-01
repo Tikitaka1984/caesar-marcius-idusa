@@ -100,7 +100,7 @@ export const NPCS = {
         text: "Mit tudsz a mai gyűlésről?",
         trust: 1,
         answer:
-          "A senatus ma Pompeius kúriájában gyűlik össze, a színházhoz tartozó épületegyüttesben. Én iratokat másolok, nem a tanácskozás minden résztvevőjének szándékait. Ha valaki találkozót emleget, előbb azt kell megtudni, kikről és milyen ügyről beszél, nem rögtön ítéletet mondani.",
+          "A senatus ma Pompeius curiájában gyűlik össze, a színházhoz tartozó épületegyüttesben. Én iratokat másolok, nem a tanácskozás minden résztvevőjének szándékait. Ha valaki találkozót emleget, előbb azt kell megtudni, kikről és milyen ügyről beszél, nem rögtön ítéletet mondani.",
       },
     ],
   },
@@ -153,21 +153,27 @@ export const TABLET = {
 export const CONCLUSIONS = [
   {
     id: "A",
-    text: "Biztosan Caesar meggyilkolását tervezik.",
+    text: "Az üzenet valószínűleg Caesar elleni tervre utal, mert sürgető hangú, és titkos találkozót említ.",
     feedback:
-      "A szöveg nem nevezi meg Caesart, és gyilkosságról sem beszél. A város feszültsége okot adhat aggodalomra, de a későbbi események ismeretét nem olvashatod bele egy névtelen üzenetbe. Próbáld újra: mi az, amit maga a szöveg igazol?",
+      "A szöveg nem nevezi meg Caesart, és gyilkosságról sem beszél. A „valószínűleg” nem pótolja a bizonyítékot: ha a későbbi eseményekből olvasod ki, utólagos tudást vetítesz vissza egy névtelen üzenetre. Próbáld újra: mi az, amit maga a szöveg igazol?",
   },
   {
     id: "B",
-    text: "Az üzenet egy találkozóra utal, de a célja még nem bizonyított.",
+    text: "Az üzenet találkozót és sürgős óvatosságot említ, de a szerzőről, a résztvevőkről és a célról nem ad adatot.",
     feedback:
       "Az üzenet találkozót és sürgető figyelmeztetést említ. A résztvevőkről, a célról és a szerzőről viszont nem árul el eleget. Az óvatosság indokolt, a biztos vád még nem.",
   },
   {
     id: "C",
-    text: "Biztosan jelentéktelen kereskedelmi üzenet.",
+    text: "Az üzenet valószínűleg jelentéktelen magánügyről szól, mert nem említ sem nevet, sem fenyegetést.",
     feedback:
-      "Árukról vagy üzletről sincs szó, ezért a kereskedelmi magyarázatot sem nevezheted biztosnak. A jelentéktelenség ugyanolyan bizonyítatlan állítás lenne, mint egy konkrét merénylet terve. Próbáld újra, és hagyd nyitva azt, amit nem tudsz.",
+      "Az, hogy a szöveg nem említ nevet vagy fenyegetést, nem teszi az üzenetet ártalmatlanná: a hiányzó adat nem bizonyíték. A jelentéktelenség ugyanolyan bizonyítatlan állítás, mint egy konkrét terv. Próbáld újra, és hagyd nyitva azt, amit nem tudsz.",
+  },
+  {
+    id: "D",
+    text: "Az üzenet szerzője feltehetően szenátor, mert a titkos találkozó szervezése politikai ügyre vall.",
+    feedback:
+      "A szöveg a szerzőről semmit sem árul el, ezért társadalmi helyzetére sem lehet belőle következtetni. A találkozó titkossága többféle okból is fennállhat. Próbáld újra, és csak azt állítsd, amit a szöveg alátámaszt.",
   },
 ];
 export const DELIVERY = {

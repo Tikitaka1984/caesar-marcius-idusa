@@ -22,7 +22,7 @@ test("three districts, input, collisions, interactions, map and pause", async ({
   });
   await page.goto("/");
   await expect(page.locator("#play")).toBeVisible();
-  await page.screenshot({ path: "artifacts/00-menu.png" });
+  await page.screenshot({ path: "test-results/screenshots/00-menu.png" });
   await page.locator("#play").click();
   await expect
     .poll(() => page.evaluate(() => window.caesarState.active))
@@ -32,7 +32,7 @@ test("three districts, input, collisions, interactions, map and pause", async ({
     await page.waitForTimeout(ms);
     await page.keyboard.up(key);
   };
-  await page.screenshot({ path: "artifacts/01-via-sacra.png" });
+  await page.screenshot({ path: "test-results/screenshots/01-via-sacra.png" });
   // Approach the first scroll using actual WASD controls.
   await page.keyboard.down("KeyW");
   await expect
@@ -105,7 +105,7 @@ test("three districts, input, collisions, interactions, map and pause", async ({
   await expect
     .poll(() => page.evaluate(() => window.caesarState.district))
     .toBe("FORUM ROMANUM");
-  await page.screenshot({ path: "artifacts/02-forum.png" });
+  await page.screenshot({ path: "test-results/screenshots/02-forum.png" });
   // Visit the second collectible along the west portico.
   await page.keyboard.down("KeyA");
   await expect
@@ -148,7 +148,7 @@ test("three districts, input, collisions, interactions, map and pause", async ({
   await expect
     .poll(() => page.evaluate(() => window.caesarState.district))
     .toBe("TEMPLUM SATURNI");
-  await page.screenshot({ path: "artifacts/03-temple.png" });
+  await page.screenshot({ path: "test-results/screenshots/03-temple.png" });
   // Third scroll and the inscription are independent interaction types.
   await page.keyboard.down("KeyW");
   await expect

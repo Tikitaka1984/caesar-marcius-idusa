@@ -59,7 +59,9 @@ export function worldKit(scene, region, bounds) {
     }
     const m = new T.Mesh(geo, mats[kind]);
     m.position.set(x, y + h / 2, z);
-    m.castShadow = h > 0.8;
+    // The shadow map is only refreshed on region change, so moving or toggled
+    // meshes would leave a stale shadow behind: they do not cast one.
+    m.castShadow = h > 0.8 && !dynamic;
     m.receiveShadow = true;
     m.userData.dynamic = dynamic;
     root.add(m);

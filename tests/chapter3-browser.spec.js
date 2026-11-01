@@ -49,7 +49,28 @@ for (const [recipient, choice] of [
     await page.getByTestId("journal3-ending").click();
     await page.getByTestId("campaign-epilogue").click();
     await expect(page.locator("#storyPanel")).toContainText("utókor");
+    await expect(page.locator("#storyPanel")).toContainText(
+      "Önreflexiós kérdések",
+    );
+    await page.getByTestId("epilogue-sources").click();
+    await expect(page.locator("#storyPanel")).toContainText("Utólagos tudás");
+    await page.getByTestId("sources-back").click();
+    await expect(page.locator("#storyPanel")).toContainText("Önreflexiós");
     await page.getByTestId("epilogue-back").click();
+    // The record export has a free-text name field: digits and letters typed
+    // there must not trigger the panel's number-key shortcuts or game keys.
+    await page.getByTestId("campaign-export").click();
+    await page.getByTestId("record-name").fill("");
+    await page.getByTestId("record-name").pressSequentially("Kiss Éva 12J");
+    await expect(page.locator("#storyPanel")).toHaveAttribute(
+      "data-kind",
+      "record",
+    );
+    const record = await page.getByTestId("record-text").inputValue();
+    expect(record).toContain("Név: Kiss Éva 12J");
+    expect(record).toContain(`II. fejezet:`);
+    expect(record).toContain("Önreflexió");
+    await page.getByTestId("record-back").click();
     await page.getByTestId("campaign-explore").click();
     await expect
       .poll(() => page.evaluate(() => window.caesarState.region))

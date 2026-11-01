@@ -598,6 +598,8 @@ body[data-story-panel="open"] #crosshair {
   margin: 1rem 0;
   line-height: 1.5;
 }
+.story-content input,
+.story-content textarea,
 .story-content select {
   display: block;
   width: 100%;
@@ -607,6 +609,15 @@ body[data-story-panel="open"] #crosshair {
   color: #302b23;
   font: inherit;
   border: 1px solid #79603c;
+}
+.story-content textarea {
+  box-sizing: border-box;
+  margin: 0.5rem 0 1rem;
+  resize: vertical;
+  line-height: 1.4;
+}
+.story-content input {
+  box-sizing: border-box;
 }
 #voicesProgress {
   max-width: 100%;

@@ -1,3 +1,4 @@
+import { inRandomOrder } from "./choice.js";
 import {
   TITLE3,
   GUIDE3,
@@ -8,7 +9,15 @@ import {
   chapter3Quests,
 } from "./chapter3.js";
 import { NPCS } from "./data.js";
+import { REFLECTION } from "./sources.js";
+import { buildRecord } from "./record.js";
 import { FINAL_CHOICES } from "./chapter2.js";
+const node = (tag, text, cls) => {
+  const n = document.createElement(tag);
+  if (text !== undefined) n.textContent = text;
+  if (cls) n.className = cls;
+  return n;
+};
 export function installChapter3UI(UI) {
   const journal = UI.prototype.journal,
     evidence = UI.prototype.evidence;
@@ -135,6 +144,11 @@ export function installChapter3UI(UI) {
         () => this.campaign(),
         "journal3-campaign",
       );
+      this.button(
+        "Források és fogalmak",
+        () => this.sources(),
+        "journal-sources",
+      );
       this.finish(true);
     },
     guide3() {
@@ -257,14 +271,20 @@ export function installChapter3UI(UI) {
           "story-feedback good",
         );
       else if (c.guideHeard && c.records.length === 2) {
-        for (const [id, text] of [
-          ["accuse", "A félrevonuló emberek biztosan merénylők voltak."],
-          [
-            "limited",
-            "A helyszín azonosítható, de a félrevonulás célja ebből nem bizonyított.",
-          ],
-          ["ignore", "Biztosan semmi fontos nem történhet itt."],
-        ])
+        for (const { id, text } of inRandomOrder("assess3", [
+          {
+            id: "accuse",
+            text: "A félrevonuló emberek valószínűleg merényletet készítettek elő, ezért a gyanú megalapozott.",
+          },
+          {
+            id: "limited",
+            text: "A helyszín azonosítható, de a félrevonulás céljára a két feljegyzésből nem lehet következtetni.",
+          },
+          {
+            id: "ignore",
+            text: "A félrevonulás rendes politikai szokás volt, ezért a megfigyelésnek nincs bizonyító értéke.",
+          },
+        ]))
           this.button(
             text,
             () => {
@@ -348,20 +368,20 @@ export function installChapter3UI(UI) {
           "finish-campaign",
         );
       } else
-        for (const [id, text] of [
-          [
-            "certainty",
-            "A névtelen üzenet alapján már korábban mindent biztosan tudtam.",
-          ],
-          [
-            "accountable",
-            "Leírom a korábban ismert nyomokat, azok korlátait és a később megismert történeti eseményt.",
-          ],
-          [
-            "all",
-            "Minden politikai ellenfél részvételét bizonyítottnak tekintem.",
-          ],
-        ])
+        for (const { id, text } of inRandomOrder("report3", [
+          {
+            id: "certainty",
+            text: "Leírom, hogy a névtelen üzenetből már előre következtetni lehetett az eseményre, és a nyomok ezt igazolták.",
+          },
+          {
+            id: "accountable",
+            text: "Külön leírom a korábban ismert nyomokat és azok korlátait, majd a később megismert történeti eseményt.",
+          },
+          {
+            id: "all",
+            text: "Mindazokat, akik korábban Caesar ellen szóltak, a történtek résztvevőiként nevezem meg.",
+          },
+        ]))
           this.button(
             text,
             () => {
@@ -408,6 +428,11 @@ export function installChapter3UI(UI) {
         "campaign-epilogue",
       );
       this.button(
+        "Feljegyzés másolása vagy mentése",
+        () => this.exportRecord(),
+        "campaign-export",
+      );
+      this.button(
         "Szabad felfedezés a korábbi Rómában",
         () => {
           this.store.returnRome();
@@ -423,6 +448,65 @@ export function installChapter3UI(UI) {
       );
       this.finish();
     },
+    exportRecord() {
+      this.open("Feljegyzés a döntéseimről", "record");
+      this.text(
+        "Add meg a neved (nem kötelező), majd másold ki vagy mentsd el a feljegyzést. Az önreflexiós kérdésekre a szövegben válaszolhatsz. A név nem kerül mentésre.",
+        "story-caption",
+      );
+      const label = node("label", "Név (nem kötelező)");
+      const input = node("input");
+      input.type = "text";
+      input.maxLength = 60;
+      input.autocomplete = "off";
+      input.dataset.testid = "record-name";
+      label.append(input);
+      const area = node("textarea");
+      area.readOnly = true;
+      area.rows = 14;
+      area.dataset.testid = "record-text";
+      area.setAttribute("aria-label", "A feljegyzés szövege");
+      const refresh = () =>
+        (area.value = buildRecord(this.store.state, { name: input.value }));
+      input.addEventListener("input", refresh);
+      refresh();
+      this.content.append(label, area);
+      const status = node("p", "", "story-feedback good");
+      status.setAttribute("role", "status");
+      this.button(
+        "Másolás a vágólapra",
+        async () => {
+          try {
+            await navigator.clipboard.writeText(area.value);
+            status.textContent = "A feljegyzés a vágólapra került.";
+          } catch {
+            area.focus();
+            area.select();
+            status.textContent =
+              "A böngésző nem engedte a másolást; a kijelölt szöveg a Ctrl+C billentyűvel másolható.";
+          }
+        },
+        "record-copy",
+      );
+      this.button(
+        "Mentés szövegfájlként",
+        () => {
+          const url = URL.createObjectURL(
+            new Blob([area.value], { type: "text/plain;charset=utf-8" }),
+          );
+          const link = node("a");
+          link.href = url;
+          link.download = "caesar-feljegyzes.txt";
+          link.click();
+          setTimeout(() => URL.revokeObjectURL(url), 1000);
+          status.textContent = "A feljegyzés letöltése elindult.";
+        },
+        "record-download",
+      );
+      this.button("Vissza", () => this.ending3(), "record-back");
+      this.content.append(status);
+      this.finish();
+    },
     epilogue3() {
       this.open("Utóhang – amit az utókor tud", "epilogue3");
       this.text(
@@ -435,6 +519,13 @@ export function installChapter3UI(UI) {
       this.text(
         "Forráshelyek: Suetonius, Divus Iulius 80–82; Plutarchos, Caesar 66–69. A beszámolók nézőpontját és keletkezési idejét is mérlegelni kell. A városrész stilizált, nem régészeti rekonstrukció.",
         "story-caption",
+      );
+      this.content.append(node("h3", "Önreflexiós kérdések"));
+      REFLECTION.forEach((q, i) => this.text(`${i + 1}. ${q}`));
+      this.button(
+        "Források és fogalmak",
+        () => this.sources(() => this.epilogue3()),
+        "epilogue-sources",
       );
       this.text(
         "CAESAR – Március idusa · Háromfejezetes asztali történelmi játék. Three.js / Vite. A szereplők és játékbeli iratok fikciók; a grafikai assetek a projekthez készültek. Köszönjük, hogy végigjátszottad!",

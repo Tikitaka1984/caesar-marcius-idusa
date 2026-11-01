@@ -1,4 +1,4 @@
-import { activeChapter3, ROUTES3 } from "./story/chapter3.js";
+import { activeChapter3 } from "./story/chapter3.js";
 import { createWorldRegistry } from "./world/registry.js";
 import { REGIONS } from "./world/regions.js";
 import { navigationTarget } from "./story/navigation.js";
@@ -12,11 +12,26 @@ import { NPCS, TABLET } from "./story/data.js";
 import { StoryUI } from "./story/ui.js";
 const $ = (id) => document.getElementById(id),
   canvas = $("game");
-const renderer = new T.WebGLRenderer({
-  canvas,
-  antialias: false,
-  powerPreference: "high-performance",
-});
+// HUD nodes are rewritten every frame; skip the DOM when nothing changed.
+const hudCache = new Map();
+function setHud(id, value, html = false) {
+  if (hudCache.get(id) === value) return;
+  hudCache.set(id, value);
+  $(id)[html ? "innerHTML" : "textContent"] = value;
+}
+let renderer;
+try {
+  renderer = new T.WebGLRenderer({
+    canvas,
+    antialias: false,
+    powerPreference: "high-performance",
+  });
+} catch (error) {
+  $("saveStatus").textContent =
+    "A böngésző nem tudja elindítani a 3D-s (WebGL) megjelenítést. Kapcsolja be a hardveres gyorsítást, vagy használjon másik, naprakész böngészőt.";
+  $("play").textContent = "A JÁTÉK NEM INDÍTHATÓ";
+  throw error;
+}
 renderer.setPixelRatio(1);
 renderer.shadowMap.enabled = true;
 renderer.shadowMap.type = T.PCFShadowMap;
@@ -50,6 +65,8 @@ for (let i = 0; i < 17; i++) {
     cloudmat,
   );
   cloud.position.set(Math.sin(i * 4) * 66, 23 + (i % 4), Math.cos(i * 4) * 65);
+  // The sky belongs to every region: keep it out of the Rome batch/group.
+  cloud.userData.noBatch = true;
   scene.add(cloud);
 }
 await loadArt();
@@ -124,8 +141,8 @@ function restoreRuntime() {
   });
   total = scrollItems.filter((o) => o.taken).length;
   $("scrolls").innerHTML = `${total} <em>/ 3</em>`;
-  $("explored").innerHTML = exploration();
-  $("area").textContent = district(camera.position.z, region);
+  setHud("explored", exploration(), true);
+  setHud("area", district(camera.position.z, region));
 }
 function updateStoryHUD() {
   const q = currentQuest(story.state);
@@ -536,9 +553,9 @@ function tick(now) {
     walk += (Math.abs(f) + Math.abs(s)) * dt * 8;
     camera.position.y = 1.7 + Math.sin(walk) * (f || s ? 0.035 : 0);
     const area = district(camera.position.z, region);
-    $("area").textContent = area;
+    setHud("area", area);
     visited.add(area);
-    $("explored").innerHTML = exploration();
+    setHud("explored", exploration(), true);
     if (
       region === "rome" &&
       story.state.chapterComplete &&
@@ -559,10 +576,9 @@ function tick(now) {
   }
   world.update?.(story.state, active ? dt : 0, now, story);
   const goal = navigationTarget(story.state, region, world);
-  if (goal.hint) $("waypoint").textContent = goal.hint;
+  if (goal.hint) setHud("waypoint", goal.hint);
   else if (goal.region !== region)
-    $("waypoint").textContent =
-      "V → " + REGIONS[goal.region].name + " · " + goal.name;
+    setHud("waypoint", "V → " + REGIONS[goal.region].name + " · " + goal.name);
   else {
     const dx = goal.x - camera.position.x,
       dz = goal.z - camera.position.z,
@@ -577,8 +593,10 @@ function tick(now) {
           : direction > 0
             ? "←"
             : "→";
-    $("waypoint").textContent =
-      arrow + " " + goal.name + " · " + Math.round(d) + " lépés";
+    setHud(
+      "waypoint",
+      arrow + " " + goal.name + " · " + Math.round(d) + " lépés",
+    );
   }
   camera.rotation.order = "YXZ";
   camera.rotation.set(pitch, yaw, 0);
@@ -606,18 +624,20 @@ function tick(now) {
       nearest = o;
     }
   }
-  $("prompt").textContent =
+  setHud(
+    "prompt",
     active && nearest
       ? `[ E ] ${(nearest.storyId ? NPCS[nearest.storyId].name + " megszólítása" : nearest.label).toLocaleUpperCase("hu")}`
-      : "";
+      : "",
+  );
   for (let i = 0; i < world.flames.length; i++) {
     const m = world.flames[i];
     m.scale.y = 1 + Math.sin(now * 0.012 + i) * 0.15;
     m.rotation.y = now * 0.001;
   }
   if (!$("map").hidden) drawMap();
-  for (const o of world.interactables.filter((o) => o.chapter2))
-    if (o.mesh)
+  for (const o of world.interactables)
+    if (o.chapter2 && o.mesh)
       o.mesh.visible =
         activeChapter2(story.state) &&
         (o.type !== "guide2" ||
@@ -651,3 +671,18 @@ Object.defineProperty(window, "caesarState", {
 });
 $("play").disabled = false;
 requestAnimationFrame(tick);
+// Build the other regions while the menu is open, one per idle slice, so the
+// first visit does not stall the frame. Lazy creation stays as the fallback.
+const warmQueue = Object.keys(REGIONS).filter(
+  (id) => !worlds.loaded.includes(id),
+);
+const whenIdle = (fn) =>
+  window.requestIdleCallback
+    ? window.requestIdleCallback(fn, { timeout: 3000 })
+    : setTimeout(fn, 400);
+function warmNext() {
+  if (active || !warmQueue.length) return;
+  worlds.get(warmQueue.shift());
+  whenIdle(warmNext);
+}
+whenIdle(warmNext);

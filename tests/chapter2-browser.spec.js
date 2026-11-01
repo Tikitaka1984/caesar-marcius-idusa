@@ -110,7 +110,7 @@ for (const recipient of Object.keys(BRANCHES))
         await expect(page.locator("#storyPanel")).toContainText(q[2]);
         if (recipient === "lucius" && index === 0)
           await page.screenshot({
-            path: `artifacts/chapter2-${id}-dialogue.png`,
+            path: `test-results/screenshots/chapter2-${id}-dialogue.png`,
           });
         await page.getByTestId("more2").click();
       }
@@ -129,7 +129,7 @@ for (const recipient of Object.keys(BRANCHES))
       await expect(page.locator("#storyPanel")).toContainText(d.text);
       if (recipient === "lucius")
         await page.screenshot({
-          path: `artifacts/chapter2-document-${d.id}.png`,
+          path: `test-results/screenshots/chapter2-document-${d.id}.png`,
         });
       await close();
     }
@@ -144,7 +144,9 @@ for (const recipient of Object.keys(BRANCHES))
     );
     if (recipient === "lucius") {
       await page.getByTestId("classify-title").scrollIntoViewIfNeeded();
-      await page.screenshot({ path: "artifacts/chapter2-comparison.png" });
+      await page.screenshot({
+        path: "test-results/screenshots/chapter2-comparison.png",
+      });
     }
     await page.getByTestId("distinction-open").click();
     await page.getByTestId("distinction-accuse").click();
@@ -163,7 +165,7 @@ for (const recipient of Object.keys(BRANCHES))
       "II. fejezet teljesítve – Az összeesküvés következik.",
     );
     await page.screenshot({
-      path: `artifacts/chapter2-ending-${recipient}.png`,
+      path: `test-results/screenshots/chapter2-ending-${recipient}.png`,
     });
     const final = (await pos()).story;
     await page.reload();
