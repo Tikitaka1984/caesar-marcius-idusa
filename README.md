@@ -27,11 +27,11 @@ Az egérzárhoz a böngésző engedélyt kérhet; a nyilakkal nélküle is lehet
 
 A játék automatikusan, a böngésző helyi tárolójába ment. A régi 1–3-as sémájú mentések 4-esre migrálódnak ugyanazon `caesar.story.save.v1` kulcson. Az előrehaladás, a döntések, a felvett tekercsek és a bejárt körzetek megmaradnak. A pozíció régiónként tárolódik.
 
-**Új játékban** a három új városi feladat a fő történet része. **Korábbi mentésből folytatva** az eddigi kampányút megmarad, és az új városi szálak külön választhatók. A migráció nem jelöl teljesítettnek el nem végzett új feladatot. A főmenü „Új játék” gombja megerősítéssel mindhárom fejezetet és a városi előrehaladást is újrakezdi. A mentés böngészőhöz és webcímhez kötött; eszközök közt nem szinkronizálódik.
+**Új játékban** a három új városi feladat a fő történet része. **Korábbi mentésből folytatva** az eddigi kampányút megmarad, és az új városi szálak külön választhatók. A migráció nem jelöl teljesítettnek el nem végzett új feladatot. A főmenü „Új játék” gombja megerősítéssel mindhárom fejezetet és a városi előrehaladást is újrakezdi. A mentés böngészőhöz és webcímhez kötött; eszközök közt nem szinkronizálódik. Olvashatatlan vagy ismeretlen formátumú mentés esetén a régi szöveg a `caesar.story.save.v1.unreadable` kulcs alatt megmarad.
 
 ## Futtatás és ellenőrzés
 
-Node.js 24 alatt:
+Node.js 24 alatt (az `engines` mező minimuma: 22.12):
 
 ```sh
 npm ci
@@ -45,7 +45,7 @@ npm test
 npm run test:pages
 ```
 
-A böngészős tesztek alapértelmezés szerint a `/usr/bin/chromium` programot használják. Más telepítésnél `CHROMIUM_PATH` adható meg. A teljes csomag 34 teszteset, egy munkással. A friss kampány tesztje előrehaladott mentés nélkül, tényleges WASD- és panelműveletekkel járja be mind az öt pályát és a befejezést. A production-próba a valódi `dist/` fájlokat szolgálja ki a GitHub Pages projektprefixe alatt.
+A böngészős tesztek a `CHROMIUM_PATH` környezeti változóban megadott böngészőt, ennek hiányában a `/usr/bin/chromium` programot, végül a Playwright saját böngészőjét használják. A tesztképek a `test-results/screenshots/` mappába kerülnek (a verziókezelt `artifacts/` régi felvételei változatlanok). A teljes csomag 45 teszteset, egy munkással; ezt a fejlesztési ágon egy helyi futtatás igazolta (45/45), a `test:pages` production-próbával együtt. A friss kampány tesztje előrehaladott mentés nélkül, tényleges WASD- és panelműveletekkel járja be mind az öt pályát és a befejezést. A production-próba a valódi `dist/` fájlokat szolgálja ki a GitHub Pages projektprefixe alatt.
 
 A build-csomag Node.js nélkül is kiszolgálható: kicsomagolás után `python3 -m http.server 8080`, majd `http://localhost:8080/`. A HTML fájl közvetlen megnyitása nem megfelelő. A relatív erőforrásútvonalak a domain gyökerében és a Pages alkönyvtárában is működnek.
 
@@ -68,4 +68,4 @@ A helyszínek között stilizált utazás történik; nincs folyamatos, teljes R
 
 A felhasználó korábbi konkrét elakadt mentése nem áll rendelkezésre. A hasonló templom előtti mentésből a Forum-feladat átmenetét külön teszt ellenőrzi; ez nem bizonyítja a felhasználó saját mentésének hibamentességét. A céljelzés és a napló egyértelműbben mutatja a még szükséges megerősítést.
 
-Publikálás: [PUBLISHING.md](PUBLISHING.md). Korábbi ellenőrzött kiadás: [v2.0 tesztjelentés](artifacts/DESKTOP-V2-TEST-RESULTS.md). A v2.1 végső helyi ellenőrzése **34/34 sikeres teszt**; a nyilvános GitHub Pages-oldalon egy teljes, friss, mind az öt pályát bejáró böngészős végigjátszás is sikeres; a [GitHub CI és a Pages-telepítés is sikeres](https://github.com/Tikitaka1984/caesar-marcius-idusa/actions/runs/41191995380). [Részletes tesztjelentés és kiadási bizonyítékok](artifacts/CITY-V21-TEST-RESULTS.md).
+Tanároknak: [docs/TANARI-UTMUTATO.md](docs/TANARI-UTMUTATO.md) (óraterv, döntési pontok, feljegyzés-export; a tantervi illeszkedést nem ellenőriztük). Publikálás: [PUBLISHING.md](PUBLISHING.md). Korábbi ellenőrzött kiadás: [v2.0 tesztjelentés](artifacts/DESKTOP-V2-TEST-RESULTS.md). A v2.1 kiadás végső helyi ellenőrzése **34/34 sikeres teszt** volt; a nyilvános GitHub Pages-oldalon egy teljes, friss, mind az öt pályát bejáró böngészős végigjátszás is sikeres; a [GitHub CI és a Pages-telepítés is sikeres](https://github.com/Tikitaka1984/caesar-marcius-idusa/actions/runs/41191995380). [Részletes tesztjelentés és kiadási bizonyítékok](artifacts/CITY-V21-TEST-RESULTS.md).
